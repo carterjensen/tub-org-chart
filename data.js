@@ -177,3 +177,424 @@ function flattenAI(node, result = []) {
 }
 
 const ALL_AI_EMPLOYEES = flattenAI(SHARED_ORG);
+
+// ═══════════════════════════════════════
+// ECOSYSTEM DATA — Full 21 AI Employees
+// ═══════════════════════════════════════
+
+const LAYER_DEFS = [
+  { id: 'executive',  name: 'Executive Layer',   color: '#D1B25A', bg: 'rgba(209,178,90,.08)',  border: 'rgba(209,178,90,.2)',  desc: 'Strategic decision-making and external intelligence', count: 2 },
+  { id: 'revenue',    name: 'Revenue Layer',     color: '#C05746', bg: 'rgba(192,87,70,.08)',   border: 'rgba(192,87,70,.2)',   desc: 'Content, copy, ads, email, and sales — everything that drives revenue', count: 5 },
+  { id: 'delivery',   name: 'Delivery Layer',    color: '#4A8C5C', bg: 'rgba(74,140,92,.08)',   border: 'rgba(74,140,92,.2)',   desc: 'Curriculum, training, student success, and community', count: 4 },
+  { id: 'operations', name: 'Operations Layer',  color: '#2A8F82', bg: 'rgba(42,143,130,.08)',  border: 'rgba(42,143,130,.2)',  desc: 'Process, automation, events, and system maintenance', count: 4 },
+  { id: 'support',    name: 'Support Layer',     color: '#7B5EA7', bg: 'rgba(123,94,167,.08)',  border: 'rgba(123,94,167,.2)',  desc: 'Design, analytics, offers, brand, HR, and finance', count: 6 },
+];
+
+const INFRASTRUCTURE = [
+  { name: 'Google Drive', icon: '📁', desc: 'File system — departments, offers, transcripts, deliverables' },
+  { name: 'Baserow',      icon: '🗄️', desc: 'Database layer — student data, intake, progress, tags' },
+  { name: 'Notion',       icon: '📓', desc: 'Knowledge layer — skills library, prompts, curriculum, SOPs' },
+  { name: 'Slack',        icon: '💬', desc: 'Communication — team channels, student communities, briefings' },
+  { name: 'Gmail',        icon: '✉️', desc: 'Email — student comms, triage, nurture campaigns' },
+  { name: 'Firecrawl',    icon: '🔥', desc: 'Web intelligence — competitor scraping, news, research' },
+  { name: 'Scheduling',   icon: '⏰', desc: 'Cron triggers, event-based workflows, on-demand activation' },
+];
+
+const SHARED_CAPABILITIES = [
+  { name: 'Callan Voice', icon: '✍️', desc: 'Authentic personal voice across all channels', usedBy: ['content-strategist','copywriter','email-nurture','sales-pitch','community-manager'] },
+  { name: 'Nick Voice', icon: '🖊️', desc: 'Ruthless compression, story-over-lecture, single CTA', usedBy: ['content-strategist','copywriter','email-nurture'] },
+  { name: 'Carter Voice', icon: '🔗', desc: 'Builder/analyst perspective, LinkedIn-focused', usedBy: ['content-strategist'] },
+  { name: 'Notion Designer', icon: '🏗️', desc: 'TUB Notion design standards — toggles, callouts, hierarchy', usedBy: ['curriculum-designer','power-play-producer','operations-manager','analytics-reporting'] },
+];
+
+const ECOSYSTEM_EMPLOYEES = [
+  // ═══ EXECUTIVE LAYER ═══
+  {
+    id: 'strategic-advisor', name: 'Strategic Advisor', layer: 'executive',
+    icon: '🧠', role: 'Pressure-tests business decisions, reviews offers, challenges assumptions. Thinks like a $50M+ founder.',
+    managedBy: 'Callan', managedByTitle: 'Founder',
+    skills: [
+      { name: 'Alex Hormozi Business Partner', status: 'built' },
+      { name: '9FF Advisor', status: 'built' },
+      { name: 'Idea Validator', status: 'built' },
+      { name: 'Lead Magnet Mastery', status: 'built' },
+      { name: 'Offer Teardown & Review', status: 'needs-build' },
+    ],
+    dataSets: ['Offer Stack', 'Student Transformation Stories', 'Transcripts', 'Financial Data'],
+    tools: ['Notion', 'Baserow'],
+    cadence: ['On demand — strategic gut-checks', 'Pre-launch review every cycle'],
+  },
+  {
+    id: 'research-analyst', name: 'Research Analyst', layer: 'executive',
+    icon: '🔭', role: 'Monitors external trends, competitors, news, and market signals. Delivers scheduled briefings. The team\'s eyes and ears.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Last 30 Days Research', status: 'built' },
+      { name: 'AI News Briefing', status: 'built' },
+      { name: 'LT AI Briefing', status: 'built' },
+      { name: 'IG Intel', status: 'built', shared: true },
+      { name: 'Skill Scout', status: 'partial' },
+      { name: 'Market/Competitor Deep Dive', status: 'needs-build' },
+    ],
+    dataSets: ['Industry news', 'Competitor social accounts', 'Reddit, X, YouTube, TikTok, HN', 'Skills marketplace data'],
+    tools: ['Firecrawl', 'Notion', 'Slack', 'Web search'],
+    cadence: ['Weekly: AI briefing for L10', 'Bi-weekly: Competitor intel', 'Weekly: Skill Scout reports', 'On demand: Deep dives'],
+  },
+
+  // ═══ REVENUE LAYER ═══
+  {
+    id: 'content-strategist', name: 'Content Strategist', layer: 'revenue',
+    icon: '📱', role: 'Plans, creates, and repurposes content across platforms. Knows what to post, when, and why. Not just a writer — a strategist.',
+    managedBy: 'Nick', managedByTitle: 'Copywriter',
+    skills: [
+      { name: 'Hook Engine', status: 'built', shared: true },
+      { name: 'IG Intel', status: 'built', shared: true },
+      { name: 'LinkedIn Transformer', status: 'built' },
+      { name: 'Content Repurposing Engine', status: 'needs-build' },
+      { name: 'Carousel/Post Creation', status: 'needs-build' },
+      { name: 'Content Calendar Management', status: 'needs-build' },
+      { name: 'Platform-Specific Adaptation', status: 'needs-build' },
+    ],
+    dataSets: ['Past social posts & engagement', 'Content calendar', 'Competitor data', 'Transcripts', 'Student stories'],
+    tools: ['Notion', 'Slack', 'Baserow', 'Instagram API'],
+    cadence: ['Weekly: Content calendar review', 'Per post: Hook + copy + adaptation', 'Bi-weekly: Engagement analysis'],
+  },
+  {
+    id: 'copywriter', name: 'Copywriter', layer: 'revenue',
+    icon: '✍️', role: 'Writes, edits, and adapts content in brand-approved voices. Owns all voice modules. The quality control layer for everything written.',
+    managedBy: 'Nick', managedByTitle: 'Copywriter',
+    skills: [
+      { name: 'Callan Voice', status: 'built', shared: true },
+      { name: 'Nick Voice', status: 'built', shared: true },
+      { name: 'Carter Voice', status: 'partial', shared: true },
+      { name: 'Hook Engine', status: 'built', shared: true },
+      { name: 'Sales Page Copy', status: 'needs-build' },
+      { name: 'Email Copy', status: 'needs-build', shared: true },
+      { name: 'Script Writing', status: 'needs-build' },
+      { name: 'Copy Compression/Editing', status: 'partial' },
+    ],
+    dataSets: ['Brand voice guides', 'Past sales pages', 'Email archives', 'Transcripts', 'Student stories'],
+    tools: ['Notion', 'Google Drive', 'Slack'],
+    cadence: ['On demand: Copy requests', 'Pre-launch: Sales page + email review', 'Ongoing: Voice module updates'],
+  },
+  {
+    id: 'email-nurture', name: 'Email & Nurture Specialist', layer: 'revenue',
+    icon: '📬', role: 'Owns email and SMS. Writes onboarding sequences, nurture campaigns, launch series. Thinks in SEQUENCES and JOURNEYS.',
+    managedBy: 'Nick', managedByTitle: 'Copywriter',
+    skills: [
+      { name: 'Onboarding Email Sequences', status: 'needs-build' },
+      { name: 'Nurture Campaign Designer', status: 'needs-build' },
+      { name: 'Launch Email Sequences', status: 'needs-build' },
+      { name: 'Re-engagement / Win-back', status: 'needs-build' },
+      { name: 'SMS Campaigns', status: 'needs-build' },
+      { name: 'Email Copy', status: 'needs-build', shared: true },
+    ],
+    dataSets: ['Past email campaigns', 'Student journey maps', 'Offer Stack', 'Student stories', 'Launch calendar'],
+    tools: ['Gmail MCP', 'Notion', 'Baserow', 'Slack'],
+    cadence: ['Per launch: Full email sequence', 'Ongoing: Nurture drips', 'Weekly: Performance review', 'Triggered: Re-engagement'],
+  },
+  {
+    id: 'paid-ads', name: 'Paid Ads Manager', layer: 'revenue',
+    icon: '📢', role: 'Creates ad copy, designs creative briefs, analyzes campaign performance. Codifies Cara\'s expertise as an internal AI ads agency.',
+    managedBy: 'Cara', managedByTitle: 'Dir. Paid Media',
+    skills: [
+      { name: 'Ad Copy Generation', status: 'needs-build' },
+      { name: 'Creative Brief Writing', status: 'needs-build' },
+      { name: 'Audience Targeting', status: 'needs-build' },
+      { name: 'Ad Performance Analysis', status: 'needs-build' },
+      { name: 'A/B Test Design', status: 'needs-build' },
+    ],
+    dataSets: ['Brand assets', 'Offer Stack', 'ICP references', 'Student stories', 'Past ad performance'],
+    tools: ['Notion', 'Google Drive', 'Baserow'],
+    cadence: ['Per launch: Ad creative & copy', 'Weekly: Performance + optimization', 'On demand: New creative'],
+  },
+  {
+    id: 'sales-pitch', name: 'Sales & Pitch Prep', layer: 'revenue',
+    icon: '🎯', role: 'Prepares the team to close. Matches testimonials to objections. Builds pitch decks. Assembles proposals. Every sales moment loaded with proof.',
+    managedBy: 'Callan', managedByTitle: 'Founder',
+    skills: [
+      { name: 'Testimonial Matcher', status: 'needs-build' },
+      { name: 'Pitch Prep Builder', status: 'needs-build' },
+      { name: 'Objection Handler', status: 'needs-build' },
+      { name: 'Enterprise Proposal Generator', status: 'needs-build' },
+      { name: 'Post-Pitch Follow-Up', status: 'needs-build' },
+    ],
+    dataSets: ['347 Student Transformation Stories', '433+ Win Index', 'Offer Stack', 'Past pitch transcripts', 'Enterprise proposals'],
+    tools: ['Notion', 'Baserow', 'Slack', 'Google Drive'],
+    cadence: ['Pre-bootcamp: Pitch prep 48hrs before Day 3', 'Pre-masterclass: Pitch prep', 'On demand: Proposals, testimonial pulls'],
+  },
+
+  // ═══ DELIVERY LAYER ═══
+  {
+    id: 'curriculum-designer', name: 'Curriculum Designer', layer: 'delivery',
+    icon: '🎓', role: 'Builds trainings, extracts frameworks, creates teaching materials. Owns the educational content pipeline from idea to published material.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Illustrated Training Builder', status: 'built' },
+      { name: 'Framework Builder', status: 'built' },
+      { name: 'SOP Creator', status: 'built', shared: true },
+      { name: 'Lesson Plan Builder', status: 'needs-build' },
+      { name: 'Curriculum Mapping', status: 'needs-build' },
+      { name: 'Student Feedback Integration', status: 'needs-build' },
+    ],
+    dataSets: ['Master Prompt Library (100+)', 'Playbooks (30+)', 'Power Plays (12+)', 'Cohort feedback', 'Transcripts'],
+    tools: ['Notion', 'Google Drive', 'Baserow'],
+    cadence: ['Per cohort: Curriculum review', 'Weekly: Power Play processing', 'On demand: New playbooks', 'Post-cohort: Feedback integration'],
+  },
+  {
+    id: 'power-play-producer', name: 'Power Play Producer', layer: 'delivery',
+    icon: '⚡', role: 'Processes session recordings into insights, identifies new playbooks and prompts, generates weekly reports. Turns live teaching into reusable assets.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Session Transcript Processing', status: 'needs-build' },
+      { name: 'Insight Report Generation', status: 'needs-build' },
+      { name: 'Playbook/Prompt Identification', status: 'needs-build' },
+      { name: 'Student Win Extraction', status: 'needs-build' },
+      { name: 'Framework Builder', status: 'built', shared: true },
+    ],
+    dataSets: ['40+ Power Play Logs', 'Weekly Insights Reports', 'Existing playbooks/prompts', 'Transcripts'],
+    tools: ['Notion', 'Google Drive'],
+    cadence: ['After every Power Play: Process transcript', 'Weekly: Insights Report', 'Monthly: New playbook candidates'],
+  },
+  {
+    id: 'student-success', name: 'Student Success Manager', layer: 'delivery',
+    icon: '🎖️', role: 'Monitors student progress, flags at-risk students, manages onboarding, tracks milestones. Nobody falls through the cracks.',
+    managedBy: 'Kinsey', managedByTitle: 'COO',
+    skills: [
+      { name: 'Student Progress Tracking', status: 'needs-build' },
+      { name: 'At-Risk Student Flagging', status: 'needs-build' },
+      { name: 'Onboarding Sequence', status: 'needs-build' },
+      { name: 'Milestone Celebration', status: 'needs-build' },
+      { name: 'Win Story Collection', status: 'needs-build' },
+      { name: 'NPS/Survey Analysis', status: 'partial' },
+    ],
+    dataSets: ['Baserow student data', 'Student stories', 'Program milestones', 'Slack activity', 'Surveys'],
+    tools: ['Baserow', 'Slack', 'Notion', 'Gmail'],
+    cadence: ['Daily: Engagement monitoring', 'Weekly: At-risk report', 'Per milestone: Celebration trigger', 'Post-session: Attendance tracking'],
+  },
+  {
+    id: 'community-manager', name: 'Community Manager', layer: 'delivery',
+    icon: '💬', role: 'Manages the daily pulse of student communities. Monitors engagement, celebrates wins, flags issues, keeps the energy high.',
+    managedBy: 'Kinsey', managedByTitle: 'COO',
+    skills: [
+      { name: 'Engagement Monitoring', status: 'needs-build' },
+      { name: 'Win Celebration Drafting', status: 'needs-build' },
+      { name: 'Disengaged Student Flagging', status: 'needs-build', shared: true },
+      { name: 'Weekly Community Health Report', status: 'needs-build' },
+      { name: 'Discussion Prompt Creation', status: 'needs-build' },
+      { name: 'Slack Audit', status: 'partial' },
+    ],
+    dataSets: ['Slack channels (A2A, UCL)', 'Student profiles', 'Community guidelines', 'Past engagement patterns'],
+    tools: ['Slack', 'Baserow', 'Notion'],
+    cadence: ['Daily: Slack scan + win spotlights', 'Weekly: Community health report', 'Triggered: Engagement drop alerts'],
+  },
+
+  // ═══ OPERATIONS LAYER ═══
+  {
+    id: 'operations-manager', name: 'Operations Manager', layer: 'operations',
+    icon: '⚙️', role: 'Delegates projects, manages internal process, protects IP, keeps the machine running. Work gets assigned, tracked, and completed.',
+    managedBy: 'Kinsey', managedByTitle: 'COO',
+    skills: [
+      { name: 'Project Delegation Brief', status: 'built' },
+      { name: 'DMCA Takedown', status: 'built' },
+      { name: 'SOP Creator', status: 'built', shared: true },
+      { name: 'Meeting Notes/Action Items', status: 'needs-build' },
+      { name: 'Process Audit', status: 'needs-build' },
+      { name: 'Team Capacity Planning', status: 'needs-build' },
+    ],
+    dataSets: ['Team transcripts', 'SOPs', 'Project boards', 'Team structure'],
+    tools: ['Notion', 'Slack', 'Gmail', 'Baserow'],
+    cadence: ['After every meeting: Action items', 'Weekly: Process health check', 'On demand: Delegation, DMCA, SOPs'],
+  },
+  {
+    id: 'automation-builder', name: 'Automation & Workflow Builder', layer: 'operations',
+    icon: '🔧', role: 'Designs, documents, and maintains automations. Zapier workflows, Baserow schemas, tag mappings, integration architecture.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Zapier Workflow Design', status: 'needs-build' },
+      { name: 'Baserow Schema Management', status: 'needs-build' },
+      { name: 'Tag Mapping', status: 'needs-build' },
+      { name: 'Integration Documentation', status: 'needs-build' },
+      { name: 'Automation Audit', status: 'needs-build' },
+      { name: 'Z4 Copilot Prompts', status: 'partial' },
+    ],
+    dataSets: ['Z4 Copilot prompts (6+)', 'Build guides', 'Workflow maps', 'Tag mapping spreadsheets', 'Baserow structures'],
+    tools: ['Baserow', 'Zapier', 'Notion', 'Google Sheets', 'Replit'],
+    cadence: ['Per launch: Automation setup', 'Weekly: Automation health check', 'On demand: New workflows'],
+  },
+  {
+    id: 'event-coordinator', name: 'Event & Launch Coordinator', layer: 'operations',
+    icon: '🗓️', role: 'Coordinates bootcamps, masterclasses, Q&A sessions, live events. Guest speakers, tech setup, checklists. No detail gets missed.',
+    managedBy: 'Kinsey', managedByTitle: 'COO',
+    skills: [
+      { name: 'Launch Checklist Generator', status: 'needs-build' },
+      { name: 'Guest Speaker Coordination', status: 'needs-build' },
+      { name: 'Event Logistics Tracker', status: 'needs-build' },
+      { name: 'Post-Event Debrief', status: 'needs-build' },
+      { name: 'Success Investor Scheduling', status: 'needs-build' },
+    ],
+    dataSets: ['Past event plans', 'Bootcamp/masterclass dates', 'Success investor contacts', 'Student stories', 'Team calendars'],
+    tools: ['Notion', 'Slack', 'Gmail', 'Google Calendar'],
+    cadence: ['T-4 weeks: Coordination begins', 'T-1 week: Daily checklists', 'Day of: Real-time support', 'T+1 week: Debrief'],
+  },
+  {
+    id: 'ai-ops', name: 'AI Ops / Prompt Engineer', layer: 'operations',
+    icon: '🛠️', role: 'Maintains the AI Operating System itself. Skill lifecycle, prompt library health, employee versioning, system integrity.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Prompt Librarian', status: 'built' },
+      { name: 'Prompt Library Publisher', status: 'built' },
+      { name: 'Skill Version Management', status: 'built' },
+      { name: 'System Audit/Health Check', status: 'needs-build' },
+      { name: 'Employee Performance Review', status: 'needs-build' },
+      { name: 'Skill Scout', status: 'partial' },
+    ],
+    dataSets: ['Skills Library', 'Master Prompt Library (100+)', 'CLAUDE.md files', 'Skill Repository', 'Usage data'],
+    tools: ['Notion', 'Google Drive', 'Slack', 'Claude Code'],
+    cadence: ['Weekly: Skill Scout research', 'Monthly: System health audit', 'Per skill change: Versioning', 'On demand: Prompt publishing'],
+  },
+
+  // ═══ SUPPORT LAYER ═══
+  {
+    id: 'creative-director', name: 'Creative Director', layer: 'support',
+    icon: '🎨', role: 'Produces visual assets — images, diagrams, branded graphics, page design, web UI, video. Owns the visual identity.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Nano Banana (Image Gen)', status: 'built' },
+      { name: 'Notion Designer', status: 'built', shared: true },
+      { name: 'Frontend Design', status: 'built' },
+      { name: 'Remotion (Video in React)', status: 'built' },
+      { name: 'Thumbnail/Graphic Creation', status: 'needs-build' },
+      { name: 'Brand Asset Management', status: 'needs-build', shared: true },
+    ],
+    dataSets: ['TUB Visual Brand Identity', 'Brand assets (logos, fonts, textures)', 'Marketing rebrand library'],
+    tools: ['Gemini CLI', 'Google Drive', 'Notion'],
+    cadence: ['On demand: Images, pages, web builds', 'Per launch: Campaign visuals', 'Per program: Course page design'],
+  },
+  {
+    id: 'analytics-reporting', name: 'Analytics & Reporting', layer: 'support',
+    icon: '📊', role: 'Looks INWARD — program health, student metrics, engagement scores, NPS, cohort comparisons, KPIs. Scheduled internal reports.',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
+    skills: [
+      { name: 'Program Metrics Reporting', status: 'needs-build' },
+      { name: 'NPS Tracking & Analysis', status: 'partial' },
+      { name: 'Engagement Scoring', status: 'needs-build' },
+      { name: 'Cohort Comparison', status: 'needs-build' },
+      { name: 'KPI Dashboard Generation', status: 'needs-build' },
+      { name: 'T-Score Benchmarking', status: 'partial' },
+    ],
+    dataSets: ['Baserow tables', 'Survey responses', 'Slack audit data', 'Past cohort data', 'Program metrics'],
+    tools: ['Baserow', 'Notion', 'Google Sheets', 'Slack'],
+    cadence: ['Weekly: Program health dashboard', 'Mid-cohort: Engagement review', 'Post-cohort: Full comparison', 'Monthly: KPI summary'],
+  },
+  {
+    id: 'offer-architect', name: 'Offer Architect', layer: 'support',
+    icon: '🏛️', role: 'Builds and maintains the Offer Stack — living documentation of every TUB program. Pricing, ICP, positioning, all accurate and aligned.',
+    managedBy: 'Callan', managedByTitle: 'Founder',
+    skills: [
+      { name: 'Offer Playbook Builder', status: 'needs-build' },
+      { name: 'ICP Profile Maintenance', status: 'needs-build' },
+      { name: 'Competitive Positioning', status: 'needs-build' },
+      { name: 'Pricing Analysis', status: 'needs-build' },
+      { name: 'Offer Stack Sync', status: 'needs-build' },
+    ],
+    dataSets: ['Offer Stack (5 program playbooks)', 'Products & Offerings', 'Student stories', 'Transcripts', 'Competitor data'],
+    tools: ['Notion', 'Google Drive', 'Baserow'],
+    cadence: ['Pre-launch: Offer review & refresh', 'Post-strategy: Update playbooks', 'Quarterly: Full audit', 'On demand: New offers'],
+  },
+  {
+    id: 'brand-manager', name: 'Brand Manager', layer: 'support',
+    icon: '🏷️', role: 'Enforces brand consistency across all outputs. Reviews content for compliance with TUB Visual Brand Identity.',
+    managedBy: 'Nick', managedByTitle: 'Copywriter',
+    skills: [
+      { name: 'Brand Compliance Review', status: 'needs-build' },
+      { name: 'Style Guide Enforcement', status: 'needs-build' },
+      { name: 'Asset Library Management', status: 'needs-build' },
+      { name: 'Rebrand Rollout Tracking', status: 'needs-build' },
+    ],
+    dataSets: ['TUB Visual Brand Identity', 'Rebrand asset library', 'Marketing MEMORY.md', 'Font library', 'Textures & iconography'],
+    tools: ['Google Drive', 'Notion'],
+    cadence: ['Per content piece: Brand check', 'Monthly: Asset audit', 'Per rebrand phase: Rollout tracking'],
+  },
+  {
+    id: 'hr-recruiting', name: 'HR & Recruiting', layer: 'support',
+    icon: '👥', role: 'Writes job descriptions, screens candidates, manages onboarding for new hires, tracks team structure, manages success investors.',
+    managedBy: 'Kinsey', managedByTitle: 'COO',
+    skills: [
+      { name: 'Job Description Writer', status: 'needs-build' },
+      { name: 'Candidate Evaluation', status: 'needs-build' },
+      { name: 'New Hire Onboarding', status: 'needs-build' },
+      { name: 'Success Investor Management', status: 'needs-build' },
+      { name: 'Team Structure Documentation', status: 'needs-build' },
+    ],
+    dataSets: ['Team structure & roles', 'Success investor contracts', 'HR folder'],
+    tools: ['Notion', 'Gmail', 'Slack'],
+    cadence: ['On demand: Job postings, screening', 'Per hire: Onboarding', 'Per cohort: Success investor coordination', 'Quarterly: Team review'],
+  },
+  {
+    id: 'finance-analyst', name: 'Finance Analyst', layer: 'support',
+    icon: '💰', role: 'Tracks software spend, forecasts revenue, calculates program ROI, generates financial reports. Knows where money is going and coming from.',
+    managedBy: 'Callan', managedByTitle: 'Founder',
+    skills: [
+      { name: 'Expense Tracking', status: 'needs-build' },
+      { name: 'Revenue Forecasting', status: 'needs-build' },
+      { name: 'Program ROI Calculation', status: 'needs-build' },
+      { name: 'Software Audit', status: 'partial' },
+      { name: 'Budget Planning', status: 'needs-build' },
+    ],
+    dataSets: ['Software expenses', 'Leadership audits', 'Offer Stack pricing', 'Enrollment data', 'Revenue figures'],
+    tools: ['Google Sheets', 'Baserow', 'Notion'],
+    cadence: ['Monthly: Expense review, revenue report', 'Per cohort: ROI analysis', 'Quarterly: Software audit', 'Annually: Budget planning'],
+  },
+];
+
+// ═══ SHARED SKILLS (skills used by 2+ employees) ═══
+const SHARED_SKILLS = [
+  { name: 'Callan Voice', employees: ['copywriter', 'content-strategist', 'email-nurture', 'sales-pitch', 'community-manager'] },
+  { name: 'Nick Voice', employees: ['copywriter', 'content-strategist', 'email-nurture'] },
+  { name: 'Hook Engine', employees: ['content-strategist', 'copywriter'] },
+  { name: 'IG Intel', employees: ['research-analyst', 'content-strategist'] },
+  { name: 'SOP Creator', employees: ['curriculum-designer', 'operations-manager'] },
+  { name: 'Framework Builder', employees: ['curriculum-designer', 'power-play-producer'] },
+  { name: 'Email Copy', employees: ['copywriter', 'email-nurture'] },
+  { name: 'Notion Designer', employees: ['curriculum-designer', 'power-play-producer', 'operations-manager', 'analytics-reporting'] },
+  { name: 'Disengaged Student Flagging', employees: ['community-manager', 'student-success'] },
+  { name: 'Brand Asset Management', employees: ['creative-director', 'brand-manager'] },
+];
+
+// ═══ FLOW STORIES (animated data journeys) ═══
+const FLOW_STORIES = [
+  {
+    title: 'A Transcript Lands',
+    desc: 'Watch a single training recording become curriculum, content, and marketing assets.',
+    steps: [
+      { employeeId: 'power-play-producer', action: 'Processes transcript, extracts key insights', output: 'Insight report + 3 framework candidates' },
+      { employeeId: 'curriculum-designer', action: 'Builds a new playbook from the framework', output: 'Published playbook in Master Library' },
+      { employeeId: 'content-strategist', action: 'Repurposes insights into social content', output: '5 LinkedIn posts, 3 IG carousels, 2 Threads hooks' },
+      { employeeId: 'copywriter', action: 'Adapts content to brand voice per platform', output: 'Publish-ready copy in Callan Voice' },
+      { employeeId: 'email-nurture', action: 'Weaves insights into this week\'s nurture email', output: 'Email draft with new teaching angle' },
+    ]
+  },
+  {
+    title: 'A Lead Comes In',
+    desc: 'From first touch to closed deal — every step powered by AI employees.',
+    steps: [
+      { employeeId: 'paid-ads', action: 'Ad creative attracted the lead via Meta campaign', output: 'Lead captured from scroll-stopping ad' },
+      { employeeId: 'research-analyst', action: 'Enriches lead with company data and social presence', output: 'Lead profile with ICP match score' },
+      { employeeId: 'sales-pitch', action: 'Matches lead to relevant student success stories', output: '3 testimonials matched to their industry + objection prep' },
+      { employeeId: 'copywriter', action: 'Drafts personalized follow-up email', output: 'Proof-loaded email in Callan\'s voice' },
+      { employeeId: 'email-nurture', action: 'Enrolls lead into 7-day nurture sequence', output: 'Automated sequence with escalating value' },
+    ]
+  },
+  {
+    title: 'Monday Morning',
+    desc: 'Before coffee, 17 AI employees have already done $3,000+ worth of work.',
+    steps: [
+      { employeeId: 'research-analyst', action: 'Scanned trends across Reddit, X, Product Hunt', output: 'Daily trend brief with 3 flagged tools' },
+      { employeeId: 'finance-analyst', action: 'Processed yesterday\'s transactions', output: 'Categorized, CPA-ready expense report' },
+      { employeeId: 'content-strategist', action: 'Drafted full content calendar for the week', output: '15 posts across 4 platforms' },
+      { employeeId: 'operations-manager', action: 'Compiled overnight Slack + Notion updates', output: 'Team digest with 4 items needing attention' },
+      { employeeId: 'student-success', action: 'Scanned 312 students for milestone completion', output: '8 at-risk flags, 3 spotlight recommendations' },
+    ]
+  },
+];

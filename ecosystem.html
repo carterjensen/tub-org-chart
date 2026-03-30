@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUB — AI Employee Ecosystem</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="data.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a1a;min-height:100vh;-webkit-font-smoothing:antialiased}
+#root{min-height:100vh}
+
+/* NAV */
+.nav-bar{position:sticky;top:0;height:56px;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.nav-left{display:flex;align-items:center;gap:14px}
+.nav-logo{font-family:'Instrument Serif',Georgia,serif;font-size:18px;color:#2F5B4A;letter-spacing:-.3px}
+.nav-logo em{color:#D1B25A;font-style:italic}
+.nav-divider{width:1px;height:20px;background:#E0E0DC}
+.page-tabs{display:flex;gap:2px;background:rgba(0,0,0,.04);border-radius:8px;padding:3px}
+.page-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;color:#999;cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;text-decoration:none}
+.page-tab:hover{color:#555}
+.page-tab.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.nav-right{display:flex;align-items:center;gap:12px;font-size:12px;color:#888}
+.nav-stat{font-weight:600;color:#1a1a1a}
+.nav-stat.gold{color:#B8960B}
+
+/* HEADER */
+.eco-header{text-align:center;padding:40px 20px 12px}
+.eco-header h1{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(28px,4vw,44px);font-weight:400;color:#2F5B4A;letter-spacing:-.5px}
+.eco-header h1 em{color:#D1B25A;font-style:italic}
+.eco-sub{font-size:14px;color:#888;margin-top:6px}
+
+/* VIEW TOGGLES */
+.view-toggles{display:flex;justify-content:center;gap:2px;padding:16px 20px 24px}
+.view-toggle-group{display:flex;background:rgba(0,0,0,.04);border-radius:10px;padding:4px}
+.view-btn{padding:8px 20px;border-radius:8px;border:none;background:transparent;font-size:13px;font-weight:500;color:#888;cursor:pointer;transition:all .2s;font-family:inherit}
+.view-btn:hover{color:#555}
+.view-btn.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* MAIN */
+.eco-main{max-width:1400px;margin:0 auto;padding:0 24px 80px}
+
+/* ═══ LAYERS VIEW ═══ */
+.layer-band{margin-bottom:24px;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.04);background:#fff}
+.layer-header{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid rgba(0,0,0,.04)}
+.layer-color-bar{width:4px;height:32px;border-radius:4px}
+.layer-info{flex:1}
+.layer-name{font-size:14px;font-weight:600;color:#1a1a1a;letter-spacing:-.1px}
+.layer-desc{font-size:11px;color:#999;margin-top:1px}
+.layer-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:#aaa;font-weight:500}
+.layer-cards{display:flex;gap:12px;padding:16px 20px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.layer-cards::-webkit-scrollbar{height:4px}
+.layer-cards::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:4px}
+
+/* INFRA BAR */
+.infra-bar{margin-top:16px;border-radius:16px;border:1px solid rgba(0,0,0,.04);background:#fff;padding:16px 24px}
+.infra-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:12px}
+.infra-chips{display:flex;gap:8px;flex-wrap:wrap}
+.infra-chip{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(0,0,0,.03);font-size:12px;color:#666;font-weight:500}
+.infra-chip-icon{font-size:14px}
+
+/* SHARED CAP BAR */
+.shared-bar{margin-top:12px;border-radius:16px;border:1px solid rgba(209,178,90,.15);background:rgba(209,178,90,.03);padding:16px 24px}
+.shared-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B8960B;margin-bottom:12px}
+.shared-chips{display:flex;gap:8px;flex-wrap:wrap}
+.shared-chip{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;background:rgba(209,178,90,.06);border:1px solid rgba(209,178,90,.12);font-size:12px;color:#8B7024;font-weight:500}
+
+/* ═══ EMPLOYEE CARD (shared across views) ═══ */
+.emp-card{min-width:220px;max-width:260px;flex:0 0 auto;background:#FAFAF8;border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:16px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.emp-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.06);transform:translateY(-1px);border-color:rgba(0,0,0,.08)}
+.emp-card.expanded{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08);min-width:280px;max-width:340px}
+.emp-card-accent{position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
+.emp-card:hover .emp-card-accent,.emp-card.expanded .emp-card-accent{opacity:1}
+.emp-top{display:flex;align-items:center;gap:10px}
+.emp-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.emp-meta{flex:1;min-width:0}
+.emp-name{font-size:14px;font-weight:600;color:#1a1a1a;letter-spacing:-.1px;line-height:1.2}
+.emp-mgr{font-size:10px;color:#aaa;margin-top:1px}
+.emp-role{font-size:11px;color:#777;line-height:1.4;margin-top:8px}
+
+/* EXPANDED DETAILS */
+.emp-details{margin-top:12px;padding-top:12px;border-top:1px solid rgba(0,0,0,.05)}
+.emp-section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#aaa;margin:10px 0 6px}
+.emp-section-title:first-child{margin-top:0}
+.emp-skill-row{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;color:#555}
+.emp-skill-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.emp-skill-dot.built{background:#4A8C5C}
+.emp-skill-dot.partial{background:#D1B25A}
+.emp-skill-dot.needs-build{background:#D4D4D0}
+.emp-skill-shared{font-size:9px;color:#B8960B;font-weight:600;margin-left:auto}
+.emp-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.emp-tag{font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(0,0,0,.03);color:#888}
+.emp-cadence{font-size:10px;color:#999;line-height:1.5}
+.emp-cadence li{margin-bottom:2px;list-style:none;padding-left:12px;position:relative}
+.emp-cadence li::before{content:'·';position:absolute;left:2px;color:#ccc;font-weight:700}
+
+/* ═══ RING VIEW ═══ */
+.ring-container{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:1/1}
+.ring-svg{width:100%;height:100%}
+.ring-node{cursor:pointer;transition:transform .2s}
+.ring-node:hover{transform:scale(1.08)}
+.ring-node-circle{transition:all .2s}
+.ring-node:hover .ring-node-circle{stroke-width:3}
+.ring-label{font-size:9px;font-weight:600;fill:#999;text-anchor:middle;letter-spacing:1px;text-transform:uppercase}
+.ring-center-label{font-family:'Instrument Serif',Georgia,serif;font-size:16px;fill:#2F5B4A;text-anchor:middle}
+.ring-center-sub{font-size:10px;fill:#999;text-anchor:middle}
+.ring-connection{stroke-opacity:.12;fill:none;stroke-width:1;transition:stroke-opacity .3s}
+.ring-connection.highlighted{stroke-opacity:.5;stroke-width:2}
+.ring-detail-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:320px;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.1);padding:20px;z-index:20;max-height:80%;overflow-y:auto}
+.ring-detail-close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.05);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:#888}
+.ring-detail-close:hover{background:rgba(0,0,0,.08);color:#333}
+
+/* ═══ GRID VIEW ═══ */
+.grid-section{margin-bottom:28px}
+.grid-section-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:0 4px}
+.grid-section-avatar{width:36px;height:36px;border-radius:50%;background:#F0F0ED;border:1.5px solid #E0E0DC;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:14px;color:#2F5B4A}
+.grid-section-name{font-size:15px;font-weight:600;color:#1a1a1a}
+.grid-section-title{font-size:11px;color:#999}
+.grid-section-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa;margin-left:auto}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+
+/* ═══ FLOW VIEW ═══ */
+.flow-story{margin-bottom:32px;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.04);background:#fff}
+.flow-story-header{padding:20px 24px 16px;border-bottom:1px solid rgba(0,0,0,.04)}
+.flow-story-title{font-family:'Instrument Serif',Georgia,serif;font-size:22px;color:#2F5B4A}
+.flow-story-desc{font-size:12px;color:#888;margin-top:4px}
+.flow-controls{display:flex;align-items:center;gap:8px;margin-top:12px}
+.flow-play-btn{padding:6px 16px;border-radius:8px;border:1px solid rgba(47,91,74,.2);background:rgba(47,91,74,.05);color:#2F5B4A;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
+.flow-play-btn:hover{background:rgba(47,91,74,.1)}
+.flow-steps{padding:0 24px 20px}
+.flow-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.03);position:relative;opacity:.25;transition:opacity .5s}
+.flow-step:last-child{border-bottom:none}
+.flow-step.active{opacity:1}
+.flow-step.done{opacity:.6}
+.flow-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;background:rgba(0,0,0,.04);color:#999;transition:all .3s}
+.flow-step.active .flow-step-num{background:#2F5B4A;color:#fff}
+.flow-step.done .flow-step-num{background:rgba(74,140,92,.1);color:#4A8C5C}
+.flow-step-body{flex:1}
+.flow-step-emp{font-size:13px;font-weight:600;color:#1a1a1a}
+.flow-step-action{font-size:12px;color:#888;margin-top:2px}
+.flow-step-output{font-size:11px;color:#4A8C5C;margin-top:4px;font-weight:500}
+.flow-step-arrow{position:absolute;left:37px;bottom:-8px;font-size:12px;color:#D4D4D0}
+.flow-step:last-child .flow-step-arrow{display:none}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  .nav-bar{flex-wrap:wrap;height:auto;padding:10px 14px;gap:6px}
+  .nav-left{width:100%;justify-content:space-between}
+  .nav-right{width:100%;justify-content:center}
+  .nav-divider{display:none}
+  .view-toggles{padding:12px 12px 16px}
+  .view-btn{padding:6px 14px;font-size:12px}
+  .eco-header{padding:24px 16px 8px}
+  .eco-main{padding:0 12px 60px}
+  .layer-cards{padding:12px 14px}
+  .emp-card{min-width:180px;max-width:220px;padding:12px}
+  .emp-name{font-size:13px}
+  .grid-cards{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+  .ring-container{max-width:100%;margin:0 -12px}
+  .ring-detail-panel{width:calc(100% - 40px);max-width:320px}
+  .flow-story-title{font-size:18px}
+}
+@media(max-width:480px){
+  .page-tabs{display:none}
+  .view-btn{padding:5px 10px;font-size:11px}
+  .emp-card{min-width:160px}
+  .ring-container{aspect-ratio:auto;height:70vh}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useCallback,useMemo,useEffect,useRef}=React;
+
+// ═══ EMPLOYEE CARD ═══
+function EmpCard({emp,layerColor,expanded,onClick}){
+  return(
+    <div className={`emp-card ${expanded?'expanded':''}`} onClick={onClick}>
+      <div className="emp-card-accent" style={{background:layerColor}}/>
+      <div className="emp-top">
+        <div className="emp-icon" style={{background:layerColor+'14'}}>{emp.icon}</div>
+        <div className="emp-meta">
+          <div className="emp-name">{emp.name}</div>
+          <div className="emp-mgr">Managed by {emp.managedBy}</div>
+        </div>
+      </div>
+      <div className="emp-role">{emp.role}</div>
+      {expanded&&(
+        <div className="emp-details">
+          <div className="emp-section-title">Skills ({emp.skills.length})</div>
+          {emp.skills.map(s=>(
+            <div className="emp-skill-row" key={s.name}>
+              <span className={`emp-skill-dot ${s.status}`}/>
+              {s.name}
+              {s.shared&&<span className="emp-skill-shared">SHARED</span>}
+            </div>
+          ))}
+          <div className="emp-section-title">Data Sources</div>
+          <div className="emp-tags">{emp.dataSets.map(d=><span className="emp-tag" key={d}>{d}</span>)}</div>
+          <div className="emp-section-title">Tools</div>
+          <div className="emp-tags">{emp.tools.map(t=><span className="emp-tag" key={t}>{t}</span>)}</div>
+          <div className="emp-section-title">Cadence</div>
+          <ul className="emp-cadence">{emp.cadence.map(c=><li key={c}>{c}</li>)}</ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══ LAYERS VIEW ═══
+function LayersView({expandedId,setExpanded}){
+  return(
+    <div>
+      {LAYER_DEFS.map(layer=>{
+        const emps=ECOSYSTEM_EMPLOYEES.filter(e=>e.layer===layer.id);
+        return(
+          <div className="layer-band" key={layer.id}>
+            <div className="layer-header">
+              <div className="layer-color-bar" style={{background:layer.color}}/>
+              <div className="layer-info">
+                <div className="layer-name">{layer.name}</div>
+                <div className="layer-desc">{layer.desc}</div>
+              </div>
+              <div className="layer-count">{emps.length} AI employees</div>
+            </div>
+            <div className="layer-cards">
+              {emps.map(emp=>(
+                <EmpCard key={emp.id} emp={emp} layerColor={layer.color}
+                  expanded={expandedId===emp.id}
+                  onClick={()=>setExpanded(expandedId===emp.id?null:emp.id)}/>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+      <div className="shared-bar">
+        <div className="shared-title">Shared Capabilities — Voice & Style Modules</div>
+        <div className="shared-chips">
+          {SHARED_CAPABILITIES.map(s=>(
+            <div className="shared-chip" key={s.name}><span>{s.icon}</span>{s.name}<span style={{fontSize:10,color:'#B8960B',opacity:.6}}>({s.usedBy.length} employees)</span></div>
+          ))}
+        </div>
+      </div>
+      <div className="infra-bar">
+        <div className="infra-title">Infrastructure — The AI Operating System</div>
+        <div className="infra-chips">
+          {INFRASTRUCTURE.map(i=>(
+            <div className="infra-chip" key={i.name}><span className="infra-chip-icon">{i.icon}</span>{i.name}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══ RING VIEW ═══
+function RingView({expandedId,setExpanded}){
+  const size=800;const cx=size/2;const cy=size/2;
+  const ringRadii=[0,110,195,270,335,395];
+  const layerMap={};LAYER_DEFS.forEach((l,i)=>{layerMap[l.id]=i+1});
+
+  const nodes=ECOSYSTEM_EMPLOYEES.map(emp=>{
+    const li=layerMap[emp.layer];
+    const r=ringRadii[li];
+    const empsInLayer=ECOSYSTEM_EMPLOYEES.filter(e=>e.layer===emp.layer);
+    const idx=empsInLayer.indexOf(emp);
+    const count=empsInLayer.length;
+    const angleStep=(2*Math.PI)/Math.max(count,1);
+    const startAngle=-Math.PI/2;
+    const angle=startAngle+idx*angleStep;
+    return{...emp,x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle),layerIdx:li};
+  });
+
+  const nodeMap={};nodes.forEach(n=>{nodeMap[n.id]=n});
+
+  const connections=[];
+  SHARED_SKILLS.forEach(ss=>{
+    for(let i=0;i<ss.employees.length;i++){
+      for(let j=i+1;j<ss.employees.length;j++){
+        const a=nodeMap[ss.employees[i]];const b=nodeMap[ss.employees[j]];
+        if(a&&b)connections.push({from:a,to:b,skill:ss.name,highlighted:expandedId&&(expandedId===a.id||expandedId===b.id)});
+      }
+    }
+  });
+
+  const selectedNode=expandedId?nodeMap[expandedId]:null;
+  const selectedEmp=expandedId?ECOSYSTEM_EMPLOYEES.find(e=>e.id===expandedId):null;
+  const selectedLayer=selectedEmp?LAYER_DEFS.find(l=>l.id===selectedEmp.layer):null;
+
+  return(
+    <div className="ring-container">
+      <svg className="ring-svg" viewBox={`0 0 ${size} ${size}`}>
+        {/* Ring circles */}
+        {LAYER_DEFS.map((l,i)=>(
+          <circle key={l.id} cx={cx} cy={cy} r={ringRadii[i+1]} fill="none" stroke={l.color} strokeOpacity=".08" strokeWidth="1"/>
+        ))}
+        {/* Connections */}
+        {connections.map((c,i)=>(
+          <line key={i} x1={c.from.x} y1={c.from.y} x2={c.to.x} y2={c.to.y}
+            className={`ring-connection ${c.highlighted?'highlighted':''}`}
+            stroke={c.highlighted?'#D1B25A':'#999'}/>
+        ))}
+        {/* Layer labels */}
+        {LAYER_DEFS.map((l,i)=>{
+          const r=ringRadii[i+1]+14;
+          return <text key={l.id} x={cx} y={cy-r} className="ring-label" fill={l.color}>{l.name}</text>;
+        })}
+        {/* Center */}
+        <text x={cx} y={cy-8} className="ring-center-label">AIOS</text>
+        <text x={cx} y={cy+10} className="ring-center-sub">AI Operating System</text>
+        {/* Nodes */}
+        {nodes.map(n=>{
+          const layer=LAYER_DEFS.find(l=>l.id===n.layer);
+          const isSelected=expandedId===n.id;
+          return(
+            <g key={n.id} className="ring-node" onClick={()=>setExpanded(isSelected?null:n.id)}>
+              <circle className="ring-node-circle" cx={n.x} cy={n.y} r={isSelected?22:18}
+                fill={isSelected?layer.color:'#fff'} stroke={layer.color} strokeWidth={isSelected?2.5:1.5}/>
+              <text x={n.x} y={n.y+1} textAnchor="middle" dominantBaseline="middle"
+                style={{fontSize:isSelected?16:14,pointerEvents:'none'}}>{n.icon}</text>
+              <text x={n.x} y={n.y+30} textAnchor="middle"
+                style={{fontSize:9,fontWeight:600,fill:'#666',pointerEvents:'none'}}>{n.name.length>16?n.name.slice(0,14)+'…':n.name}</text>
+            </g>
+          );
+        })}
+      </svg>
+      {selectedEmp&&selectedLayer&&(
+        <div className="ring-detail-panel">
+          <button className="ring-detail-close" onClick={()=>setExpanded(null)}>×</button>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+            <div className="emp-icon" style={{background:selectedLayer.color+'14',width:36,height:36,borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>{selectedEmp.icon}</div>
+            <div><div className="emp-name">{selectedEmp.name}</div><div className="emp-mgr">Managed by {selectedEmp.managedBy} · {selectedLayer.name}</div></div>
+          </div>
+          <div className="emp-role">{selectedEmp.role}</div>
+          <div className="emp-details" style={{marginTop:12,paddingTop:12,borderTop:'1px solid rgba(0,0,0,.05)'}}>
+            <div className="emp-section-title">Skills ({selectedEmp.skills.length})</div>
+            {selectedEmp.skills.map(s=>(
+              <div className="emp-skill-row" key={s.name}>
+                <span className={`emp-skill-dot ${s.status}`}/>{s.name}
+                {s.shared&&<span className="emp-skill-shared">SHARED</span>}
+              </div>
+            ))}
+            <div className="emp-section-title">Data Sources</div>
+            <div className="emp-tags">{selectedEmp.dataSets.map(d=><span className="emp-tag" key={d}>{d}</span>)}</div>
+            <div className="emp-section-title">Cadence</div>
+            <ul className="emp-cadence">{selectedEmp.cadence.map(c=><li key={c}>{c}</li>)}</ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══ GRID VIEW ═══
+function GridView({expandedId,setExpanded}){
+  const managers=[
+    {name:'Callan',title:'Founder & Visionary',initials:'CF'},
+    {name:'Carter',title:'VP of Product & Innovation',initials:'CJ'},
+    {name:'Kinsey',title:'Chief Operating Officer',initials:'KM'},
+    {name:'Nick',title:'Copywriter',initials:'NM'},
+    {name:'Cara',title:'Dir. of Paid Media',initials:'CA'},
+  ];
+  return(
+    <div>
+      {managers.map(mgr=>{
+        const emps=ECOSYSTEM_EMPLOYEES.filter(e=>e.managedBy===mgr.name);
+        if(emps.length===0)return null;
+        const layerForFirst=LAYER_DEFS.find(l=>l.id===emps[0].layer);
+        return(
+          <div className="grid-section" key={mgr.name}>
+            <div className="grid-section-header">
+              <div className="grid-section-avatar">{mgr.initials}</div>
+              <div>
+                <div className="grid-section-name">{mgr.name}</div>
+                <div className="grid-section-title">{mgr.title}</div>
+              </div>
+              <div className="grid-section-count">{emps.length} AI employees</div>
+            </div>
+            <div className="grid-cards">
+              {emps.map(emp=>{
+                const layer=LAYER_DEFS.find(l=>l.id===emp.layer);
+                return <EmpCard key={emp.id} emp={emp} layerColor={layer.color}
+                  expanded={expandedId===emp.id}
+                  onClick={()=>setExpanded(expandedId===emp.id?null:emp.id)}/>;
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ═══ FLOW VIEW ═══
+function FlowStory({story}){
+  const[activeStep,setActiveStep]=useState(-1);
+  const[isPlaying,setIsPlaying]=useState(false);
+  const intervalRef=useRef(null);
+
+  useEffect(()=>{
+    if(!isPlaying){clearInterval(intervalRef.current);return}
+    intervalRef.current=setInterval(()=>{
+      setActiveStep(prev=>{
+        if(prev>=story.steps.length-1){setIsPlaying(false);return story.steps.length-1}
+        return prev+1;
+      });
+    },1500);
+    return()=>clearInterval(intervalRef.current);
+  },[isPlaying,story.steps.length]);
+
+  const play=()=>{setActiveStep(0);setIsPlaying(true)};
+  const reset=()=>{setActiveStep(-1);setIsPlaying(false)};
+
+  return(
+    <div className="flow-story">
+      <div className="flow-story-header">
+        <div className="flow-story-title">{story.title}</div>
+        <div className="flow-story-desc">{story.desc}</div>
+        <div className="flow-controls">
+          {!isPlaying&&activeStep<story.steps.length-1&&<button className="flow-play-btn" onClick={play}>▶ Play</button>}
+          {(isPlaying||activeStep>=0)&&<button className="flow-play-btn" onClick={reset}>↩ Reset</button>}
+        </div>
+      </div>
+      <div className="flow-steps">
+        {story.steps.map((step,i)=>{
+          const emp=ECOSYSTEM_EMPLOYEES.find(e=>e.id===step.employeeId);
+          const cls=i<activeStep?'done':i===activeStep?'active':'';
+          return(
+            <div className={`flow-step ${cls}`} key={i}>
+              <div className="flow-step-num">{i+1}</div>
+              <div className="flow-step-body">
+                <div className="flow-step-emp">{emp?emp.icon:''} {emp?emp.name:step.employeeId}</div>
+                <div className="flow-step-action">{step.action}</div>
+                {(i===activeStep||i<activeStep)&&<div className="flow-step-output">→ {step.output}</div>}
+              </div>
+              <div className="flow-step-arrow">↓</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function FlowView(){
+  return(
+    <div>{FLOW_STORIES.map((story,i)=><FlowStory key={i} story={story}/>)}</div>
+  );
+}
+
+// ═══ APP ═══
+function App(){
+  const[view,setView]=useState('layers');
+  const[expandedId,setExpanded]=useState(null);
+
+  const totalSkills=ECOSYSTEM_EMPLOYEES.reduce((s,e)=>s+e.skills.length,0);
+
+  return(
+    <div>
+      <div className="nav-bar">
+        <div className="nav-left">
+          <div className="nav-logo">The Uncommon <em>Business</em></div>
+          <div className="nav-divider"/>
+          <div className="page-tabs">
+            <a className="page-tab" href="index.html">Org Map</a>
+            <a className="page-tab active" href="ecosystem.html">Ecosystem</a>
+            <a className="page-tab" href="monday-morning.html">Monday Morning</a>
+          </div>
+        </div>
+        <div className="nav-right">
+          <span className="nav-stat gold">21</span> AI Employees ·
+          <span className="nav-stat">{totalSkills}+</span> Skills ·
+          <span className="nav-stat">5</span> Layers
+        </div>
+      </div>
+
+      <div className="eco-header">
+        <h1>The AI Employee <em>Ecosystem</em></h1>
+        <div className="eco-sub">Every department. Every function. Powered by AI employees trained on our data.</div>
+      </div>
+
+      <div className="view-toggles">
+        <div className="view-toggle-group">
+          {[{id:'layers',label:'Layers'},{id:'ring',label:'Ring'},{id:'grid',label:'Grid'},{id:'flow',label:'Flow'}].map(v=>(
+            <button key={v.id} className={`view-btn ${view===v.id?'active':''}`}
+              onClick={()=>{setView(v.id);setExpanded(null)}}>{v.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="eco-main">
+        {view==='layers'&&<LayersView expandedId={expandedId} setExpanded={setExpanded}/>}
+        {view==='ring'&&<RingView expandedId={expandedId} setExpanded={setExpanded}/>}
+        {view==='grid'&&<GridView expandedId={expandedId} setExpanded={setExpanded}/>}
+        {view==='flow'&&<FlowView/>}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
