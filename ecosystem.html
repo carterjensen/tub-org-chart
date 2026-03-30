@@ -455,7 +455,8 @@ function FlowView(){
 
 // ═══ APP ═══
 function App(){
-  const[view,setView]=useState('layers');
+  const initView=useMemo(()=>{const p=new URLSearchParams(window.location.search).get('v');return['layers','grid','flow'].includes(p)?p:'layers'},[]);
+  const[view,setView]=useState(initView);
   const[expandedId,setExpanded]=useState(null);
 
   const totalSkills=ECOSYSTEM_EMPLOYEES.reduce((s,e)=>s+e.skills.length,0);
@@ -468,7 +469,9 @@ function App(){
           <div className="nav-divider"/>
           <div className="page-tabs">
             <a className="page-tab" href="index.html">Org Map</a>
-            <a className="page-tab active" href="ecosystem.html">Ecosystem</a>
+            <a className={`page-tab ${view==='layers'?'active':''}`} href="ecosystem.html">Layers</a>
+            <a className={`page-tab ${view==='grid'?'active':''}`} href="ecosystem.html?v=grid">Grid</a>
+            <a className={`page-tab ${view==='flow'?'active':''}`} href="ecosystem.html?v=flow">Flow</a>
             <a className="page-tab" href="monday-morning.html">Monday Morning</a>
           </div>
         </div>
@@ -486,16 +489,15 @@ function App(){
 
       <div className="view-toggles">
         <div className="view-toggle-group">
-          {[{id:'layers',label:'Layers'},{id:'ring',label:'Ring'},{id:'grid',label:'Grid'},{id:'flow',label:'Flow'}].map(v=>(
-            <button key={v.id} className={`view-btn ${view===v.id?'active':''}`}
-              onClick={()=>{setView(v.id);setExpanded(null)}}>{v.label}</button>
+          {[{id:'layers',label:'Layers',href:'ecosystem.html'},{id:'grid',label:'Grid',href:'ecosystem.html?v=grid'},{id:'flow',label:'Flow',href:'ecosystem.html?v=flow'}].map(v=>(
+            <a key={v.id} className={`view-btn ${view===v.id?'active':''}`} href={v.href}
+              style={{textDecoration:'none'}}>{v.label}</a>
           ))}
         </div>
       </div>
 
       <div className="eco-main">
         {view==='layers'&&<LayersView expandedId={expandedId} setExpanded={setExpanded}/>}
-        {view==='ring'&&<RingView expandedId={expandedId} setExpanded={setExpanded}/>}
         {view==='grid'&&<GridView expandedId={expandedId} setExpanded={setExpanded}/>}
         {view==='flow'&&<FlowView/>}
       </div>
