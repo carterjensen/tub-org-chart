@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Uncommon Business — AI-Forward Org</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="data.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a1a;overflow:hidden;height:100vh;width:100vw;-webkit-font-smoothing:antialiased}
+#root{height:100vh;width:100vw}
+
+.canvas-viewport{width:100%;height:100%;overflow:hidden;cursor:grab;position:relative;touch-action:none}
+.canvas-viewport:active{cursor:grabbing}
+.canvas-world{transform-origin:0 0;will-change:transform;position:absolute;top:0;left:0;padding:120px 200px 300px;min-width:max-content}
+
+/* TREE */
+.tree-node{display:flex;flex-direction:column;align-items:center;position:relative}
+.tree-children{display:flex;justify-content:center;gap:24px;position:relative;padding-top:48px}
+.tree-children::before{content:'';position:absolute;top:0;left:50%;width:1px;height:24px;background:#D4D4D0;transform:translateX(-50%)}
+.tree-children.multi::after{content:'';position:absolute;top:24px;height:1px;background:#D4D4D0;left:var(--bar-l,50%);right:var(--bar-r,50%)}
+.tree-children>.tree-node::before{content:'';position:absolute;top:-24px;left:50%;width:1px;height:24px;background:#D4D4D0;transform:translateX(-50%)}
+
+/* CARD */
+.node-card{background:#FFF;border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);cursor:pointer;transition:box-shadow .25s,transform .25s;user-select:none;border:1px solid rgba(0,0,0,.04);width:250px;overflow:hidden;flex-shrink:0}
+.node-card:hover{box-shadow:0 2px 4px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.08);transform:translateY(-1px)}
+.node-card.is-active{box-shadow:0 2px 4px rgba(0,0,0,.06),0 12px 40px rgba(0,0,0,.1);border-color:rgba(47,91,74,.15)}
+.node-card.is-founder{width:290px}
+.node-inner{padding:20px}
+.card-header-row{display:flex;align-items:center;gap:14px}
+
+.avatar-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:18px;flex-shrink:0;background:#F7F7F5;color:#2F5B4A;border:2px solid #E8E8E4;transition:all .2s}
+.node-card:hover .avatar-ring{border-color:#D1B25A;background:rgba(209,178,90,.06)}
+.avatar-ring.founder{background:linear-gradient(135deg,#2F5B4A,#3d7a63);color:#fff;border:2px solid #2F5B4A;font-size:16px}
+.node-card:hover .avatar-ring.founder{border-color:#D1B25A}
+
+.meta-block{flex:1;min-width:0}
+.person-name{font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-.2px;line-height:1.2}
+.person-title{font-size:12px;color:#888;margin-top:2px}
+
+.pills-row{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;transition:background .15s;cursor:pointer}
+.pill-team{background:#F0F0ED;color:#555}
+.pill-team:hover{background:#E8E8E4}
+.pill-ai{background:rgba(209,178,90,.1);color:#8B7024}
+.pill-ai:hover{background:rgba(209,178,90,.18)}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:#D1B25A}
+.pill-chevron{font-size:9px;transition:transform .25s;margin-left:2px;opacity:.5}
+.ai-open .pill-chevron.ai-chev{transform:rotate(180deg)}
+.org-open .pill-chevron.org-chev{transform:rotate(180deg)}
+
+/* AI PANEL */
+.ai-panel{padding:0 20px 20px;border-top:1px solid #F0F0ED;margin-top:16px;padding-top:16px}
+.ai-panel-header{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B8A04A;margin-bottom:12px}
+
+.skill-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;margin-bottom:5px;transition:background .15s;border-left:3px solid transparent}
+.skill-row:hover{background:rgba(0,0,0,.015)}
+.skill-icon-wrap{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.skill-text{flex:1;min-width:0}
+.skill-name{font-size:13px;font-weight:600;line-height:1.2;letter-spacing:-.1px}
+.skill-desc{font-size:11px;color:#888;line-height:1.4;margin-top:1px}
+
+.skill-row.s-voice{border-left-color:#C05746}.skill-row.s-voice .skill-icon-wrap{background:rgba(192,87,70,.08)}.skill-row.s-voice .skill-name{color:#A04030}
+.skill-row.s-strategy{border-left-color:#7B5EA7}.skill-row.s-strategy .skill-icon-wrap{background:rgba(123,94,167,.08)}.skill-row.s-strategy .skill-name{color:#6B4E97}
+.skill-row.s-research{border-left-color:#3A7CA5}.skill-row.s-research .skill-icon-wrap{background:rgba(58,124,165,.08)}.skill-row.s-research .skill-name{color:#2A6C95}
+.skill-row.s-creative{border-left-color:#C26688}.skill-row.s-creative .skill-icon-wrap{background:rgba(194,102,136,.08)}.skill-row.s-creative .skill-name{color:#A85070}
+.skill-row.s-ops{border-left-color:#2A8F82}.skill-row.s-ops .skill-icon-wrap{background:rgba(42,143,130,.08)}.skill-row.s-ops .skill-name{color:#1A7F72}
+.skill-row.s-product{border-left-color:#B8860B}.skill-row.s-product .skill-icon-wrap{background:rgba(184,134,11,.08)}.skill-row.s-product .skill-name{color:#9A7000}
+.skill-row.s-curriculum{border-left-color:#4A8C5C}.skill-row.s-curriculum .skill-icon-wrap{background:rgba(74,140,92,.08)}.skill-row.s-curriculum .skill-name{color:#3A7C4C}
+.skill-row.s-sales{border-left-color:#D47B2E}.skill-row.s-sales .skill-icon-wrap{background:rgba(212,123,46,.08)}.skill-row.s-sales .skill-name{color:#B46520}
+.skill-row.s-engineering{border-left-color:#4A6FA5}.skill-row.s-engineering .skill-icon-wrap{background:rgba(74,111,165,.08)}.skill-row.s-engineering .skill-name{color:#3A5F95}
+.skill-row.s-analytics{border-left-color:#5B7E95}.skill-row.s-analytics .skill-icon-wrap{background:rgba(91,126,149,.08)}.skill-row.s-analytics .skill-name{color:#4B6E85}
+.skill-row.s-finance{border-left-color:#3D8B6E}.skill-row.s-finance .skill-icon-wrap{background:rgba(61,139,110,.08)}.skill-row.s-finance .skill-name{color:#2D7B5E}
+.skill-row.s-hr{border-left-color:#8B6BAE}.skill-row.s-hr .skill-icon-wrap{background:rgba(139,107,174,.08)}.skill-row.s-hr .skill-name{color:#7B5B9E}
+
+.more-row{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:13px;font-weight:500;color:#aaa;font-style:italic}
+.more-dots-wrap{display:flex;gap:3px}
+.more-dots-wrap span{width:4px;height:4px;border-radius:50%;background:#ccc}
+
+/* TOP BAR */
+.top-bar{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
+.top-bar-left{display:flex;align-items:center;gap:14px}
+.top-bar-logo{font-family:'Instrument Serif',Georgia,serif;font-size:18px;color:#2F5B4A;letter-spacing:-.3px}
+.top-bar-logo em{color:#D1B25A;font-style:italic}
+.top-bar-divider{width:1px;height:20px;background:#E0E0DC}
+.top-bar-subtitle{font-size:12px;color:#999}
+.nav-tabs{display:flex;gap:2px;background:rgba(0,0,0,.04);border-radius:8px;padding:3px}
+.nav-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;color:#999;cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;text-decoration:none}
+.nav-tab:hover{color:#555}
+.nav-tab.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.top-bar-right{display:flex;align-items:center;gap:16px}
+.stat-chip{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:#666}
+.stat-chip .num{font-weight:700;color:#1a1a1a}
+.stat-chip .num.gold{color:#B8960B}
+.stat-chip-dot{width:6px;height:6px;border-radius:50%}
+.stat-chip-dot.green{background:#2F5B4A}
+.stat-chip-dot.amber{background:#D1B25A}
+.top-sep{width:1px;height:18px;background:#E8E8E4}
+.tb-btn{padding:6px 12px;border-radius:8px;border:1px solid #E0E0DC;background:#fff;font-size:11px;font-weight:500;color:#555;cursor:pointer;transition:all .15s;font-family:inherit}
+.tb-btn:hover{border-color:#ccc;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+
+/* ZOOM */
+.zoom-controls{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);z-index:100;overflow:hidden}
+.zoom-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;cursor:pointer;font-size:16px;color:#555;transition:background .15s;font-family:inherit}
+.zoom-btn:hover{background:rgba(0,0,0,.04);color:#1a1a1a}
+.zoom-divider{height:1px;background:rgba(0,0,0,.06);margin:0 8px}
+.zoom-level{font-size:9px;font-weight:600;color:#999;text-align:center;padding:3px 0;letter-spacing:.5px}
+
+.canvas-hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-size:11px;color:#aaa;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);padding:7px 18px;border-radius:100px;box-shadow:0 1px 4px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);z-index:90;font-weight:500;pointer-events:none;transition:opacity .5s}
+
+/* HERO / INTRO PANEL */
+.hero-panel{width:700px;margin:0 auto 60px;text-align:center;padding:0 20px}
+.hero-panel h1{font-family:'Instrument Serif',Georgia,serif;font-size:44px;font-weight:400;color:#2F5B4A;line-height:1.1;letter-spacing:-.5px;margin-bottom:8px}
+.hero-panel h1 em{color:#D1B25A;font-style:italic}
+.hero-panel .hero-sub{font-size:15px;color:#666;line-height:1.6;margin-bottom:24px;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;justify-content:center;gap:32px;margin-bottom:24px}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Instrument Serif',Georgia,serif;font-size:36px;color:#2F5B4A}
+.hero-stat-num.gold{color:#D1B25A}
+.hero-stat-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-top:2px}
+.hero-divider{width:60px;height:1px;background:#E0E0DC;margin:20px auto}
+.hero-tagline{font-size:13px;color:#888;font-style:italic;line-height:1.5;max-width:480px;margin:0 auto 20px}
+.hero-cta{font-size:12px;color:#aaa;font-weight:500}
+.hero-cta span{color:#2F5B4A;font-weight:600}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.tree-children>.tree-node{animation:fadeInUp .35s ease-out both}
+.tree-children>.tree-node:nth-child(2){animation-delay:.05s}
+.tree-children>.tree-node:nth-child(3){animation-delay:.1s}
+.tree-children>.tree-node:nth-child(4){animation-delay:.15s}
+.tree-children>.tree-node:nth-child(5){animation-delay:.2s}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useCallback,useRef,useEffect}=React;
+
+// Uses SHARED_ORG and TOTAL_HUMANS from data.js
+const orgTree = SHARED_ORG;
+
+function SkillRow({skill}){
+  return(<div className={`skill-row s-${skill.cat}`}><div className="skill-icon-wrap">{skill.icon}</div><div className="skill-text"><div className="skill-name">{skill.name}</div><div className="skill-desc">{skill.desc}</div></div></div>);
+}
+function MoreRow({count}){
+  return(<div className="more-row"><div className="more-dots-wrap"><span/><span/><span/></div>{count} more AI employees…</div>);
+}
+
+function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
+  const hasChildren=node.children&&node.children.length>0;
+  const isOrgOpen=orgOpen.has(node.id);
+  const isAIOpen=aiOpen.has(node.id);
+  const aiCount=(node.aiEmployees||[]).length+(node.moreCount||0);
+  const totalReports=(function c(n){let t=0;(n.children||[]).forEach(ch=>{t+=1+c(ch)});return t})(node);
+
+  const handleClick=(e)=>{
+    if(e.target.closest('.pill-ai')){e.stopPropagation();toggleAI(node.id);return}
+    if(e.target.closest('.pill-team')){e.stopPropagation();toggleOrg(node.id);return}
+    if(hasChildren)toggleOrg(node.id);
+    else if(aiCount>0)toggleAI(node.id);
+  };
+
+  return(
+    <div className="tree-node">
+      <div className={`node-card ${(isOrgOpen||isAIOpen)?'is-active':''} ${node.isFounder?'is-founder':''} ${isAIOpen?'ai-open':''} ${isOrgOpen?'org-open':''}`} onClick={handleClick}>
+        <div className="node-inner">
+          <div className="card-header-row">
+            <div className={`avatar-ring ${node.isFounder?'founder':''}`}>{node.initials}</div>
+            <div className="meta-block">
+              <div className="person-name">{node.name}</div>
+              <div className="person-title">{node.title}</div>
+            </div>
+          </div>
+          <div className="pills-row">
+            {hasChildren&&totalReports>0&&(
+              <span className="pill pill-team" onClick={e=>{e.stopPropagation();toggleOrg(node.id)}}>
+                {totalReports} report{totalReports!==1?'s':''}
+                <span className="pill-chevron org-chev">{isOrgOpen?'▲':'▼'}</span>
+              </span>
+            )}
+            {aiCount>0&&(
+              <span className="pill pill-ai">
+                <span className="pill-dot"/>
+                {aiCount} AI Employees
+                <span className="pill-chevron ai-chev">{isAIOpen?'▲':'▼'}</span>
+              </span>
+            )}
+          </div>
+        </div>
+        {isAIOpen&&node.aiEmployees&&node.aiEmployees.length>0&&(
+          <div className="ai-panel">
+            <div className="ai-panel-header">AI Employees</div>
+            {node.aiEmployees.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
+            {node.moreCount>0&&<MoreRow count={node.moreCount}/>}
+          </div>
+        )}
+      </div>
+      {isOrgOpen&&hasChildren&&(
+        <div className={`tree-children ${node.children.length>1?'multi':''}`}>
+          {node.children.map(child=>(
+            <PersonNode key={child.id} node={child} orgOpen={orgOpen} aiOpen={aiOpen} toggleOrg={toggleOrg} toggleAI={toggleAI}/>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function useHorizontalBars(orgOpen,aiOpen){
+  useEffect(()=>{
+    requestAnimationFrame(()=>{
+      document.querySelectorAll('.tree-children.multi').forEach(bar=>{
+        const ch=bar.querySelectorAll(':scope>.tree-node');
+        if(ch.length<2)return;
+        const pr=bar.getBoundingClientRect();
+        const fl=ch[0].getBoundingClientRect();
+        const ll=ch[ch.length-1].getBoundingClientRect();
+        bar.style.setProperty('--bar-l',(fl.left+fl.width/2-pr.left)+'px');
+        bar.style.setProperty('--bar-r',(pr.width-(ll.left+ll.width/2-pr.left))+'px');
+      });
+    });
+  },[orgOpen,aiOpen]);
+}
+
+function App(){
+  const[orgOpen,setOrgOpen]=useState(new Set());
+  const[aiOpen,setAIOpen]=useState(new Set());
+  const[transform,setTransform]=useState({x:0,y:0,scale:1});
+  const[isPanning,setIsPanning]=useState(false);
+  const[panStart,setPanStart]=useState({x:0,y:0});
+  const[showHint,setShowHint]=useState(true);
+  const vpRef=useRef(null);
+
+  useHorizontalBars(orgOpen,aiOpen);
+
+  useEffect(()=>{
+    const vp=vpRef.current;
+    if(!vp)return;
+    setTransform({x:vp.clientWidth/2-350,y:20,scale:1});
+    const t=setTimeout(()=>setShowHint(false),4000);
+    return()=>clearTimeout(t);
+  },[]);
+
+  const toggleOrg=useCallback(id=>{
+    setOrgOpen(prev=>{
+      const next=new Set(prev);
+      if(next.has(id)){
+        const rm=n=>{next.delete(n.id);(n.children||[]).forEach(rm)};
+        const find=n=>{if(n.id===id)return n;for(const c of(n.children||[])){const f=find(c);if(f)return f}return null};
+        const t=find(orgTree);if(t)rm(t);
+      }else next.add(id);
+      return next;
+    });
+  },[]);
+
+  const toggleAI=useCallback(id=>{
+    setAIOpen(prev=>{const next=new Set(prev);if(next.has(id))next.delete(id);else next.add(id);return next});
+  },[]);
+
+  const expandAllOrg=useCallback(()=>{
+    const all=new Set();
+    const walk=n=>{if(n.children&&n.children.length>0){all.add(n.id);n.children.forEach(walk)}};
+    walk(orgTree);setOrgOpen(all);
+  },[]);
+
+  const collapseAll=useCallback(()=>{setOrgOpen(new Set());setAIOpen(new Set())},[]);
+
+  const onPointerDown=e=>{
+    if(e.target.closest('.node-card')||e.target.closest('.zoom-controls')||e.target.closest('.top-bar'))return;
+    setIsPanning(true);setPanStart({x:e.clientX-transform.x,y:e.clientY-transform.y});setShowHint(false);
+  };
+  const onPointerMove=e=>{if(!isPanning)return;setTransform(p=>({...p,x:e.clientX-panStart.x,y:e.clientY-panStart.y}))};
+  const onPointerUp=()=>setIsPanning(false);
+
+  const onWheel=useCallback(e=>{
+    e.preventDefault();
+    const vp=vpRef.current;if(!vp)return;
+    const rect=vp.getBoundingClientRect();
+    const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+    const delta=e.deltaY>0?0.97:1.03;
+    setTransform(p=>{
+      const ns=Math.min(Math.max(p.scale*delta,0.15),3);
+      const r=ns/p.scale;
+      return{scale:ns,x:mx-(mx-p.x)*r,y:my-(my-p.y)*r};
+    });
+    setShowHint(false);
+  },[]);
+
+  useEffect(()=>{
+    const vp=vpRef.current;
+    if(vp)vp.addEventListener('wheel',onWheel,{passive:false});
+    return()=>{if(vp)vp.removeEventListener('wheel',onWheel)};
+  },[onWheel]);
+
+  const zoomTo=f=>setTransform(p=>{
+    const vp=vpRef.current;const cx=vp?vp.clientWidth/2:0;const cy=vp?vp.clientHeight/2:0;
+    const ns=Math.min(Math.max(p.scale*f,0.15),3);const r=ns/p.scale;
+    return{scale:ns,x:cx-(cx-p.x)*r,y:cy-(cy-p.y)*r};
+  });
+
+  const anyOpen=orgOpen.size>0;
+
+  return(
+    <>
+      <div className="top-bar">
+        <div className="top-bar-left">
+          <div className="top-bar-logo">The Uncommon <em>Business</em></div>
+          <div className="top-bar-divider"/>
+          <div className="nav-tabs">
+            <a className="nav-tab active" href="index.html">Org Map</a>
+            <a className="nav-tab" href="monday-morning.html">Monday Morning</a>
+          </div>
+        </div>
+        <div className="top-bar-right">
+          <div className="stat-chip"><span className="stat-chip-dot green"/><span className="num">{TOTAL_HUMANS}</span> humans</div>
+          <div className="stat-chip"><span className="stat-chip-dot amber"/><span className="num gold">100+</span> AI employees</div>
+          <div className="top-sep"/>
+          {anyOpen?<button className="tb-btn" onClick={collapseAll}>Collapse all</button>:<button className="tb-btn" onClick={expandAllOrg}>Expand all</button>}
+        </div>
+      </div>
+
+      <div className="canvas-viewport" ref={vpRef}
+        onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerLeave={onPointerUp}>
+        <div className="canvas-world" style={{transform:`translate(${transform.x}px,${transform.y}px) scale(${transform.scale})`}}>
+
+          <div className="hero-panel">
+            <h1>The AI-Forward <em>Company</em></h1>
+            <div className="hero-stats">
+              <div className="hero-stat"><div className="hero-stat-num gold">100+</div><div className="hero-stat-lbl">AI Employees</div></div>
+              <div className="hero-stat"><div className="hero-stat-num">50%</div><div className="hero-stat-lbl">Margins</div></div>
+            </div>
+            <div className="hero-divider"/>
+            <p className="hero-tagline">"We don't hire people to do process work. We train humans to become AI Architects — then they build AI employees that handle the rest. Take a team of 5, operate like a team of 50."</p>
+            <p className="hero-cta"><span>Click any card</span> to explore the org. Click <span>AI Employees</span> to see who's really doing the work.</p>
+          </div>
+
+          <PersonNode node={orgTree} orgOpen={orgOpen} aiOpen={aiOpen} toggleOrg={toggleOrg} toggleAI={toggleAI}/>
+        </div>
+      </div>
+
+      <div className="zoom-controls">
+        <button className="zoom-btn" onClick={()=>zoomTo(1.25)}>+</button>
+        <div className="zoom-divider"/>
+        <div className="zoom-level">{Math.round(transform.scale*100)}%</div>
+        <div className="zoom-divider"/>
+        <button className="zoom-btn" onClick={()=>zoomTo(0.8)}>−</button>
+      </div>
+
+      {showHint&&<div className="canvas-hint">Scroll to zoom · Drag to pan · Click cards to explore</div>}
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
