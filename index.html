@@ -127,6 +127,44 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .hero-cta{font-size:12px;color:#aaa;font-weight:500}
 .hero-cta span{color:#2F5B4A;font-weight:600}
 
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  .top-bar{height:auto;flex-wrap:wrap;padding:10px 16px;gap:8px}
+  .top-bar-left{width:100%;justify-content:space-between}
+  .top-bar-right{width:100%;justify-content:center;gap:10px;padding-bottom:2px}
+  .top-bar-divider{display:none}
+  .stat-chip{font-size:11px}
+  .top-sep{display:none}
+  .tb-btn{font-size:10px;padding:5px 10px}
+  .canvas-world{padding:130px 40px 200px}
+  .hero-panel{width:auto;max-width:360px}
+  .hero-panel h1{font-size:30px}
+  .hero-stats{gap:20px}
+  .hero-stat-num{font-size:28px}
+  .hero-tagline{font-size:11px}
+  .hero-cta{font-size:11px}
+  .node-card{width:200px}
+  .node-card.is-founder{width:230px}
+  .person-name{font-size:14px}
+  .person-title{font-size:11px}
+  .avatar-ring{width:40px;height:40px;font-size:15px}
+  .pill{font-size:10px;padding:4px 9px}
+  .skill-name{font-size:12px}
+  .skill-desc{font-size:10px}
+  .skill-icon-wrap{width:28px;height:28px;font-size:13px}
+  .skill-row{padding:8px 10px;gap:10px}
+  .tree-children{gap:14px}
+  .zoom-controls{bottom:12px;right:12px}
+  .canvas-hint{font-size:10px;padding:6px 14px;bottom:12px}
+}
+@media(max-width:400px){
+  .canvas-world{padding:120px 20px 200px}
+  .hero-panel h1{font-size:26px}
+  .node-card{width:180px}
+  .node-card.is-founder{width:210px}
+  .nav-tabs{display:none}
+}
+
 @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .tree-children>.tree-node{animation:fadeInUp .35s ease-out both}
 .tree-children>.tree-node:nth-child(2){animation-delay:.05s}

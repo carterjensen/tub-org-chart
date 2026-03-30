@@ -162,6 +162,66 @@ body{
 .reveal-stat-num{font-family:'JetBrains Mono',monospace;font-size:24px;color:#fff}
 .reveal-stat-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:2px}
 .reveal-stat-sub{font-size:10px;color:rgba(209,178,90,.5);margin-top:2px}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:768px){
+  .nav-bar{height:auto;flex-wrap:wrap;padding:10px 14px;gap:6px}
+  .nav-left{width:100%;justify-content:space-between}
+  .nav-right{width:100%;justify-content:center}
+  .nav-divider{display:none}
+  .nav-logo{font-size:16px}
+  .nav-tab{padding:5px 10px;font-size:11px}
+
+  .main{padding-top:90px}
+  .main::before{top:90px;height:260px}
+
+  .clock-section{padding:20px 16px 10px}
+  .clock-time{font-size:48px;letter-spacing:-1px}
+  .clock-period{font-size:14px}
+  .clock-label{font-size:11px;margin-top:6px}
+
+  .timeline-bar{padding:0 20px;margin:10px 0 6px}
+  .timeline-labels{font-size:8px}
+  .timeline-labels span:nth-child(2),.timeline-labels span:nth-child(4){display:none}
+
+  .controls-row{gap:4px;padding:6px 12px 10px;flex-wrap:wrap;justify-content:center}
+  .ctrl-btn{padding:5px 12px;font-size:11px}
+
+  .counters{gap:24px;padding:6px 16px 14px}
+  .counter-num{font-size:22px}
+  .counter-lbl{font-size:8px;letter-spacing:1px}
+
+  .feed-area{padding:0 14px 30px;gap:6px}
+
+  .task-card{padding:12px 14px;gap:12px}
+  .task-icon{width:34px;height:34px;font-size:17px;border-radius:10px}
+  .task-time{font-size:9px}
+  .task-ai-name{font-size:13px}
+  .task-owner{font-size:10px}
+  .task-desc{font-size:11px}
+  .task-output{font-size:11px;padding:6px 10px}
+  .task-stats{gap:12px;margin-top:6px}
+  .task-stat{font-size:9px}
+  .task-header{flex-wrap:wrap;gap:4px}
+
+  .reveal-card{padding:24px 16px}
+  .reveal-card h2{font-size:22px}
+  .reveal-card p{font-size:12px}
+  .reveal-stats{gap:20px;flex-wrap:wrap}
+  .reveal-stat-num{font-size:20px}
+}
+
+@media(max-width:400px){
+  .clock-time{font-size:40px}
+  .counters{gap:16px}
+  .counter-num{font-size:18px}
+  .task-card{padding:10px 12px;gap:10px}
+  .task-icon{width:30px;height:30px;font-size:15px}
+  .task-ai-name{font-size:12px}
+  .task-desc{font-size:10px}
+  .task-output{font-size:10px}
+  .nav-tabs{display:none}
+}
 </style>
 </head>
 <body>
