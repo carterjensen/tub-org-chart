@@ -89,6 +89,15 @@ body{
 .timeline-dot.active{opacity:1}
 .timeline-dot.future{opacity:.2;background:rgba(255,255,255,.2)}
 
+/* ═══ DEPT FILTERS ═══ */
+.dept-filters{display:flex;justify-content:center;gap:5px;padding:4px 20px 8px;flex-wrap:wrap}
+.dept-pill{padding:5px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit}
+.dept-pill:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.12)}
+.dept-pill.active{color:#fff;border-color:var(--pill-color,rgba(255,255,255,.3));background:var(--pill-bg,rgba(255,255,255,.08))}
+
+/* ═══ DEPT TAG ON CARDS ═══ */
+.task-dept-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-left:8px;opacity:.7}
+
 /* ═══ CONTROLS ═══ */
 .controls-row{display:flex;justify-content:center;gap:8px;padding:8px 20px 16px}
 .ctrl-btn{
@@ -176,6 +185,29 @@ body{
 .reveal-stat-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:2px}
 .reveal-stat-sub{font-size:10px;color:rgba(209,178,90,.5);margin-top:2px}
 
+/* ═══ SLEEPING CALLAN ═══ */
+.sleeping-indicator{
+  position:fixed;bottom:20px;left:24px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,14,22,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:10px 16px;
+  transition:opacity .5s;
+}
+.sleeping-avatar{width:40px;height:40px;border-radius:50%;background:rgba(123,94,167,.15);border:1.5px solid rgba(123,94,167,.3);display:flex;align-items:center;justify-content:center;font-size:18px;position:relative}
+.sleeping-info{display:flex;flex-direction:column}
+.sleeping-name{font-size:12px;font-weight:600;color:rgba(255,255,255,.6)}
+.sleeping-status{font-size:10px;color:rgba(255,255,255,.25)}
+.zzz-container{position:absolute;top:-4px;right:-8px;display:flex;flex-direction:column;align-items:flex-start}
+.zzz{font-weight:700;color:rgba(123,94,167,.7);line-height:1;animation:floatZ 2.5s ease-in-out infinite}
+.zzz:nth-child(1){font-size:8px;animation-delay:0s}
+.zzz:nth-child(2){font-size:11px;animation-delay:.5s;margin-left:4px}
+.zzz:nth-child(3){font-size:14px;animation-delay:1s;margin-left:8px}
+@keyframes floatZ{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+
+.sleeping-awake .sleeping-avatar{background:rgba(209,178,90,.15);border-color:rgba(209,178,90,.3)}
+.sleeping-awake .sleeping-name{color:rgba(209,178,90,.8)}
+.sleeping-awake .sleeping-status{color:rgba(209,178,90,.4)}
+
 /* ═══ MOBILE ═══ */
 @media(max-width:768px){
   .nav-bar{height:auto;flex-wrap:wrap;padding:10px 14px;gap:6px}
@@ -229,6 +261,11 @@ body{
   .reveal-card p{font-size:12px}
   .reveal-stats{gap:20px;flex-wrap:wrap}
   .reveal-stat-num{font-size:20px}
+  .sleeping-indicator{bottom:12px;left:12px;padding:8px 12px}
+  .sleeping-avatar{width:32px;height:32px;font-size:14px}
+  .sleeping-name{font-size:11px}
+  .dept-filters{gap:4px;padding:4px 12px 6px}
+  .dept-pill{padding:4px 10px;font-size:10px}
 }
 
 @media(max-width:400px){
@@ -269,9 +306,15 @@ function getSkyPhase(minutes) {
   return 'morning';
 }
 
+function getDeptMeta(deptId) {
+  const d = DEPT_FILTERS.find(f => f.id === deptId);
+  return d || { label: deptId, color: '#888' };
+}
+
 function TaskCard({ event, index }) {
   const cat = aiCatMap[event.aiName] || 'ops';
   const { time } = formatTime(event.time);
+  const deptMeta = getDeptMeta(event.dept);
   return (
     <div className="task-card" style={{ animationDelay: `${index * 0.05}s` }}>
       <div className="task-icon-col">
@@ -282,6 +325,7 @@ function TaskCard({ event, index }) {
         <div className="task-header">
           <span className={`task-ai-name tc-${cat}`}>{event.aiName}</span>
           <span className="task-owner">for {event.owner}</span>
+          <span className="task-dept-tag" style={{background:deptMeta.color+'20',color:deptMeta.color}}>{deptMeta.label}</span>
         </div>
         <div className="task-desc">{event.desc}</div>
         <div className="task-output"><strong>Output:</strong> {event.output}</div>
@@ -289,6 +333,27 @@ function TaskCard({ event, index }) {
           <div className="task-stat">⏱ <span className="val">{event.hoursSaved}h saved</span></div>
           <div className="task-stat">💰 <span className="val">${event.dollarValue} value</span></div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function SleepingCallan({ isAwake }) {
+  return (
+    <div className={`sleeping-indicator ${isAwake ? 'sleeping-awake' : ''}`}>
+      <div className="sleeping-avatar">
+        {isAwake ? '☕' : '😴'}
+        {!isAwake && (
+          <div className="zzz-container">
+            <span className="zzz">z</span>
+            <span className="zzz">z</span>
+            <span className="zzz">Z</span>
+          </div>
+        )}
+      </div>
+      <div className="sleeping-info">
+        <div className="sleeping-name">{isAwake ? 'Callan is awake' : 'Callan — Sleeping'}</div>
+        <div className="sleeping-status">{isAwake ? 'Reviewing overnight work' : 'AI employees are handling it'}</div>
       </div>
     </div>
   );
@@ -323,13 +388,16 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [showReveal, setShowReveal] = useState(false);
+  const [deptFilter, setDeptFilter] = useState('all');
   const intervalRef = useRef(null);
   const feedRef = useRef(null);
-  const TOTAL_MINUTES = 490; // through 8:10am
+  const TOTAL_MINUTES = 490;
 
-  const visibleEvents = TIMELINE_EVENTS.filter(e => e.time <= currentMinute);
+  const filteredTimeline = deptFilter === 'all' ? TIMELINE_EVENTS : TIMELINE_EVENTS.filter(e => e.dept === deptFilter);
+  const visibleEvents = filteredTimeline.filter(e => e.time <= currentMinute);
   const totalHours = visibleEvents.reduce((s, e) => s + e.hoursSaved, 0);
   const totalDollars = visibleEvents.reduce((s, e) => s + e.dollarValue, 0);
+  const isAwake = currentMinute >= 480;
 
   useEffect(() => {
     if (currentMinute >= 480 && !showReveal) setShowReveal(true);
@@ -388,7 +456,7 @@ function App() {
         </div>
         <div className="nav-right">
           <div style={{fontSize:11,color:'rgba(255,255,255,.3)',fontWeight:500}}>
-            {visibleEvents.length} of {TIMELINE_EVENTS.length} tasks complete
+            {visibleEvents.length} of {filteredTimeline.length} tasks complete
           </div>
         </div>
       </div>
@@ -434,7 +502,7 @@ function App() {
           <div className="timeline-track" onClick={handleTrackClick}>
             <div className="timeline-fill" style={{ width: `${(currentMinute / TOTAL_MINUTES) * 100}%` }} />
             <div className="timeline-markers">
-              {TIMELINE_EVENTS.map((ev, i) => (
+              {filteredTimeline.map((ev, i) => (
                 <div
                   key={i}
                   className={`timeline-dot ${ev.time <= currentMinute ? 'active' : 'future'}`}
@@ -459,6 +527,18 @@ function App() {
           <button className="ctrl-btn" onClick={reset}>↩ Reset</button>
         </div>
 
+        {/* Dept Filters */}
+        <div className="dept-filters">
+          {DEPT_FILTERS.map(d => (
+            <button key={d.id}
+              className={`dept-pill ${deptFilter===d.id?'active':''}`}
+              style={deptFilter===d.id?{'--pill-color':d.color+'80','--pill-bg':d.color+'18'}:{}}
+              onClick={() => setDeptFilter(d.id)}>
+              {d.label}
+            </button>
+          ))}
+        </div>
+
         {/* Counters */}
         <div className="counters">
           <div className="counter"><div className="counter-num">{visibleEvents.length}</div><div className="counter-lbl">Tasks Completed</div></div>
@@ -481,6 +561,8 @@ function App() {
           ))}
         </div>
       </div>
+
+      <SleepingCallan isAwake={isAwake} />
     </>
   );
 }

@@ -363,7 +363,7 @@ function GridView({expandedId,setExpanded}){
     {name:'Carter',title:'VP of Product & Innovation',initials:'CJ'},
     {name:'Kinsey',title:'Chief Operating Officer',initials:'KM'},
     {name:'Nick',title:'Copywriter',initials:'NM'},
-    {name:'Cara',title:'Dir. of Paid Media',initials:'CA'},
+    {name:'Kara',title:'Dir. of Paid Media',initials:'KA'},
     {name:'Chantelle',title:'PR & Partnerships',initials:'CH'},
     {name:'Jarrod',title:'Fractional CFO',initials:'JR'},
   ];
@@ -471,8 +471,8 @@ function App(){
           <div className="nav-divider"/>
           <div className="page-tabs">
             <a className="page-tab" href="index.html">Org Map</a>
-            <a className={`page-tab ${view==='grid'?'active':''}`} href="ecosystem.html?v=grid">By Manager</a>
-            <a className={`page-tab ${view==='flow'?'active':''}`} href="ecosystem.html?v=flow">Data Flow</a>
+            <a className={`page-tab ${view==='grid'?'active':''}`} href="ecosystem.html?v=grid" onClick={e=>{if(view!=='grid'){return}e.preventDefault()}}>By Manager</a>
+            <a className={`page-tab ${view==='flow'?'active':''}`} href="ecosystem.html?v=flow" onClick={e=>{if(view!=='flow'){return}e.preventDefault()}}>Data Flow</a>
             <a className="page-tab" href="monday-morning.html">Third Shift</a>
           </div>
         </div>

@@ -29,7 +29,7 @@ const SHARED_ORG = {
       moreCount:12,
       children:[
         {
-          id:'cara',name:'Cara',title:'Director of Paid Media',initials:'CA',
+          id:'kara',name:'Kara',title:'Director of Paid Media',initials:'KA',
           aiEmployees:[
             {name:'Social Media Data Analyst',icon:'📱',cat:'analytics',desc:'Scrapes competitor posts, finds winning hooks and engagement patterns'},
             {name:'Ad Creative Strategist',icon:'🎨',cat:'creative',desc:'Scroll-stopping ad concepts built from real performance data'},
@@ -105,9 +105,11 @@ const SHARED_ORG = {
           aiEmployees:[
             {name:'Podcast Booker',icon:'🎙️',cat:'research',desc:'Finds and pitches relevant podcasts for Callan to guest on'},
             {name:'PR Outreach Writer',icon:'✉️',cat:'voice',desc:'Crafts personalized media pitches in Callan\'s voice'},
-            {name:'Affiliate Manager',icon:'🤝',cat:'sales',desc:'Tracks affiliate partners, commissions, and performance'},
-            {name:'Event Scout',icon:'🗓️',cat:'research',desc:'Finds speaking opportunities, conferences, and stage appearances'},
             {name:'Media Kit Generator',icon:'📋',cat:'creative',desc:'Builds and updates press kits with latest stats and bios'},
+            {name:'Event Scout',icon:'🗓️',cat:'research',desc:'Finds speaking opportunities, conferences, and stage appearances'},
+            {name:'Event Logistics Coordinator',icon:'📍',cat:'ops',desc:'Manages travel, venue details, tech riders, and day-of checklists'},
+            {name:'Affiliate Manager',icon:'🤝',cat:'sales',desc:'Tracks affiliate partners, commissions, and performance dashboards'},
+            {name:'Affiliate Outreach Specialist',icon:'📬',cat:'sales',desc:'Finds and pitches new affiliate partners with personalized proposals'},
           ],
           moreCount:5,children:[]
         },
@@ -116,11 +118,13 @@ const SHARED_ORG = {
           aiEmployees:[
             {name:'AI Bookkeeper',icon:'🧾',cat:'finance',desc:'Raw credit card statements → categorized, CPA-ready reports in minutes'},
             {name:'Expense Categorizer',icon:'💳',cat:'finance',desc:'Remembers your vendors, software stack, and categories — no repeat questions'},
-            {name:'Revenue Forecaster',icon:'📈',cat:'finance',desc:'Cash flow projections and revenue modeling updated weekly'},
-            {name:'Financial Snapshot Generator',icon:'📊',cat:'finance',desc:'One-click P&L summaries and board-ready financial reports'},
             {name:'Budget Tracker',icon:'💰',cat:'finance',desc:'Monitors spend against budget and flags overruns in real time'},
+            {name:'Financial Snapshot Generator',icon:'📊',cat:'finance',desc:'One-click P&L summaries and board-ready financial reports'},
+            {name:'Revenue Forecaster',icon:'📈',cat:'finance',desc:'Cash flow projections and revenue modeling updated weekly'},
+            {name:'CFO Advisor',icon:'🧠',cat:'strategy',desc:'Strategic financial guidance — pricing scenarios, investment analysis, growth modeling'},
+            {name:'Program ROI Calculator',icon:'⚖️',cat:'finance',desc:'Calculates cost-to-run vs. revenue for every program and cohort'},
           ],
-          moreCount:6,children:[]
+          moreCount:5,children:[]
         }
       ]
     },
@@ -167,24 +171,60 @@ const TOTAL_HUMANS = 17;
 // ═══ MONDAY MORNING TIMELINE EVENTS ═══
 // Each event = one AI employee completing a task while humans sleep
 // time is in minutes from midnight (0 = 12:00am, 480 = 8:00am)
+const DEPT_FILTERS = [
+  { id: 'all', label: 'All Departments', color: '#D1B25A' },
+  { id: 'marketing', label: 'Marketing', color: '#C26688' },
+  { id: 'sales', label: 'Sales', color: '#D47B2E' },
+  { id: 'operations', label: 'Operations', color: '#2A8F82' },
+  { id: 'curriculum', label: 'Curriculum', color: '#4A8C5C' },
+  { id: 'finance', label: 'Finance', color: '#3D8B6E' },
+  { id: 'student-success', label: 'Student Success', color: '#7B5EA7' },
+  { id: 'product', label: 'Product & Innovation', color: '#3A7CA5' },
+];
+
 const TIMELINE_EVENTS = [
-  { time: 30,  aiName: 'AI Trend Scout',             icon: '🔭', owner: 'Carter',  desc: 'Scanned Product Hunt, Reddit, X, and 14 tech newsletters', output: 'Daily trend brief with 3 flagged tools', hoursSaved: 2.0, dollarValue: 150 },
-  { time: 90,  aiName: 'Competitive Intelligence Researcher', icon: '🕵️', owner: 'Carter', desc: 'Deep-researched 4 competitor product launches from this week', output: 'Competitive intel report with pricing analysis', hoursSaved: 3.0, dollarValue: 225 },
-  { time: 120, aiName: 'AI Bookkeeper',              icon: '🧾', owner: 'Jarrod',    desc: 'Processed 143 transactions from yesterday\'s Amex statement', output: 'Categorized, CPA-ready expense report', hoursSaved: 1.5, dollarValue: 200 },
-  { time: 150, aiName: 'Revenue Forecaster',          icon: '📈', owner: 'Jarrod',    desc: 'Updated cash flow projections with latest revenue data', output: '12-week forecast with variance flags', hoursSaved: 2.0, dollarValue: 300 },
-  { time: 210, aiName: 'Content Calendar Generator',  icon: '📅', owner: 'Callan',  desc: 'Drafted full content calendar for the week across all platforms', output: '15 posts: 5 IG, 4 LinkedIn, 3 email, 3 Threads', hoursSaved: 3.0, dollarValue: 375 },
-  { time: 240, aiName: 'Social Media Data Analyst',   icon: '📱', owner: 'Cara',    desc: 'Scraped last 10 days of competitor posts and analyzed engagement', output: 'Top 5 hooks, 3 trending themes, engagement heatmap', hoursSaved: 2.5, dollarValue: 200 },
-  { time: 270, aiName: 'Campaign Performance Optimizer', icon: '📉', owner: 'Cara', desc: 'Analyzed $12K ad spend across 8 campaigns from last week', output: 'Pause 2 underperformers, scale 3 winners, reallocate $2.4K', hoursSaved: 1.5, dollarValue: 180 },
-  { time: 300, aiName: 'Newsletter Writer',           icon: '📰', owner: 'Nick',    desc: 'Drafted Tuesday\'s email newsletter in brand voice', output: '487-word newsletter with subject line and preview text', hoursSaved: 2.0, dollarValue: 250 },
-  { time: 330, aiName: 'Performance Digest',          icon: '📊', owner: 'Callan',  desc: 'Compiled weekly performance across all content channels', output: 'Top 3 posts, engagement trends, recommended pivots', hoursSaved: 1.5, dollarValue: 120 },
-  { time: 360, aiName: 'Financial Snapshot Generator', icon: '📊', owner: 'Jarrod',   desc: 'Generated board-ready P&L summary for March', output: 'One-page financial snapshot with YoY comparison', hoursSaved: 2.0, dollarValue: 350 },
-  { time: 375, aiName: 'Student Onboarding Specialist', icon: '👋', owner: 'Jodi', desc: 'Personalized welcome sequences for 6 new students enrolled yesterday', output: '6 custom onboarding paths with resource links', hoursSaved: 1.0, dollarValue: 80 },
-  { time: 390, aiName: 'Progress Tracker',            icon: '📈', owner: 'Jodi',    desc: 'Scanned 312 active students for milestone completion', output: '8 students flagged as at-risk, 3 recommended for spotlight', hoursSaved: 2.0, dollarValue: 150 },
-  { time: 405, aiName: 'Morning Briefing Agent',      icon: '☕', owner: 'Kinsey',  desc: 'Compiled overnight Slack, Notion updates, and calendar prep', output: 'Team activity digest + 4 items needing Kinsey\'s attention', hoursSaved: 1.0, dollarValue: 80 },
-  { time: 420, aiName: 'Meeting Intelligence Manager', icon: '🎯', owner: 'Kinsey', desc: 'Prepped agendas for today\'s 3 meetings from prior action items', output: '3 agendas with carryover tasks and decision points', hoursSaved: 1.0, dollarValue: 80 },
-  { time: 435, aiName: 'Content Repurposer',          icon: '♻️', owner: 'Elliot',  desc: 'Converted Thursday\'s training transcript into 8 content pieces', output: '2 carousels, 3 LinkedIn posts, 1 blog draft, 2 email snippets', hoursSaved: 3.0, dollarValue: 375 },
-  { time: 450, aiName: 'Lead Qualifier',              icon: '🔍', owner: 'Jodi',    desc: 'Scored 23 new leads from last night\'s webinar against ICP', output: '7 hot leads prioritized, 12 warm for nurture, 4 disqualified', hoursSaved: 1.5, dollarValue: 120 },
-  { time: 465, aiName: 'Brand Voice Writer',          icon: '✍️', owner: 'Callan',  desc: 'Drafted 3 Instagram captions and a LinkedIn thought-leadership post', output: '4 publish-ready posts in Callan\'s authentic voice', hoursSaved: 1.5, dollarValue: 200 },
+  // ═══ PRODUCT & INNOVATION ═══
+  { time: 30,  aiName: 'AI Trend Scout',             icon: '🔭', owner: 'Carter',  dept: 'product', desc: 'Scanned Product Hunt, Reddit, X, and 14 tech newsletters', output: 'Daily trend brief with 3 flagged tools', hoursSaved: 2.0, dollarValue: 150 },
+  { time: 90,  aiName: 'Competitive Intelligence Researcher', icon: '🕵️', owner: 'Carter', dept: 'product', desc: 'Deep-researched 4 competitor product launches from this week', output: 'Competitive intel report with pricing analysis', hoursSaved: 3.0, dollarValue: 225 },
+  { time: 105, aiName: 'Audience Analyzer',          icon: '👥', owner: 'Carter',  dept: 'product', desc: 'Profiled next week\'s podcast host — audience, topics, pain points', output: 'Pre-call briefing with 5 talking points and audience overlap', hoursSaved: 1.5, dollarValue: 120 },
+
+  // ═══ FINANCE ═══
+  { time: 120, aiName: 'AI Bookkeeper',              icon: '🧾', owner: 'Jarrod',  dept: 'finance', desc: 'Processed 143 transactions from yesterday\'s Amex statement', output: 'Categorized, CPA-ready expense report', hoursSaved: 1.5, dollarValue: 200 },
+  { time: 150, aiName: 'Revenue Forecaster',         icon: '📈', owner: 'Jarrod',  dept: 'finance', desc: 'Updated cash flow projections with latest revenue data', output: '12-week forecast with variance flags', hoursSaved: 2.0, dollarValue: 300 },
+  { time: 360, aiName: 'Financial Snapshot Generator',icon: '📊', owner: 'Jarrod', dept: 'finance', desc: 'Generated board-ready P&L summary for March', output: 'One-page financial snapshot with YoY comparison', hoursSaved: 2.0, dollarValue: 350 },
+  { time: 380, aiName: 'Budget Tracker',             icon: '💰', owner: 'Jarrod',  dept: 'finance', desc: 'Compared March spend against budget across 8 categories', output: 'Software overspend flagged (+$1.2K), 3 categories under budget', hoursSaved: 1.0, dollarValue: 150 },
+
+  // ═══ MARKETING ═══
+  { time: 210, aiName: 'Content Calendar Generator',  icon: '📅', owner: 'Callan', dept: 'marketing', desc: 'Drafted full content calendar for the week across all platforms', output: '15 posts: 5 IG, 4 LinkedIn, 3 email, 3 Threads', hoursSaved: 3.0, dollarValue: 375 },
+  { time: 240, aiName: 'Social Media Data Analyst',   icon: '📱', owner: 'Kara',   dept: 'marketing', desc: 'Scraped last 10 days of competitor posts and analyzed engagement', output: 'Top 5 hooks, 3 trending themes, engagement heatmap', hoursSaved: 2.5, dollarValue: 200 },
+  { time: 255, aiName: 'Hook Specialist',             icon: '🪝', owner: 'Nick',   dept: 'marketing', desc: 'Generated 20 scroll-stopping hooks from top-performing competitor data', output: '20 hooks ranked by predicted engagement, grouped by theme', hoursSaved: 1.5, dollarValue: 180 },
+  { time: 270, aiName: 'Campaign Performance Optimizer', icon: '📉', owner: 'Kara', dept: 'marketing', desc: 'Analyzed $12K ad spend across 8 campaigns from last week', output: 'Pause 2 underperformers, scale 3 winners, reallocate $2.4K', hoursSaved: 1.5, dollarValue: 180 },
+  { time: 300, aiName: 'Newsletter Writer',           icon: '📰', owner: 'Nick',   dept: 'marketing', desc: 'Drafted Tuesday\'s email newsletter in brand voice', output: '487-word newsletter with subject line and preview text', hoursSaved: 2.0, dollarValue: 250 },
+  { time: 330, aiName: 'Performance Digest',          icon: '📊', owner: 'Callan', dept: 'marketing', desc: 'Compiled weekly performance across all content channels', output: 'Top 3 posts, engagement trends, recommended pivots', hoursSaved: 1.5, dollarValue: 120 },
+  { time: 345, aiName: 'Instagram Carousel Creator',  icon: '📐', owner: 'Kara',   dept: 'marketing', desc: 'Turned 3 transcript insights into publish-ready carousel PDFs', output: '3 carousel PDFs with branded slides, ready for scheduling', hoursSaved: 2.0, dollarValue: 250 },
+  { time: 465, aiName: 'Brand Voice Writer',          icon: '✍️', owner: 'Callan', dept: 'marketing', desc: 'Drafted 3 Instagram captions and a LinkedIn thought-leadership post', output: '4 publish-ready posts in Callan\'s authentic voice', hoursSaved: 1.5, dollarValue: 200 },
+
+  // ═══ STUDENT SUCCESS ═══
+  { time: 375, aiName: 'Student Onboarding Specialist', icon: '👋', owner: 'Jodi', dept: 'student-success', desc: 'Personalized welcome sequences for 6 new students enrolled yesterday', output: '6 custom onboarding paths with resource links', hoursSaved: 1.0, dollarValue: 80 },
+  { time: 390, aiName: 'Progress Tracker',            icon: '📈', owner: 'Jodi',   dept: 'student-success', desc: 'Scanned 312 active students for milestone completion', output: '8 students flagged as at-risk, 3 recommended for spotlight', hoursSaved: 2.0, dollarValue: 150 },
+  { time: 400, aiName: 'Community Manager',           icon: '💬', owner: 'Jodi',   dept: 'student-success', desc: 'Scanned all Slack channels for engagement dips and unanswered questions', output: 'Community health report: 4 quiet students, 2 unanswered threads flagged', hoursSaved: 1.0, dollarValue: 80 },
+  { time: 455, aiName: 'Client Story Engine',         icon: '📖', owner: 'Jodi',   dept: 'student-success', desc: 'Indexed 3 new student wins shared in Slack this week', output: '3 stories tagged by industry, program, and result type — ready for sales', hoursSaved: 1.0, dollarValue: 100 },
+
+  // ═══ OPERATIONS ═══
+  { time: 405, aiName: 'Morning Briefing Agent',      icon: '☕', owner: 'Kinsey', dept: 'operations', desc: 'Compiled overnight Slack, Notion updates, and calendar prep', output: 'Team activity digest + 4 items needing Kinsey\'s attention', hoursSaved: 1.0, dollarValue: 80 },
+  { time: 420, aiName: 'Meeting Intelligence Manager', icon: '🎯', owner: 'Kinsey', dept: 'operations', desc: 'Prepped agendas for today\'s 3 meetings from prior action items', output: '3 agendas with carryover tasks and decision points', hoursSaved: 1.0, dollarValue: 80 },
+  { time: 440, aiName: 'SOP Architect',               icon: '📋', owner: 'Lex',    dept: 'operations', desc: 'Processed yesterday\'s onboarding call transcript into a draft SOP', output: 'New hire onboarding SOP v1 — 12 steps, ready for Lex to review', hoursSaved: 2.0, dollarValue: 200 },
+
+  // ═══ CURRICULUM ═══
+  { time: 435, aiName: 'Content Repurposer',          icon: '♻️', owner: 'Elliot', dept: 'curriculum', desc: 'Converted Thursday\'s training transcript into 8 content pieces', output: '2 carousels, 3 LinkedIn posts, 1 blog draft, 2 email snippets', hoursSaved: 3.0, dollarValue: 375 },
+  { time: 445, aiName: 'Framework Designer',          icon: '🔺', owner: 'Elliot', dept: 'curriculum', desc: 'Extracted 2 teachable frameworks from this week\'s Power Play session', output: '2 framework diagrams with step-by-step breakdowns', hoursSaved: 2.0, dollarValue: 250 },
+  { time: 460, aiName: 'Assessment Builder',          icon: '📝', owner: 'Elliot', dept: 'curriculum', desc: 'Built a 10-question skill check for Week 6 of A2A', output: 'Quiz with scoring rubric and auto-grade logic', hoursSaved: 1.5, dollarValue: 150 },
+
+  // ═══ SALES ═══
+  { time: 450, aiName: 'Lead Qualifier',              icon: '🔍', owner: 'Jodi',   dept: 'sales', desc: 'Scored 23 new leads from last night\'s webinar against ICP', output: '7 hot leads prioritized, 12 warm for nurture, 4 disqualified', hoursSaved: 1.5, dollarValue: 120 },
+  { time: 458, aiName: 'Lead Researcher',             icon: '🔍', owner: 'Jodi',   dept: 'sales', desc: 'Deep-profiled top 7 hot leads — company size, revenue, social presence', output: '7 lead dossiers with ICP match scores and talking points', hoursSaved: 2.0, dollarValue: 200 },
+  { time: 470, aiName: 'Case Study Finder',           icon: '📖', owner: 'Jodi',   dept: 'sales', desc: 'Matched each hot lead to the most relevant client success stories', output: '7 personalized proof packages — 2-3 case studies per lead', hoursSaved: 1.5, dollarValue: 180 },
+  { time: 478, aiName: 'Follow-Up Sequencer',         icon: '📬', owner: 'Jodi',   dept: 'sales', desc: 'Generated personalized follow-up emails for all 7 hot leads', output: '7 email drafts with proof points, CTAs, and suggested send times', hoursSaved: 2.0, dollarValue: 250 },
 ];
 
 // ═══ UTILITY: Flatten all people from org tree ═══
@@ -324,8 +364,8 @@ const ECOSYSTEM_EMPLOYEES = [
   },
   {
     id: 'paid-ads', name: 'Paid Ads Manager', layer: 'revenue',
-    icon: '📢', role: 'Creates ad copy, designs creative briefs, analyzes campaign performance. Codifies Cara\'s expertise as an internal AI ads agency.',
-    managedBy: 'Cara', managedByTitle: 'Dir. Paid Media',
+    icon: '📢', role: 'Creates ad copy, designs creative briefs, analyzes campaign performance. Codifies Kara\'s expertise as an internal AI ads agency.',
+    managedBy: 'Kara', managedByTitle: 'Dir. Paid Media',
     skills: [
       { name: 'Ad Copy Generation', status: 'needs-build' },
       { name: 'Creative Brief Writing', status: 'needs-build' },
@@ -404,7 +444,7 @@ const ECOSYSTEM_EMPLOYEES = [
   {
     id: 'student-success', name: 'Student Success Manager', layer: 'delivery',
     icon: '🎖️', role: 'Monitors student progress, flags at-risk students, manages onboarding, tracks milestones. Nobody falls through the cracks.',
-    managedBy: 'Kinsey', managedByTitle: 'COO',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
     skills: [
       { name: 'Student Progress Tracking', status: 'needs-build' },
       { name: 'At-Risk Student Flagging', status: 'needs-build' },
@@ -420,7 +460,7 @@ const ECOSYSTEM_EMPLOYEES = [
   {
     id: 'community-manager', name: 'Community Manager', layer: 'delivery',
     icon: '💬', role: 'Manages the daily pulse of student communities. Monitors engagement, celebrates wins, flags issues, keeps the energy high.',
-    managedBy: 'Kinsey', managedByTitle: 'COO',
+    managedBy: 'Carter', managedByTitle: 'VP Product',
     skills: [
       { name: 'Engagement Monitoring', status: 'needs-build' },
       { name: 'Win Celebration Drafting', status: 'needs-build' },
