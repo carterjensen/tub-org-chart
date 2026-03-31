@@ -496,18 +496,6 @@ function App() {
           <button className="ctrl-btn" onClick={reset}>↩ Reset</button>
         </div>
 
-        {/* Dept Filters */}
-        <div className="dept-filters">
-          {DEPT_FILTERS.map(d => (
-            <button key={d.id}
-              className={`dept-pill ${deptFilter===d.id?'active':''}`}
-              style={deptFilter===d.id?{'--pill-color':d.color+'80','--pill-bg':d.color+'18'}:{}}
-              onClick={() => setDeptFilter(d.id)}>
-              {d.label}
-            </button>
-          ))}
-        </div>
-
         {/* Feed */}
         <div className="feed-area" ref={feedRef}>
           {visibleEvents.length === 0 && currentMinute < 30 && (
