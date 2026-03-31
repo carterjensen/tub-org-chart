@@ -75,15 +75,44 @@ const SHARED_ORG = {
           id:'jodi-sales',name:'Jodi',title:'Director of Sales',initials:'JS',
           aiEmployees:[
             {name:'Sales Wizard',icon:'🧙',cat:'sales',desc:'Proof-loaded responses pulling real client stories for every objection'},
-            {name:'Objection Handler',icon:'🎯',cat:'sales',desc:'Real-time rebuttals with case-study-backed comebacks'},
-            {name:'Lead Qualifier',icon:'🔍',cat:'sales',desc:'ICP scoring, engagement tracking, and lead prioritization'},
-            {name:'Proposal Generator',icon:'📄',cat:'sales',desc:'Custom proposals in minutes — not hours'},
-            {name:'Follow-Up Sequencer',icon:'📬',cat:'sales',desc:'Automated nurture sequences that close deals on autopilot'},
+            {name:'Lead Researcher',icon:'🔍',cat:'sales',desc:'Deep-profiles every prospect before the first call'},
+            {name:'DM Responder',icon:'💬',cat:'sales',desc:'Instant personalized replies to inbound DMs'},
+            {name:'Call Reviewer',icon:'📞',cat:'sales',desc:'Analyzes recorded calls — flags coaching moments'},
+            {name:'Case Study Finder',icon:'📖',cat:'sales',desc:'Pulls relevant success stories by industry or pain point'},
           ],
-          moreCount:7,children:[]
+          moreCount:4,
+          children:[
+            {id:'hilary',name:'Hilary',title:'Sales Rep',initials:'HI',aiEmployees:[],children:[]},
+            {id:'logan',name:'Logan',title:'Sales Rep',initials:'LO',aiEmployees:[],children:[]},
+            {id:'brooklyn',name:'Brooklyn',title:'Sales Rep',initials:'BR',aiEmployees:[],children:[]},
+            {id:'dylan',name:'Dylan',title:'Sales Rep',initials:'DY',aiEmployees:[],children:[]},
+          ],
+          salesTeam: true,
+          salesTeamAI:[
+            {name:'Lead Researcher',icon:'🔍',cat:'sales',desc:'Deep-profiles every prospect — company size, revenue, social presence, pain points'},
+            {name:'DM Responder',icon:'💬',cat:'sales',desc:'Instant personalized replies to inbound DMs with context and warmth'},
+            {name:'Objection Handler',icon:'🎯',cat:'sales',desc:'Real-time rebuttals backed by case studies and proof points'},
+            {name:'Call Reviewer',icon:'📞',cat:'sales',desc:'Analyzes recorded sales calls — flags missed objections and coaching moments'},
+            {name:'Case Study Finder',icon:'📖',cat:'sales',desc:'Instantly pulls relevant success stories by industry, size, or pain point'},
+            {name:'Proposal Generator',icon:'📄',cat:'sales',desc:'Custom proposals in minutes with pricing, timeline, and social proof'},
+            {name:'Follow-Up Sequencer',icon:'📬',cat:'sales',desc:'Automated nurture sequences personalized to each prospect\'s journey'},
+            {name:'Pipeline Tracker',icon:'📊',cat:'sales',desc:'Real-time deal stage tracking with revenue forecasting and at-risk flags'},
+          ],
+          salesTeamMoreCount:5,
         },
         {
-          id:'fred',name:'Fred',title:'Fractional CFO',initials:'FR',
+          id:'chantelle',name:'Chantelle',title:'PR & Partnerships',initials:'CH',
+          aiEmployees:[
+            {name:'Podcast Booker',icon:'🎙️',cat:'research',desc:'Finds and pitches relevant podcasts for Callan to guest on'},
+            {name:'PR Outreach Writer',icon:'✉️',cat:'voice',desc:'Crafts personalized media pitches in Callan\'s voice'},
+            {name:'Affiliate Manager',icon:'🤝',cat:'sales',desc:'Tracks affiliate partners, commissions, and performance'},
+            {name:'Event Scout',icon:'🗓️',cat:'research',desc:'Finds speaking opportunities, conferences, and stage appearances'},
+            {name:'Media Kit Generator',icon:'📋',cat:'creative',desc:'Builds and updates press kits with latest stats and bios'},
+          ],
+          moreCount:5,children:[]
+        },
+        {
+          id:'jarrod',name:'Jarrod',title:'Fractional CFO',initials:'JR',
           aiEmployees:[
             {name:'AI Bookkeeper',icon:'🧾',cat:'finance',desc:'Raw credit card statements → categorized, CPA-ready reports in minutes'},
             {name:'Expense Categorizer',icon:'💳',cat:'finance',desc:'Remembers your vendors, software stack, and categories — no repeat questions'},
@@ -119,7 +148,7 @@ const SHARED_ORG = {
           moreCount:9,children:[]
         },
         {
-          id:'jody',name:'Jody',title:'Student Success Lead',initials:'JD',
+          id:'jodi-ss',name:'Jodi',title:'Student Success Lead',initials:'JD',
           aiEmployees:[
             {name:'Student Onboarding Specialist',icon:'👋',cat:'ops',desc:'Personalized welcome experience for every new student'},
             {name:'Community Manager',icon:'💬',cat:'ops',desc:'Monitors community health and surfaces students who need help'},
@@ -133,7 +162,7 @@ const SHARED_ORG = {
   ]
 };
 
-const TOTAL_HUMANS = 12;
+const TOTAL_HUMANS = 17;
 
 // ═══ MONDAY MORNING TIMELINE EVENTS ═══
 // Each event = one AI employee completing a task while humans sleep
@@ -141,16 +170,16 @@ const TOTAL_HUMANS = 12;
 const TIMELINE_EVENTS = [
   { time: 30,  aiName: 'AI Trend Scout',             icon: '🔭', owner: 'Carter',  desc: 'Scanned Product Hunt, Reddit, X, and 14 tech newsletters', output: 'Daily trend brief with 3 flagged tools', hoursSaved: 2.0, dollarValue: 150 },
   { time: 90,  aiName: 'Competitive Intelligence Researcher', icon: '🕵️', owner: 'Carter', desc: 'Deep-researched 4 competitor product launches from this week', output: 'Competitive intel report with pricing analysis', hoursSaved: 3.0, dollarValue: 225 },
-  { time: 120, aiName: 'AI Bookkeeper',              icon: '🧾', owner: 'Fred',    desc: 'Processed 143 transactions from yesterday\'s Amex statement', output: 'Categorized, CPA-ready expense report', hoursSaved: 1.5, dollarValue: 200 },
-  { time: 150, aiName: 'Revenue Forecaster',          icon: '📈', owner: 'Fred',    desc: 'Updated cash flow projections with latest revenue data', output: '12-week forecast with variance flags', hoursSaved: 2.0, dollarValue: 300 },
+  { time: 120, aiName: 'AI Bookkeeper',              icon: '🧾', owner: 'Jarrod',    desc: 'Processed 143 transactions from yesterday\'s Amex statement', output: 'Categorized, CPA-ready expense report', hoursSaved: 1.5, dollarValue: 200 },
+  { time: 150, aiName: 'Revenue Forecaster',          icon: '📈', owner: 'Jarrod',    desc: 'Updated cash flow projections with latest revenue data', output: '12-week forecast with variance flags', hoursSaved: 2.0, dollarValue: 300 },
   { time: 210, aiName: 'Content Calendar Generator',  icon: '📅', owner: 'Callan',  desc: 'Drafted full content calendar for the week across all platforms', output: '15 posts: 5 IG, 4 LinkedIn, 3 email, 3 Threads', hoursSaved: 3.0, dollarValue: 375 },
   { time: 240, aiName: 'Social Media Data Analyst',   icon: '📱', owner: 'Cara',    desc: 'Scraped last 10 days of competitor posts and analyzed engagement', output: 'Top 5 hooks, 3 trending themes, engagement heatmap', hoursSaved: 2.5, dollarValue: 200 },
   { time: 270, aiName: 'Campaign Performance Optimizer', icon: '📉', owner: 'Cara', desc: 'Analyzed $12K ad spend across 8 campaigns from last week', output: 'Pause 2 underperformers, scale 3 winners, reallocate $2.4K', hoursSaved: 1.5, dollarValue: 180 },
   { time: 300, aiName: 'Newsletter Writer',           icon: '📰', owner: 'Nick',    desc: 'Drafted Tuesday\'s email newsletter in brand voice', output: '487-word newsletter with subject line and preview text', hoursSaved: 2.0, dollarValue: 250 },
   { time: 330, aiName: 'Performance Digest',          icon: '📊', owner: 'Callan',  desc: 'Compiled weekly performance across all content channels', output: 'Top 3 posts, engagement trends, recommended pivots', hoursSaved: 1.5, dollarValue: 120 },
-  { time: 360, aiName: 'Financial Snapshot Generator', icon: '📊', owner: 'Fred',   desc: 'Generated board-ready P&L summary for March', output: 'One-page financial snapshot with YoY comparison', hoursSaved: 2.0, dollarValue: 350 },
-  { time: 375, aiName: 'Student Onboarding Specialist', icon: '👋', owner: 'Jody', desc: 'Personalized welcome sequences for 6 new students enrolled yesterday', output: '6 custom onboarding paths with resource links', hoursSaved: 1.0, dollarValue: 80 },
-  { time: 390, aiName: 'Progress Tracker',            icon: '📈', owner: 'Jody',    desc: 'Scanned 312 active students for milestone completion', output: '8 students flagged as at-risk, 3 recommended for spotlight', hoursSaved: 2.0, dollarValue: 150 },
+  { time: 360, aiName: 'Financial Snapshot Generator', icon: '📊', owner: 'Jarrod',   desc: 'Generated board-ready P&L summary for March', output: 'One-page financial snapshot with YoY comparison', hoursSaved: 2.0, dollarValue: 350 },
+  { time: 375, aiName: 'Student Onboarding Specialist', icon: '👋', owner: 'Jodi', desc: 'Personalized welcome sequences for 6 new students enrolled yesterday', output: '6 custom onboarding paths with resource links', hoursSaved: 1.0, dollarValue: 80 },
+  { time: 390, aiName: 'Progress Tracker',            icon: '📈', owner: 'Jodi',    desc: 'Scanned 312 active students for milestone completion', output: '8 students flagged as at-risk, 3 recommended for spotlight', hoursSaved: 2.0, dollarValue: 150 },
   { time: 405, aiName: 'Morning Briefing Agent',      icon: '☕', owner: 'Kinsey',  desc: 'Compiled overnight Slack, Notion updates, and calendar prep', output: 'Team activity digest + 4 items needing Kinsey\'s attention', hoursSaved: 1.0, dollarValue: 80 },
   { time: 420, aiName: 'Meeting Intelligence Manager', icon: '🎯', owner: 'Kinsey', desc: 'Prepped agendas for today\'s 3 meetings from prior action items', output: '3 agendas with carryover tasks and decision points', hoursSaved: 1.0, dollarValue: 80 },
   { time: 435, aiName: 'Content Repurposer',          icon: '♻️', owner: 'Elliot',  desc: 'Converted Thursday\'s training transcript into 8 content pieces', output: '2 carousels, 3 LinkedIn posts, 1 blog draft, 2 email snippets', hoursSaved: 3.0, dollarValue: 375 },
@@ -184,7 +213,7 @@ const ALL_AI_EMPLOYEES = flattenAI(SHARED_ORG);
 
 const LAYER_DEFS = [
   { id: 'executive',  name: 'Executive Layer',   color: '#D1B25A', bg: 'rgba(209,178,90,.08)',  border: 'rgba(209,178,90,.2)',  desc: 'Strategic decision-making and external intelligence', count: 2 },
-  { id: 'revenue',    name: 'Revenue Layer',     color: '#C05746', bg: 'rgba(192,87,70,.08)',   border: 'rgba(192,87,70,.2)',   desc: 'Content, copy, ads, email, and sales — everything that drives revenue', count: 5 },
+  { id: 'revenue',    name: 'Revenue Layer',     color: '#C05746', bg: 'rgba(192,87,70,.08)',   border: 'rgba(192,87,70,.2)',   desc: 'Content, copy, ads, email, sales, and partnerships — everything that drives revenue', count: 6 },
   { id: 'delivery',   name: 'Delivery Layer',    color: '#4A8C5C', bg: 'rgba(74,140,92,.08)',   border: 'rgba(74,140,92,.2)',   desc: 'Curriculum, training, student success, and community', count: 4 },
   { id: 'operations', name: 'Operations Layer',  color: '#2A8F82', bg: 'rgba(42,143,130,.08)',  border: 'rgba(42,143,130,.2)',  desc: 'Process, automation, events, and system maintenance', count: 4 },
   { id: 'support',    name: 'Support Layer',     color: '#7B5EA7', bg: 'rgba(123,94,167,.08)',  border: 'rgba(123,94,167,.2)',  desc: 'Design, analytics, offers, brand, HR, and finance', count: 6 },
@@ -322,6 +351,22 @@ const ECOSYSTEM_EMPLOYEES = [
     dataSets: ['347 Student Transformation Stories', '433+ Win Index', 'Offer Stack', 'Past pitch transcripts', 'Enterprise proposals'],
     tools: ['Notion', 'Baserow', 'Slack', 'Google Drive'],
     cadence: ['Pre-bootcamp: Pitch prep 48hrs before Day 3', 'Pre-masterclass: Pitch prep', 'On demand: Proposals, testimonial pulls'],
+  },
+
+  {
+    id: 'pr-partnerships', name: 'PR & Partnerships', layer: 'revenue',
+    icon: '🎙️', role: 'Books podcasts, manages affiliate partnerships, lands speaking gigs, handles media outreach. Gets Callan on every stage that matters.',
+    managedBy: 'Chantelle', managedByTitle: 'PR & Partnerships',
+    skills: [
+      { name: 'Podcast Booker', status: 'needs-build' },
+      { name: 'PR Outreach Writer', status: 'needs-build' },
+      { name: 'Affiliate Manager', status: 'needs-build' },
+      { name: 'Event Scout', status: 'needs-build' },
+      { name: 'Media Kit Generator', status: 'needs-build' },
+    ],
+    dataSets: ['Podcast databases', 'Media contacts', 'Affiliate partner data', 'Speaking event calendars', 'Brand assets'],
+    tools: ['Gmail', 'Notion', 'Google Drive', 'Firecrawl'],
+    cadence: ['Weekly: Podcast outreach', 'Monthly: Affiliate performance review', 'Ongoing: Event scouting', 'On demand: Media kits, PR pitches'],
   },
 
   // ═══ DELIVERY LAYER ═══
@@ -534,7 +579,7 @@ const ECOSYSTEM_EMPLOYEES = [
   {
     id: 'finance-analyst', name: 'Finance Analyst', layer: 'support',
     icon: '💰', role: 'Tracks software spend, forecasts revenue, calculates program ROI, generates financial reports. Knows where money is going and coming from.',
-    managedBy: 'Callan', managedByTitle: 'Founder',
+    managedBy: 'Jarrod', managedByTitle: 'Fractional CFO',
     skills: [
       { name: 'Expense Tracking', status: 'needs-build' },
       { name: 'Revenue Forecasting', status: 'needs-build' },

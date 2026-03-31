@@ -234,6 +234,11 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
             <div className="ai-panel-header">AI Employees</div>
             {node.aiEmployees.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
             {node.moreCount>0&&<MoreRow count={node.moreCount}/>}
+            {node.salesTeamAI&&node.salesTeamAI.length>0&&(
+              <><div className="ai-panel-header" style={{marginTop:12}}>Sales Team — Shared AI Employees</div>
+              {node.salesTeamAI.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
+              {node.salesTeamMoreCount>0&&<MoreRow count={node.salesTeamMoreCount}/>}</>
+            )}
           </div>
         )}
       </div>
