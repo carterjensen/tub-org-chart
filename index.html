@@ -127,6 +127,15 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .hero-cta{font-size:12px;color:#aaa;font-weight:500}
 .hero-cta span{color:#2F5B4A;font-weight:600}
 
+/* ═══ SALES TEAM PANEL ═══ */
+.sales-panel{margin-top:14px;padding-top:14px;border-top:1px solid #F0F0ED}
+.sales-panel-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#D47B2E;margin-bottom:10px}
+.sales-reps-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.sales-rep-chip{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;background:rgba(47,91,74,.04);border:1px solid rgba(47,91,74,.08);font-size:11px;color:#4a6358;font-weight:500}
+.sales-rep-avatar{width:22px;height:22px;border-radius:50%;background:rgba(47,91,74,.08);border:1px solid rgba(47,91,74,.12);display:flex;align-items:center;justify-content:center;font-size:9px;color:#2F5B4A;font-weight:600;font-family:'Instrument Serif',Georgia,serif}
+.sales-shared-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B8A04A;margin-bottom:8px}
+.sales-shared-note{font-size:10px;color:#999;font-style:italic;margin-bottom:10px}
+
 /* ═══ MOBILE ═══ */
 @media(max-width:768px){
   .top-bar{height:auto;flex-wrap:wrap;padding:10px 16px;gap:8px}
@@ -188,18 +197,42 @@ function MoreRow({count}){
   return(<div className="more-row"><div className="more-dots-wrap"><span/><span/><span/></div>{count} more AI employees…</div>);
 }
 
+function SalesTeamPanel({node}) {
+  const reps = (node.children || []);
+  const sharedAI = node.salesTeamAI || [];
+  return (
+    <div className="sales-panel">
+      <div className="sales-panel-title">Sales Team — {reps.length} Reps</div>
+      <div className="sales-reps-row">
+        {reps.map(rep => (
+          <div className="sales-rep-chip" key={rep.id}>
+            <div className="sales-rep-avatar">{rep.initials}</div>
+            {rep.name}
+          </div>
+        ))}
+      </div>
+      <div className="sales-shared-label">Shared AI Employees — Every Rep Gets Access</div>
+      <div className="sales-shared-note">Each sales rep has the same AI team working alongside them</div>
+      {sharedAI.map(ai => <SkillRow key={ai.name} skill={ai} />)}
+      {node.salesTeamMoreCount > 0 && <MoreRow count={node.salesTeamMoreCount} />}
+    </div>
+  );
+}
+
 function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
-  const hasChildren=node.children&&node.children.length>0;
-  const isOrgOpen=orgOpen.has(node.id);
-  const isAIOpen=aiOpen.has(node.id);
-  const aiCount=(node.aiEmployees||[]).length+(node.moreCount||0);
-  const totalReports=(function c(n){let t=0;(n.children||[]).forEach(ch=>{t+=1+c(ch)});return t})(node);
+  const isSalesTeam = node.salesTeam;
+  const realChildren = isSalesTeam ? [] : (node.children || []);
+  const hasChildren = realChildren.length > 0 || isSalesTeam;
+  const isOrgOpen = orgOpen.has(node.id);
+  const isAIOpen = aiOpen.has(node.id);
+  const aiCount = (node.aiEmployees||[]).length + (node.moreCount||0) + (isSalesTeam ? (node.salesTeamAI||[]).length + (node.salesTeamMoreCount||0) : 0);
+  const totalReports = (function c(n){let t=0;(n.children||[]).forEach(ch=>{t+=1+c(ch)});return t})(node);
 
   const handleClick=(e)=>{
     if(e.target.closest('.pill-ai')){e.stopPropagation();toggleAI(node.id);return}
     if(e.target.closest('.pill-team')){e.stopPropagation();toggleOrg(node.id);return}
-    if(hasChildren)toggleOrg(node.id);
-    else if(aiCount>0)toggleAI(node.id);
+    if(hasChildren) toggleOrg(node.id);
+    else if(aiCount>0) toggleAI(node.id);
   };
 
   return(
@@ -214,7 +247,7 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
             </div>
           </div>
           <div className="pills-row">
-            {hasChildren&&totalReports>0&&(
+            {totalReports>0&&(
               <span className="pill pill-team" onClick={e=>{e.stopPropagation();toggleOrg(node.id)}}>
                 {totalReports} report{totalReports!==1?'s':''}
                 <span className="pill-chevron org-chev">{isOrgOpen?'▲':'▼'}</span>
@@ -229,22 +262,22 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
             )}
           </div>
         </div>
-        {isAIOpen&&node.aiEmployees&&node.aiEmployees.length>0&&(
+        {isAIOpen&&(
           <div className="ai-panel">
-            <div className="ai-panel-header">AI Employees</div>
-            {node.aiEmployees.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
-            {node.moreCount>0&&<MoreRow count={node.moreCount}/>}
-            {node.salesTeamAI&&node.salesTeamAI.length>0&&(
-              <><div className="ai-panel-header" style={{marginTop:12}}>Sales Team — Shared AI Employees</div>
-              {node.salesTeamAI.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
-              {node.salesTeamMoreCount>0&&<MoreRow count={node.salesTeamMoreCount}/>}</>
+            {node.aiEmployees&&node.aiEmployees.length>0&&(
+              <><div className="ai-panel-header">{node.name}'s AI Employees</div>
+              {node.aiEmployees.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
+              {node.moreCount>0&&<MoreRow count={node.moreCount}/>}</>
             )}
           </div>
         )}
+        {isOrgOpen&&isSalesTeam&&(
+          <SalesTeamPanel node={node} />
+        )}
       </div>
-      {isOrgOpen&&hasChildren&&(
-        <div className={`tree-children ${node.children.length>1?'multi':''}`}>
-          {node.children.map(child=>(
+      {isOrgOpen&&realChildren.length>0&&(
+        <div className={`tree-children ${realChildren.length>1?'multi':''}`}>
+          {realChildren.map(child=>(
             <PersonNode key={child.id} node={child} orgOpen={orgOpen} aiOpen={aiOpen} toggleOrg={toggleOrg} toggleAI={toggleAI}/>
           ))}
         </div>
