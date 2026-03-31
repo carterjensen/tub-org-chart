@@ -319,7 +319,7 @@ function TaskCard({ event, index }) {
         <div className="task-output"><strong>Output:</strong> {event.output}</div>
         <div className="task-stats">
           <div className="task-stat">⏱ <span className="val">{event.hoursSaved}h saved</span></div>
-          <div className="task-stat">💰 <span className="val">${event.dollarValue} value</span></div>
+          <div className="task-stat">💰 <span className="val">${Math.round(event.hoursSaved * 125)} value</span></div>
         </div>
       </div>
     </div>
@@ -349,7 +349,7 @@ function SleepingCallan({ isAwake }) {
 
 function RevealCard({ tasks }) {
   const totalHours = tasks.reduce((s, t) => s + t.hoursSaved, 0);
-  const totalDollar = tasks.reduce((s, t) => s + t.dollarValue, 0);
+  const totalDollar = Math.round(totalHours * 125);
   return (
     <div className="reveal-card">
       <h2>The third shift is over. Callan opens her laptop.</h2>
@@ -376,15 +376,14 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [showReveal, setShowReveal] = useState(false);
-  const [deptFilter, setDeptFilter] = useState('all');
   const intervalRef = useRef(null);
   const feedRef = useRef(null);
   const TOTAL_MINUTES = 490;
+  const HOURLY_RATE = 125;
 
-  const filteredTimeline = deptFilter === 'all' ? TIMELINE_EVENTS : TIMELINE_EVENTS.filter(e => e.dept === deptFilter);
-  const visibleEvents = filteredTimeline.filter(e => e.time <= currentMinute);
+  const visibleEvents = TIMELINE_EVENTS.filter(e => e.time <= currentMinute);
   const totalHours = visibleEvents.reduce((s, e) => s + e.hoursSaved, 0);
-  const totalDollars = visibleEvents.reduce((s, e) => s + e.dollarValue, 0);
+  const totalDollars = Math.round(totalHours * HOURLY_RATE);
   const isAwake = currentMinute >= 480;
 
   useEffect(() => {
@@ -444,7 +443,7 @@ function App() {
         </div>
         <div className="nav-right">
           <div style={{fontSize:11,color:'rgba(255,255,255,.3)',fontWeight:500}}>
-            {visibleEvents.length} of {filteredTimeline.length} tasks complete
+            {visibleEvents.length} of {TIMELINE_EVENTS.length} tasks complete
           </div>
         </div>
       </div>
@@ -471,7 +470,7 @@ function App() {
           <div className="timeline-track" onClick={handleTrackClick}>
             <div className="timeline-fill" style={{ width: `${(currentMinute / TOTAL_MINUTES) * 100}%` }} />
             <div className="timeline-markers">
-              {filteredTimeline.map((ev, i) => (
+              {TIMELINE_EVENTS.map((ev, i) => (
                 <div
                   key={i}
                   className={`timeline-dot ${ev.time <= currentMinute ? 'active' : 'future'}`}
