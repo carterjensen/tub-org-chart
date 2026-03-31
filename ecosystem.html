@@ -457,7 +457,7 @@ function FlowView(){
 
 // ═══ APP ═══
 function App(){
-  const initView=useMemo(()=>{const p=new URLSearchParams(window.location.search).get('v');return['layers','grid','flow'].includes(p)?p:'layers'},[]);
+  const initView=useMemo(()=>{const p=new URLSearchParams(window.location.search).get('v');return['grid','flow'].includes(p)?p:'grid'},[]);
   const[view,setView]=useState(initView);
   const[expandedId,setExpanded]=useState(null);
 
@@ -471,7 +471,6 @@ function App(){
           <div className="nav-divider"/>
           <div className="page-tabs">
             <a className="page-tab" href="index.html">Org Map</a>
-            <a className={`page-tab ${view==='layers'?'active':''}`} href="ecosystem.html">Ecosystem</a>
             <a className={`page-tab ${view==='grid'?'active':''}`} href="ecosystem.html?v=grid">By Manager</a>
             <a className={`page-tab ${view==='flow'?'active':''}`} href="ecosystem.html?v=flow">Data Flow</a>
             <a className="page-tab" href="monday-morning.html">Monday Morning</a>
@@ -491,7 +490,6 @@ function App(){
 
 
       <div className="eco-main">
-        {view==='layers'&&<LayersView expandedId={expandedId} setExpanded={setExpanded}/>}
         {view==='grid'&&<GridView expandedId={expandedId} setExpanded={setExpanded}/>}
         {view==='flow'&&<FlowView/>}
       </div>
