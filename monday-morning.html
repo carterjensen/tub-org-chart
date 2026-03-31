@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUB — The Monday Morning</title>
+<title>TUB — The Third Shift</title>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -60,8 +60,21 @@ body{
 .main::before{content:'';position:absolute;top:56px;left:0;right:0;height:320px;background:linear-gradient(180deg,rgba(10,14,22,.6) 0%,rgba(10,14,22,.3) 70%,transparent 100%);pointer-events:none;z-index:0}
 .main>*{position:relative;z-index:1}
 
+/* ═══ INTRO HERO ═══ */
+.ts-hero{text-align:center;padding:32px 24px 8px;max-width:640px;margin:0 auto}
+.ts-hero h1{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(28px,4vw,42px);font-weight:400;color:#fff;letter-spacing:-.5px;line-height:1.1;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.ts-hero h1 em{color:#D1B25A;font-style:italic}
+.ts-hero-sub{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:12px}
+.ts-hero-sub strong{color:rgba(255,255,255,.7);font-weight:600}
+.ts-hero-divider{width:40px;height:1px;background:rgba(255,255,255,.12);margin:16px auto}
+.ts-hero-explain{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.ts-explain-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;max-width:180px;text-align:left}
+.ts-explain-icon{font-size:20px;margin-bottom:6px}
+.ts-explain-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:3px}
+.ts-explain-desc{font-size:11px;color:rgba(255,255,255,.35);line-height:1.5}
+
 /* ═══ CLOCK ═══ */
-.clock-section{text-align:center;padding:40px 20px 16px}
+.clock-section{text-align:center;padding:24px 20px 16px}
 .clock-time{font-family:'JetBrains Mono',monospace;font-size:72px;font-weight:300;color:#fff;letter-spacing:-2px;line-height:1;text-shadow:0 0 40px rgba(255,255,255,.1)}
 .clock-period{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:300;color:rgba(255,255,255,.4);margin-left:8px;letter-spacing:1px}
 .clock-label{font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;font-weight:400}
@@ -174,6 +187,13 @@ body{
 
   .main{padding-top:90px}
   .main::before{top:90px;height:260px}
+  .ts-hero{padding:20px 16px 4px}
+  .ts-hero h1{font-size:26px}
+  .ts-hero-sub{font-size:12px}
+  .ts-hero-explain{gap:10px}
+  .ts-explain-card{max-width:160px;padding:10px 12px}
+  .ts-explain-title{font-size:11px}
+  .ts-explain-desc{font-size:10px}
 
   .clock-section{padding:20px 16px 10px}
   .clock-time{font-size:48px;letter-spacing:-1px}
@@ -279,8 +299,8 @@ function RevealCard({ tasks }) {
   const totalDollar = tasks.reduce((s, t) => s + t.dollarValue, 0);
   return (
     <div className="reveal-card">
-      <h2>Callan opens her laptop.</h2>
-      <p>It's 8:00 AM. Before she poured her coffee, {tasks.length} AI employees completed {totalHours.toFixed(1)} hours of work worth ${totalDollar.toLocaleString()} — and it's all waiting for her.</p>
+      <h2>The third shift is over. Callan opens her laptop.</h2>
+      <p>It's 8:00 AM. While the entire team slept, {tasks.length} AI employees ran autonomously through the night — completing {totalHours.toFixed(1)} hours of work worth ${totalDollar.toLocaleString()}. Large tasks, done perfectly, waiting for review.</p>
       <div className="reveal-stats">
         <div style={{textAlign:'center'}}><div className="reveal-stat-num">{tasks.length}</div><div className="reveal-stat-lbl">Tasks Done</div></div>
         <div style={{textAlign:'center'}}><div className="reveal-stat-num">{totalHours.toFixed(1)}h</div><div className="reveal-stat-lbl">Hours Saved</div></div>
@@ -363,7 +383,7 @@ function App() {
             <a className="nav-tab" href="index.html">Org Map</a>
             <a className="nav-tab" href="ecosystem.html?v=grid">By Manager</a>
             <a className="nav-tab" href="ecosystem.html?v=flow">Data Flow</a>
-            <a className="nav-tab active" href="monday-morning.html">Monday Morning</a>
+            <a className="nav-tab active" href="monday-morning.html">Third Shift</a>
           </div>
         </div>
         <div className="nav-right">
@@ -374,12 +394,38 @@ function App() {
       </div>
 
       <div className="main">
+        {/* Hero Intro */}
+        <div className="ts-hero">
+          <h1>The Third <em>Shift</em></h1>
+          <p className="ts-hero-sub">
+            Most companies shut down at 5 PM. Ours doesn't. Our AI employees work <strong>on-demand during the day</strong> and <strong>autonomously through the night</strong> — completing full-scale tasks, research, and reports while every human on the team sleeps. By morning, there's a stack of finished work waiting. No overtime. No burnout. Just compounding output, 24/7.
+          </p>
+          <div className="ts-hero-divider"/>
+          <div className="ts-hero-explain">
+            <div className="ts-explain-card">
+              <div className="ts-explain-icon">☀️</div>
+              <div className="ts-explain-title">Day Shift — On Demand</div>
+              <div className="ts-explain-desc">Humans trigger AI employees in real time — drafting copy, analyzing data, building proposals as fast as they can think.</div>
+            </div>
+            <div className="ts-explain-card">
+              <div className="ts-explain-icon">🌙</div>
+              <div className="ts-explain-title">Third Shift — Overnight</div>
+              <div className="ts-explain-desc">Scheduled AI employees run autonomously — processing data, writing drafts, compiling reports. Large tasks, done perfectly, by morning.</div>
+            </div>
+            <div className="ts-explain-card">
+              <div className="ts-explain-icon">☕</div>
+              <div className="ts-explain-title">8 AM — The Handoff</div>
+              <div className="ts-explain-desc">The team wakes up to finished work. Review, approve, deploy. The day starts at step 10, not step 1.</div>
+            </div>
+          </div>
+        </div>
+
         {/* Clock */}
         <div className="clock-section">
           <span className="clock-time">{clockTime}</span>
           <span className="clock-period">{period}</span>
           <div className="clock-label">
-            {currentMinute < 480 ? 'Every human is still asleep. The AI employees are working.' : 'The team is awake. All this was done before coffee.'}
+            {currentMinute < 60 ? 'The third shift begins. AI employees are clocking in.' : currentMinute < 300 ? 'Every human is asleep. The AI employees are running full tasks overnight.' : currentMinute < 480 ? 'Dawn is breaking. The overnight work is almost done.' : 'The team is awake. All this was done before coffee.'}
           </div>
         </div>
 
@@ -425,8 +471,8 @@ function App() {
           {visibleEvents.length === 0 && currentMinute < 30 && (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,.2)', fontSize: 14 }}>
               <div style={{ fontSize: 40, marginBottom: 16 }}>🌙</div>
-              The city sleeps. The AI employees are about to wake up.<br/>
-              <span style={{ fontSize: 12, opacity: 0.5 }}>Press Play or scrub the timeline to begin.</span>
+              The third shift is about to begin. Your team sleeps. The AI employees don't.<br/>
+              <span style={{ fontSize: 12, opacity: 0.5 }}>Press Play or scrub the timeline to watch the overnight work unfold.</span>
             </div>
           )}
           {showReveal && <RevealCard tasks={visibleEvents} />}
