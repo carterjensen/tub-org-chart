@@ -118,6 +118,8 @@ const SHARED_ORG = {
             {id:'itzel',name:'Itzel Hernandez',title:'Affiliate & Operations Coordinator',initials:'IH',image:'images/itzel-hernandez.png',aiEmployees:[
               {name:'Affiliate Data Compiler',icon:'📊',cat:'analytics',desc:'Aggregates affiliate performance data from multiple platforms into one report',activation:'schedule',status:'new'},
               {name:'Commission Calculator',icon:'💰',cat:'finance',desc:'Calculates affiliate commissions based on tracked conversions',activation:'trigger',status:'new'},
+              {name:'Partner Onboarding Guide',icon:'👋',cat:'ops',desc:'Generates welcome packets and setup instructions for new affiliate partners',activation:'trigger',status:'new'},
+              {name:'Affiliate Content Kit',icon:'📦',cat:'creative',desc:'Creates swipe copy, images, and links for affiliates to promote each launch',activation:'trigger',status:'new'},
             ],moreCount:0,children:[]}
           ]
         },
@@ -129,8 +131,20 @@ const SHARED_ORG = {
             {name:'Asset Resizer',icon:'🖼️',cat:'creative',desc:'Resizes and reformats designs for different platforms',activation:'demand',status:'new'},
           ],moreCount:0,children:[]
         },
-        {id:'christine',name:'Christine Joy Looc',title:'Graphic Designer',initials:'CL',image:'images/christine-joy-looc.jpeg',aiEmployees:[],children:[]},
-        {id:'archie',name:'Archie Reyes',title:'Graphic Designer',initials:'AR',image:'images/archie-reyes.png',aiEmployees:[],children:[]},
+        {id:'christine',name:'Christine Joy Looc',title:'Graphic Designer',initials:'CL',image:'images/christine-joy-looc.jpeg',aiEmployees:[
+          {name:'Layout Generator',icon:'📐',cat:'creative',desc:'Creates on-brand layout compositions from design briefs',activation:'demand',status:'new'},
+          {name:'Color Palette Matcher',icon:'🎨',cat:'creative',desc:'Extracts and suggests brand-aligned color palettes from reference images',activation:'demand',status:'new'},
+          {name:'Asset Resizer',icon:'🖼️',cat:'creative',desc:'Resizes and reformats designs for IG, FB, LinkedIn, and email',activation:'demand',status:'new'},
+          {name:'Typography Advisor',icon:'🔤',cat:'creative',desc:'Recommends font pairings and hierarchy based on TUB brand guidelines',activation:'demand',status:'new'},
+          {name:'Design QA Checker',icon:'✅',cat:'creative',desc:'Reviews designs for brand compliance — logos, spacing, colors, fonts',activation:'trigger',status:'new'},
+        ],children:[]},
+        {id:'archie',name:'Archie Reyes',title:'Graphic Designer',initials:'AR',image:'images/archie-reyes.png',aiEmployees:[
+          {name:'Social Template Builder',icon:'📱',cat:'creative',desc:'Generates branded social media templates from campaign briefs',activation:'demand',status:'new'},
+          {name:'Carousel Designer',icon:'📐',cat:'creative',desc:'Turns content outlines into slide-by-slide carousel wireframes',activation:'demand',status:'new'},
+          {name:'Ad Creative Generator',icon:'🎯',cat:'creative',desc:'Produces ad creative variations from a single approved concept',activation:'demand',status:'new'},
+          {name:'Batch Export Processor',icon:'📦',cat:'creative',desc:'Exports design files in all required formats and sizes for each platform',activation:'trigger',status:'new'},
+          {name:'Visual Trend Scout',icon:'🔭',cat:'research',desc:'Scans design trends across competitors and top brands weekly',activation:'schedule',status:'new'},
+        ],children:[]},
         {id:'abhie',name:'Abhie Abellon',title:'Operations Coordinator',initials:'AA',image:'images/abhie-abellon.png',aiEmployees:[
           {name:'Scheduling Assistant',icon:'🗓️',cat:'ops',desc:'Manages calendar coordination across time zones for team meetings',activation:'demand',status:'new'},
           {name:'Data Entry Automator',icon:'⚡',cat:'ops',desc:'Processes form submissions, spreadsheet updates, and CRM entries',activation:'trigger',status:'new'},
@@ -197,6 +211,8 @@ const SHARED_ORG = {
           aiEmployees:[
             {name:'Zapier Workflow Builder',icon:'⚡',cat:'engineering',desc:'Designs Zapier workflows from plain-language descriptions',activation:'demand',status:'new'},
             {name:'Integration Debugger',icon:'🔧',cat:'engineering',desc:'Diagnoses broken automations and suggests fixes',activation:'demand',status:'new'},
+            {name:'Automation Health Monitor',icon:'🩺',cat:'ops',desc:'Scans all active Zaps weekly and flags errors, failures, and slowdowns',activation:'schedule',status:'new'},
+            {name:'Baserow Schema Manager',icon:'🗄️',cat:'engineering',desc:'Documents and validates Baserow database structures and field relationships',activation:'demand',status:'new'},
           ],moreCount:0,children:[]
         },
         {
@@ -204,6 +220,8 @@ const SHARED_ORG = {
           aiEmployees:[
             {name:'Tech Stack Auditor',icon:'🔍',cat:'engineering',desc:'Reviews current tools for redundancy, cost savings, and integration opportunities',activation:'schedule',status:'new'},
             {name:'API Connector Builder',icon:'🔌',cat:'engineering',desc:'Builds custom API integrations between business tools',activation:'demand',status:'new'},
+            {name:'Automation Documenter',icon:'📋',cat:'ops',desc:'Generates documentation for every automation — what it does, what triggers it, what breaks',activation:'trigger',status:'new'},
+            {name:'No-Code App Builder',icon:'🧱',cat:'product',desc:'Scaffolds internal tools and dashboards from plain-language requirements',activation:'demand',status:'new'},
           ],moreCount:0,children:[]
         },
         {
@@ -222,12 +240,36 @@ const SHARED_ORG = {
           ],
           moreCount:0,
           children:[
-            {id:'hilary',name:'Hilary Krueger',title:'Enrollment Specialist',initials:'HK',image:'images/hilary-krueger.webp',aiEmployees:[],children:[]},
-            {id:'logan',name:'Logan Chauvin',title:'Enrollment Specialist',initials:'LC',image:'images/logan-chauvin.png',aiEmployees:[],children:[]},
-            {id:'brooklyn',name:'Brooklyn Mailloux',title:'Enrollment Specialist',initials:'BM',image:'images/brooklyn-mailloux.png',aiEmployees:[],children:[]},
-            {id:'dylan',name:'Dylan Swarers',title:'Enrollment Specialist',initials:'DS',image:'images/dylan-swarers.webp',aiEmployees:[],children:[]},
-            {id:'sarah',name:'Sarah Threadgill',title:'Enrollment Specialist',initials:'ST',image:'images/sarah-threadgill.jpg',aiEmployees:[],children:[]},
-            {id:'meaghan',name:'Meaghan Alton',title:'Enrollment Specialist',initials:'MA',image:'images/meaghan-alton.png',aiEmployees:[],children:[]},
+            {id:'hilary',name:'Hilary Krueger',title:'Enrollment Specialist',initials:'HK',image:'images/hilary-krueger.webp',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
+            {id:'logan',name:'Logan Chauvin',title:'Enrollment Specialist',initials:'LC',image:'images/logan-chauvin.png',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
+            {id:'brooklyn',name:'Brooklyn Mailloux',title:'Enrollment Specialist',initials:'BM',image:'images/brooklyn-mailloux.png',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
+            {id:'dylan',name:'Dylan Swarers',title:'Enrollment Specialist',initials:'DS',image:'images/dylan-swarers.webp',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
+            {id:'sarah',name:'Sarah Threadgill',title:'Enrollment Specialist',initials:'ST',image:'images/sarah-threadgill.jpg',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
+            {id:'meaghan',name:'Meaghan Alton',title:'Enrollment Specialist',initials:'MA',image:'images/meaghan-alton.png',aiEmployees:[
+              {name:'Call Prep Brief',icon:'📋',cat:'sales',desc:'Pre-call brief with prospect research, ICP match, and talking points',activation:'trigger',status:'new'},
+              {name:'Personal Pipeline Tracker',icon:'📊',cat:'analytics',desc:'Tracks personal conversion rates, follow-up status, and weekly goals',activation:'schedule',status:'new'},
+              {name:'Post-Call Summary',icon:'📝',cat:'sales',desc:'Auto-generates call notes with next steps and follow-up reminders',activation:'trigger',status:'new'},
+            ],children:[]},
           ],
           salesTeam: true,
           salesTeamAI:[
