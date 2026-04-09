@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>The Uncommon Business — AI-Forward Org</title>
+<title>The Uncommon Business — AI-Powered Org</title>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -26,17 +26,21 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .tree-children>.tree-node::before{content:'';position:absolute;top:-24px;left:50%;width:1px;height:24px;background:#D4D4D0;transform:translateX(-50%)}
 
 /* CARD */
-.node-card{background:#FFF;border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);cursor:pointer;transition:box-shadow .25s,transform .25s;user-select:none;border:1px solid rgba(0,0,0,.04);width:250px;overflow:hidden;flex-shrink:0}
+.node-card{background:#FFF;border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);cursor:pointer;transition:box-shadow .25s,transform .25s;user-select:none;border:1px solid rgba(0,0,0,.04);width:260px;overflow:hidden;flex-shrink:0}
 .node-card:hover{box-shadow:0 2px 4px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.08);transform:translateY(-1px)}
-.node-card.is-active{box-shadow:0 2px 4px rgba(0,0,0,.06),0 12px 40px rgba(0,0,0,.1);border-color:rgba(47,91,74,.15)}
-.node-card.is-founder{width:290px}
+.node-card.is-active{box-shadow:0 2px 4px rgba(0,0,0,.06),0 12px 40px rgba(0,0,0,.1);border-color:rgba(47,91,74,.15);width:420px}
+.node-card.is-founder{width:300px}
+.node-card.is-founder.is-active{width:440px}
 .node-inner{padding:20px}
 .card-header-row{display:flex;align-items:center;gap:14px}
 
-.avatar-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:18px;flex-shrink:0;background:#F7F7F5;color:#2F5B4A;border:2px solid #E8E8E4;transition:all .2s}
+.avatar-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',Georgia,serif;font-size:18px;flex-shrink:0;background:#F7F7F5;color:#2F5B4A;border:2px solid #E8E8E4;transition:all .2s;overflow:hidden}
 .node-card:hover .avatar-ring{border-color:#D1B25A;background:rgba(209,178,90,.06)}
 .avatar-ring.founder{background:linear-gradient(135deg,#2F5B4A,#3d7a63);color:#fff;border:2px solid #2F5B4A;font-size:16px}
 .node-card:hover .avatar-ring.founder{border-color:#D1B25A}
+.avatar-ring img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.avatar-ring.has-img{background:transparent;border-color:#E8E8E4}
+.node-card:hover .avatar-ring.has-img{border-color:#D1B25A}
 
 .meta-block{flex:1;min-width:0}
 .person-name{font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-.2px;line-height:1.2}
@@ -54,32 +58,65 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .org-open .pill-chevron.org-chev{transform:rotate(180deg)}
 
 /* AI PANEL */
-.ai-panel{padding:0 20px 20px;border-top:1px solid #F0F0ED;margin-top:16px;padding-top:16px}
-.ai-panel-header{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B8A04A;margin-bottom:12px}
+.ai-panel{padding:0 16px 16px;border-top:1px solid #F0F0ED;margin-top:16px;padding-top:14px}
+.ai-panel-header{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#B8A04A;margin-bottom:10px}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 
-.skill-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;margin-bottom:5px;transition:background .15s;border-left:3px solid transparent}
-.skill-row:hover{background:rgba(0,0,0,.015)}
-.skill-icon-wrap{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-.skill-text{flex:1;min-width:0}
-.skill-name{font-size:13px;font-weight:600;line-height:1.2;letter-spacing:-.1px}
-.skill-desc{font-size:11px;color:#888;line-height:1.4;margin-top:1px}
+.skill-card{background:#FAFAF8;border:1px solid rgba(0,0,0,.05);border-radius:10px;padding:10px 11px;transition:all .2s;cursor:default;position:relative;overflow:hidden}
+.skill-card:hover{border-color:rgba(0,0,0,.1);box-shadow:0 2px 8px rgba(0,0,0,.04);transform:translateY(-1px)}
+.skill-card-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.skill-icon-wrap{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.skill-name{font-size:11.5px;font-weight:600;line-height:1.2;letter-spacing:-.1px;flex:1;min-width:0}
+.skill-desc{font-size:10px;color:#999;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.skill-card-footer{display:flex;align-items:center;justify-content:flex-end;margin-top:6px}
 
-.skill-row.s-voice{border-left-color:#C05746}.skill-row.s-voice .skill-icon-wrap{background:rgba(192,87,70,.08)}.skill-row.s-voice .skill-name{color:#A04030}
-.skill-row.s-strategy{border-left-color:#7B5EA7}.skill-row.s-strategy .skill-icon-wrap{background:rgba(123,94,167,.08)}.skill-row.s-strategy .skill-name{color:#6B4E97}
-.skill-row.s-research{border-left-color:#3A7CA5}.skill-row.s-research .skill-icon-wrap{background:rgba(58,124,165,.08)}.skill-row.s-research .skill-name{color:#2A6C95}
-.skill-row.s-creative{border-left-color:#C26688}.skill-row.s-creative .skill-icon-wrap{background:rgba(194,102,136,.08)}.skill-row.s-creative .skill-name{color:#A85070}
-.skill-row.s-ops{border-left-color:#2A8F82}.skill-row.s-ops .skill-icon-wrap{background:rgba(42,143,130,.08)}.skill-row.s-ops .skill-name{color:#1A7F72}
-.skill-row.s-product{border-left-color:#B8860B}.skill-row.s-product .skill-icon-wrap{background:rgba(184,134,11,.08)}.skill-row.s-product .skill-name{color:#9A7000}
-.skill-row.s-curriculum{border-left-color:#4A8C5C}.skill-row.s-curriculum .skill-icon-wrap{background:rgba(74,140,92,.08)}.skill-row.s-curriculum .skill-name{color:#3A7C4C}
-.skill-row.s-sales{border-left-color:#D47B2E}.skill-row.s-sales .skill-icon-wrap{background:rgba(212,123,46,.08)}.skill-row.s-sales .skill-name{color:#B46520}
-.skill-row.s-engineering{border-left-color:#4A6FA5}.skill-row.s-engineering .skill-icon-wrap{background:rgba(74,111,165,.08)}.skill-row.s-engineering .skill-name{color:#3A5F95}
-.skill-row.s-analytics{border-left-color:#5B7E95}.skill-row.s-analytics .skill-icon-wrap{background:rgba(91,126,149,.08)}.skill-row.s-analytics .skill-name{color:#4B6E85}
-.skill-row.s-finance{border-left-color:#3D8B6E}.skill-row.s-finance .skill-icon-wrap{background:rgba(61,139,110,.08)}.skill-row.s-finance .skill-name{color:#2D7B5E}
-.skill-row.s-hr{border-left-color:#8B6BAE}.skill-row.s-hr .skill-icon-wrap{background:rgba(139,107,174,.08)}.skill-row.s-hr .skill-name{color:#7B5B9E}
+/* Category colors */
+.skill-card.s-voice{border-left:2px solid #C05746}.skill-card.s-voice .skill-icon-wrap{background:rgba(192,87,70,.08);color:#C05746}.skill-card.s-voice .skill-name{color:#A04030}
+.skill-card.s-strategy{border-left:2px solid #7B5EA7}.skill-card.s-strategy .skill-icon-wrap{background:rgba(123,94,167,.08);color:#7B5EA7}.skill-card.s-strategy .skill-name{color:#6B4E97}
+.skill-card.s-research{border-left:2px solid #3A7CA5}.skill-card.s-research .skill-icon-wrap{background:rgba(58,124,165,.08);color:#3A7CA5}.skill-card.s-research .skill-name{color:#2A6C95}
+.skill-card.s-creative{border-left:2px solid #C26688}.skill-card.s-creative .skill-icon-wrap{background:rgba(194,102,136,.08);color:#C26688}.skill-card.s-creative .skill-name{color:#A85070}
+.skill-card.s-ops{border-left:2px solid #2A8F82}.skill-card.s-ops .skill-icon-wrap{background:rgba(42,143,130,.08);color:#2A8F82}.skill-card.s-ops .skill-name{color:#1A7F72}
+.skill-card.s-product{border-left:2px solid #B8860B}.skill-card.s-product .skill-icon-wrap{background:rgba(184,134,11,.08);color:#B8860B}.skill-card.s-product .skill-name{color:#9A7000}
+.skill-card.s-curriculum{border-left:2px solid #4A8C5C}.skill-card.s-curriculum .skill-icon-wrap{background:rgba(74,140,92,.08);color:#4A8C5C}.skill-card.s-curriculum .skill-name{color:#3A7C4C}
+.skill-card.s-sales{border-left:2px solid #D47B2E}.skill-card.s-sales .skill-icon-wrap{background:rgba(212,123,46,.08);color:#D47B2E}.skill-card.s-sales .skill-name{color:#B46520}
+.skill-card.s-engineering{border-left:2px solid #4A6FA5}.skill-card.s-engineering .skill-icon-wrap{background:rgba(74,111,165,.08);color:#4A6FA5}.skill-card.s-engineering .skill-name{color:#3A5F95}
+.skill-card.s-analytics{border-left:2px solid #5B7E95}.skill-card.s-analytics .skill-icon-wrap{background:rgba(91,126,149,.08);color:#5B7E95}.skill-card.s-analytics .skill-name{color:#4B6E85}
+.skill-card.s-finance{border-left:2px solid #3D8B6E}.skill-card.s-finance .skill-icon-wrap{background:rgba(61,139,110,.08);color:#3D8B6E}.skill-card.s-finance .skill-name{color:#2D7B5E}
+.skill-card.s-hr{border-left:2px solid #8B6BAE}.skill-card.s-hr .skill-icon-wrap{background:rgba(139,107,174,.08);color:#8B6BAE}.skill-card.s-hr .skill-name{color:#7B5B9E}
 
 .more-row{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:13px;font-weight:500;color:#aaa;font-style:italic}
 .more-dots-wrap{display:flex;gap:3px}
 .more-dots-wrap span{width:4px;height:4px;border-radius:50%;background:#ccc}
+
+/* STATUS DOTS */
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.status-dot.s-built{background:#4A8C5C;box-shadow:0 0 0 0 rgba(74,140,92,.4);animation:breathe 3s ease-in-out infinite}
+.status-dot.s-rebuild{background:#D1B25A;box-shadow:0 0 0 0 rgba(209,178,90,.4);animation:spinRing 2.5s linear infinite}
+.status-dot.s-new{background:#C05746;animation:pulse 2s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(74,140,92,.3)}50%{box-shadow:0 0 0 4px rgba(74,140,92,0)}}
+@keyframes spinRing{0%{box-shadow:2px 0 0 0 rgba(209,178,90,.5)}25%{box-shadow:0 2px 0 0 rgba(209,178,90,.5)}50%{box-shadow:-2px 0 0 0 rgba(209,178,90,.5)}75%{box-shadow:0 -2px 0 0 rgba(209,178,90,.5)}100%{box-shadow:2px 0 0 0 rgba(209,178,90,.5)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.3);opacity:1}}
+
+/* ACTIVATION BADGES */
+.activation-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:9px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;flex-shrink:0;margin-left:auto;white-space:nowrap}
+.activation-badge.a-schedule{background:rgba(58,124,165,.08);color:#3A7CA5}
+.activation-badge.a-trigger{background:rgba(184,134,11,.08);color:#9A7000}
+.activation-badge.a-demand{background:rgba(42,143,130,.08);color:#1A7F72}
+.activation-badge svg{width:12px;height:12px}
+.act-icon-schedule{animation:slowSpin 4s linear infinite}
+.act-icon-trigger{animation:zapPulse 2s ease-in-out infinite}
+.act-icon-demand{transition:transform .2s}
+.activation-badge:hover .act-icon-demand{transform:translateY(-1px)}
+@keyframes slowSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes zapPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+
+/* LUCIDE ICON IN SKILL ROW */
+.skill-icon-wrap svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.skill-row:hover .skill-icon-wrap svg{transform:scale(1.1);transition:transform .2s}
+
+/* CARD SHINE EFFECT */
+.node-card::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transition:none;pointer-events:none;z-index:1}
+.node-card:hover::after{left:120%;transition:left .6s ease}
 
 /* TOP BAR */
 .top-bar{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100}
@@ -153,7 +190,9 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
   .hero-tagline{font-size:11px}
   .hero-cta{font-size:11px}
   .node-card{width:200px}
+  .node-card.is-active{width:340px}
   .node-card.is-founder{width:230px}
+  .ai-grid{grid-template-columns:1fr}
   .person-name{font-size:14px}
   .person-title{font-size:11px}
   .avatar-ring{width:40px;height:40px;font-size:15px}
@@ -190,8 +229,54 @@ const{useState,useCallback,useRef,useEffect}=React;
 // Uses SHARED_ORG and TOTAL_HUMANS from data.js
 const orgTree = SHARED_ORG;
 
+// ═══ LUCIDE ICON REGISTRY ═══
+const LUCIDE={
+  voice:'M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z||M18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18||m2.3 2.3 7.286 7.286||C11,11,2',
+  strategy:'M12 18V5||M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4||M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5||M17.997 5.125a4 4 0 0 1 2.526 5.77||M18 18a4 4 0 0 0 2-7.464||M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517||M6 18a4 4 0 0 1-2-7.464||M6.003 5.125a4 4 0 0 0-2.526 5.77',
+  research:'m21 21-4.34-4.34||C11,11,8',
+  creative:'M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z||C13.5,6.5,.5f||C17.5,10.5,.5f||C6.5,12.5,.5f||C8.5,7.5,.5f',
+  ops:'M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915||C12,12,3',
+  product:'M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z||M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12||M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17',
+  curriculum:'M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z||M22 10v6||M6 12.5V16a6 3 0 0 0 12 0v-3.5',
+  sales:'C12,12,10||C12,12,6||C12,12,2',
+  engineering:'m16 18 6-6-6-6||m8 6-6 6 6 6',
+  analytics:'M3 3v16a2 2 0 0 0 2 2h16||M18 17V9||M13 17V5||M8 17v-3',
+  finance:'M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1||M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4',
+  hr:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2||M16 3.128a4 4 0 0 1 0 7.744||M22 21v-2a4 4 0 0 0-3-3.87||C9,7,4',
+};
+// Activation SVG icons
+const ACT_SVG={
+  schedule:'C12,12,10||M12 6v6l4 2',
+  trigger:'M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z',
+  demand:'M14 4.1 12 6||m5.1 8-2.9-.8||m6 12-1.9 2||M7.2 2.2 8 5.1||M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z',
+};
+function LucideIcon({paths,size=18,className=''}){
+  if(!paths)return null;
+  const els=paths.split('||').map((p,i)=>{
+    p=p.trim();
+    // Circle: C{cx},{cy},{r} optionally with 'f' for filled
+    if(p.startsWith('C')){const m=p.match(/C([\d.]+),([\d.]+),([\d.]+)(f?)/);if(m)return React.createElement('circle',{key:i,cx:m[1],cy:m[2],r:m[3],fill:m[4]?'currentColor':'none'});return null;}
+    return React.createElement('path',{key:i,d:p});
+  });
+  return React.createElement('svg',{width:size,height:size,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round',className},els);
+}
+function ActIcon({type}){
+  const labels={demand:'On Demand',trigger:'Trigger',schedule:'Scheduled'};
+  return React.createElement('span',{className:`activation-badge a-${type}`},
+    React.createElement(LucideIcon,{paths:ACT_SVG[type],size:12,className:`act-icon-${type}`}),
+    labels[type]
+  );
+}
 function SkillRow({skill}){
-  return(<div className={`skill-row s-${skill.cat}`}><div className="skill-icon-wrap">{skill.icon}</div><div className="skill-text"><div className="skill-name">{skill.name}</div><div className="skill-desc">{skill.desc}</div></div></div>);
+  const catIcon=LUCIDE[skill.cat];
+  return(<div className={`skill-card s-${skill.cat}`}>
+    <div className="skill-card-top">
+      <div className="skill-icon-wrap">{catIcon?<LucideIcon paths={catIcon} size={15}/>:skill.icon}</div>
+      <div className="skill-name">{skill.name}</div>
+    </div>
+    <div className="skill-desc">{skill.desc}</div>
+    {skill.activation&&<div className="skill-card-footer"><ActIcon type={skill.activation}/></div>}
+  </div>);
 }
 function MoreRow({count}){
   return(<div className="more-row"><div className="more-dots-wrap"><span/><span/><span/></div>{count} more AI employees…</div>);
@@ -202,18 +287,22 @@ function SalesTeamPanel({node}) {
   const sharedAI = node.salesTeamAI || [];
   return (
     <div className="sales-panel">
-      <div className="sales-panel-title">Sales Team — {reps.length} Reps</div>
+      <div className="sales-panel-title">Enrollment Team — {reps.length} Specialists</div>
       <div className="sales-reps-row">
         {reps.map(rep => (
           <div className="sales-rep-chip" key={rep.id}>
-            <div className="sales-rep-avatar">{rep.initials}</div>
+            <div className="sales-rep-avatar" style={rep.image?{background:'transparent',border:'none',overflow:'hidden'}:{}}>
+              {rep.image ? <img src={rep.image} alt={rep.name} style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'50%'}}/> : rep.initials}
+            </div>
             {rep.name}
           </div>
         ))}
       </div>
-      <div className="sales-shared-label">Shared AI Employees — Every Rep Gets Access</div>
-      <div className="sales-shared-note">Each sales rep has the same AI team working alongside them</div>
+      <div className="sales-shared-label">Shared AI Employees — Every Specialist Gets Access</div>
+      <div className="sales-shared-note">Each enrollment specialist has the same AI team working alongside them</div>
+      <div className="ai-grid">
       {sharedAI.map(ai => <SkillRow key={ai.name} skill={ai} />)}
+      </div>
       {node.salesTeamMoreCount > 0 && <MoreRow count={node.salesTeamMoreCount} />}
     </div>
   );
@@ -240,7 +329,9 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
       <div className={`node-card ${(isOrgOpen||isAIOpen)?'is-active':''} ${node.isFounder?'is-founder':''} ${isAIOpen?'ai-open':''} ${isOrgOpen?'org-open':''}`} onClick={handleClick}>
         <div className="node-inner">
           <div className="card-header-row">
-            <div className={`avatar-ring ${node.isFounder?'founder':''}`}>{node.initials}</div>
+            <div className={`avatar-ring ${node.isFounder?'founder':''} ${node.image?'has-img':''}`}>
+              {node.image ? <img src={node.image} alt={node.name}/> : node.initials}
+            </div>
             <div className="meta-block">
               <div className="person-name">{node.name}</div>
               <div className="person-title">{node.title}</div>
@@ -266,7 +357,9 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
           <div className="ai-panel">
             {node.aiEmployees&&node.aiEmployees.length>0&&(
               <><div className="ai-panel-header">{node.name}'s AI Employees</div>
+              <div className="ai-grid">
               {node.aiEmployees.map(ai=><SkillRow key={ai.name} skill={ai}/>)}
+              </div>
               {node.moreCount>0&&<MoreRow count={node.moreCount}/>}</>
             )}
           </div>
@@ -286,19 +379,27 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
   );
 }
 
+function recalcBars(){
+  document.querySelectorAll('.tree-children.multi').forEach(bar=>{
+    const ch=bar.querySelectorAll(':scope>.tree-node');
+    if(ch.length<2)return;
+    const pr=bar.getBoundingClientRect();
+    const fl=ch[0].getBoundingClientRect();
+    const ll=ch[ch.length-1].getBoundingClientRect();
+    bar.style.setProperty('--bar-l',(fl.left+fl.width/2-pr.left)+'px');
+    bar.style.setProperty('--bar-r',(pr.width-(ll.left+ll.width/2-pr.left))+'px');
+  });
+}
 function useHorizontalBars(orgOpen,aiOpen){
   useEffect(()=>{
-    requestAnimationFrame(()=>{
-      document.querySelectorAll('.tree-children.multi').forEach(bar=>{
-        const ch=bar.querySelectorAll(':scope>.tree-node');
-        if(ch.length<2)return;
-        const pr=bar.getBoundingClientRect();
-        const fl=ch[0].getBoundingClientRect();
-        const ll=ch[ch.length-1].getBoundingClientRect();
-        bar.style.setProperty('--bar-l',(fl.left+fl.width/2-pr.left)+'px');
-        bar.style.setProperty('--bar-r',(pr.width-(ll.left+ll.width/2-pr.left))+'px');
-      });
-    });
+    requestAnimationFrame(recalcBars);
+    // Recalc after images load (they shift card widths)
+    const imgs=document.querySelectorAll('.avatar-ring img');
+    const onLoad=()=>requestAnimationFrame(recalcBars);
+    imgs.forEach(img=>{if(!img.complete)img.addEventListener('load',onLoad)});
+    // Also recalc after a short delay as a safety net
+    const t=setTimeout(()=>requestAnimationFrame(recalcBars),500);
+    return()=>{clearTimeout(t);imgs.forEach(img=>img.removeEventListener('load',onLoad))};
   },[orgOpen,aiOpen]);
 }
 
@@ -395,7 +496,7 @@ function App(){
         </div>
         <div className="top-bar-right">
           <div className="stat-chip"><span className="stat-chip-dot green"/><span className="num">{TOTAL_HUMANS}</span> humans</div>
-          <div className="stat-chip"><span className="stat-chip-dot amber"/><span className="num gold">100+</span> AI employees</div>
+          <div className="stat-chip"><span className="stat-chip-dot amber"/><span className="num gold">137</span> AI employees</div>
           <div className="top-sep"/>
           {anyOpen?<button className="tb-btn" onClick={collapseAll}>Collapse all</button>:<button className="tb-btn" onClick={expandAllOrg}>Expand all</button>}
         </div>
@@ -406,7 +507,12 @@ function App(){
         <div className="canvas-world" style={{transform:`translate(${transform.x}px,${transform.y}px) scale(${transform.scale})`}}>
 
           <div className="hero-panel">
-            <h1>The AI-Forward <em>Company</em></h1>
+            <h1>The AI-Powered <em>Company</em></h1>
+            <div className="hero-stats">
+              <div className="hero-stat"><div className="hero-stat-num">{TOTAL_HUMANS}</div><div className="hero-stat-lbl">Humans</div></div>
+              <div className="hero-stat"><div className="hero-stat-num gold">137</div><div className="hero-stat-lbl">AI Employees</div></div>
+              <div className="hero-stat"><div className="hero-stat-num gold">155+</div><div className="hero-stat-lbl">Total Instances</div></div>
+            </div>
             <div className="hero-divider"/>
             <p className="hero-tagline">"We don't hire people to do process work. We train humans to become AI Architects — then they build AI employees that handle the rest. Take a team of 5, operate like a team of 50."</p>
             <p className="hero-cta"><span>Click any card</span> to explore the org. Click <span>AI Employees</span> to see who's really doing the work.</p>

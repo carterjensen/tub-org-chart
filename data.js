@@ -4,88 +4,230 @@
 // ═══════════════════════════════════════
 
 const SHARED_ORG = {
-  id:'callan',name:'Callan Faulkner',title:'Founder & Visionary',initials:'CF',isFounder:true,
+  id:'callan',name:'Callan Faulkner',title:'CEO',initials:'CF',image:'images/callan-faulkner.png',isFounder:true,
   aiEmployees:[
-    {name:'Brand Voice Writer',icon:'✍️',cat:'voice',desc:'Writes in Callan\'s authentic voice — emails, newsletters, captions, scripts'},
-    {name:'Strategic Business Advisor',icon:'🧠',cat:'strategy',desc:'Proven frameworks for offers, pricing, and scaling decisions'},
-    {name:'Event Briefing Analyst',icon:'🔎',cat:'research',desc:'Researches any audience and builds pre-event intelligence reports'},
-    {name:'Leadership Coach',icon:'🧭',cat:'hr',desc:'Personality-aware coaching scripts for every team member'},
-    {name:'Keynote Script Writer',icon:'🎤',cat:'voice',desc:'Presentation scripts and talking points for live events'},
-    {name:'Content Calendar Generator',icon:'📅',cat:'creative',desc:'Full week of content drafted every Sunday at 6am'},
-    {name:'Performance Digest',icon:'📊',cat:'analytics',desc:'Weekly report on what posted, what performed, what to change'},
+    {name:'Brand Voice Writer',icon:'✍️',cat:'voice',desc:'Writes emails, newsletters, captions, scripts in Callan\'s authentic voice',activation:'demand',status:'rebuild'},
+    {name:'Keynote Script Writer',icon:'🎤',cat:'voice',desc:'Builds presentation scripts and talking points for live events',activation:'demand',status:'rebuild'},
+    {name:'Content Calendar Generator',icon:'📅',cat:'creative',desc:'Drafts a full week of content every Sunday at 6am',activation:'schedule',status:'rebuild'},
+    {name:'Performance Digest',icon:'📊',cat:'analytics',desc:'Weekly report on what posted, what performed, what to change',activation:'schedule',status:'rebuild'},
+    {name:'Podcast Prep Agent',icon:'🎙️',cat:'research',desc:'Researches podcast host, audience, and talking points before guest appearances',activation:'trigger',status:'new'},
+    {name:'Instagram Caption Writer',icon:'📱',cat:'voice',desc:'Writes on-brand IG captions from content briefs or transcripts',activation:'demand',status:'new'},
+    {name:'Newsletter Writer',icon:'📰',cat:'voice',desc:'Drafts weekly newsletter in Callan\'s voice from weekly content themes',activation:'schedule',status:'new'},
+    {name:'Strategic Business Advisor',icon:'🧠',cat:'strategy',desc:'Proven frameworks for offers, pricing, and scaling decisions',activation:'demand',status:'rebuild'},
+    {name:'Event Briefing Analyst',icon:'🔭',cat:'research',desc:'Researches any audience and builds pre-event intelligence reports',activation:'trigger',status:'rebuild'},
+    {name:'Leadership Coach',icon:'🧭',cat:'hr',desc:'Personality-aware coaching scripts for every team member',activation:'demand',status:'rebuild'},
+    {name:'Competitor Intelligence Brief',icon:'🕵️',cat:'research',desc:'Scans competitor launches, pricing changes, messaging shifts',activation:'schedule',status:'new'},
+    {name:'Board Meeting Prep',icon:'📋',cat:'strategy',desc:'Compiles KPIs, revenue data, and talking points for quarterly calls',activation:'trigger',status:'new'},
   ],
-  moreCount:14,
+  moreCount:0,
   children:[
     {
-      id:'kinsey',name:'Kinsey',title:'Chief Operating Officer',initials:'KM',
+      id:'kinsey',name:'Kinsey Machos',title:'COO',initials:'KM',image:'images/kinsey-machos.png',
       aiEmployees:[
-        {name:'Morning Briefing Agent',icon:'☕',cat:'ops',desc:'Daily Slack digest of team activity, priorities, and flags before coffee'},
-        {name:'Executive Briefing Analyst',icon:'📊',cat:'analytics',desc:'Weekly leadership briefings compiled from all channels'},
-        {name:'Meeting Intelligence Manager',icon:'🎯',cat:'ops',desc:'Extracts action items and decisions from every meeting automatically'},
-        {name:'Operations Dashboard Builder',icon:'📋',cat:'engineering',desc:'Automated KPI dashboards and team performance tracking'},
-        {name:'Job Description Writer',icon:'📝',cat:'hr',desc:'AI-generated JDs that know your company values and team structure'},
-        {name:'AI CFO',icon:'💰',cat:'finance',desc:'Financial snapshots, calendar-as-revenue reports, budget oversight'},
+        {name:'Morning Briefing Agent',icon:'☕',cat:'ops',desc:'Daily Slack digest of team activity, priorities, and flags',activation:'schedule',status:'rebuild'},
+        {name:'Executive Briefing Analyst',icon:'📊',cat:'analytics',desc:'Weekly leadership briefings compiled from all channels',activation:'schedule',status:'rebuild'},
+        {name:'Meeting Intelligence Manager',icon:'🎯',cat:'ops',desc:'Extracts action items and decisions from every meeting',activation:'trigger',status:'rebuild'},
+        {name:'Operations Dashboard Builder',icon:'📋',cat:'engineering',desc:'Automated KPI dashboards and team performance tracking',activation:'schedule',status:'rebuild'},
+        {name:'Job Description Writer',icon:'📝',cat:'hr',desc:'AI-generated JDs aligned with company values and team structure',activation:'demand',status:'rebuild'},
+        {name:'Interview Prep Agent',icon:'🧭',cat:'hr',desc:'Builds interview guides based on role, Kolbe profile, and team gaps',activation:'trigger',status:'new'},
+        {name:'Onboarding Checklist Builder',icon:'✅',cat:'hr',desc:'Generates personalized onboarding plans for new hires by role',activation:'trigger',status:'new'},
+        {name:'AI CFO',icon:'💰',cat:'finance',desc:'Financial snapshots, calendar-as-revenue reports, budget oversight',activation:'demand',status:'rebuild'},
+        {name:'Launch Pacing Model',icon:'📈',cat:'analytics',desc:'Projects revenue by day during launch windows against targets',activation:'trigger',status:'new'},
+        {name:'Program ROI Calculator',icon:'⚖️',cat:'finance',desc:'Calculates cost-to-run vs. revenue for every program and cohort',activation:'demand',status:'new'},
+        {name:'Corporate Proposal Generator',icon:'📄',cat:'sales',desc:'Builds team transformation proposals for enterprise leads',activation:'demand',status:'new'},
+        {name:'Corporate Follow-Up Sequencer',icon:'📬',cat:'sales',desc:'Nurture sequences personalized to corporate decision-makers',activation:'trigger',status:'new'},
       ],
-      moreCount:12,
+      moreCount:0,
       children:[
         {
-          id:'kara',name:'Kara',title:'Director of Paid Media',initials:'KA',
+          id:'kara',name:'Kara Charron',title:'Director of Paid Media & Creative Innovation',initials:'KC',image:'images/kara-charron.png',
           aiEmployees:[
-            {name:'Social Media Data Analyst',icon:'📱',cat:'analytics',desc:'Scrapes competitor posts, finds winning hooks and engagement patterns'},
-            {name:'Ad Creative Strategist',icon:'🎨',cat:'creative',desc:'Scroll-stopping ad concepts built from real performance data'},
-            {name:'Visual Content Designer',icon:'🖼️',cat:'creative',desc:'Thumbnails, graphics, carousel designs, ad creatives on demand'},
-            {name:'Campaign Performance Optimizer',icon:'📉',cat:'analytics',desc:'Monitors ad spend ROI and recommends budget reallocation'},
-            {name:'Instagram Carousel Creator',icon:'📐',cat:'creative',desc:'Transcript → content ideas → publish-ready PDF carousel'},
+            {name:'Social Media Data Analyst',icon:'📱',cat:'analytics',desc:'Scrapes competitor posts, finds winning hooks and engagement patterns',activation:'schedule',status:'rebuild'},
+            {name:'Ad Creative Strategist',icon:'🎨',cat:'creative',desc:'Scroll-stopping ad concepts built from real performance data',activation:'demand',status:'rebuild'},
+            {name:'Visual Content Designer',icon:'🖼️',cat:'creative',desc:'Thumbnails, graphics, carousel designs, ad creatives on demand',activation:'demand',status:'rebuild'},
+            {name:'Campaign Performance Optimizer',icon:'📉',cat:'analytics',desc:'Monitors ad spend ROI and recommends budget reallocation',activation:'schedule',status:'rebuild'},
+            {name:'Instagram Carousel Creator',icon:'📐',cat:'creative',desc:'Transcript → content ideas → publish-ready PDF carousel',activation:'demand',status:'rebuild'},
+            {name:'Ad Copy Variant Generator',icon:'✍️',cat:'creative',desc:'Generates 5-10 headline/body variants for A/B testing from a single brief',activation:'demand',status:'new'},
+            {name:'Launch Ad Calendar',icon:'🗓️',cat:'ops',desc:'Builds full ad schedule aligned with launch pacing model',activation:'trigger',status:'new'},
+            {name:'CPL & ROAS Tracker',icon:'📊',cat:'analytics',desc:'Daily dashboard of cost per lead and return on ad spend by campaign',activation:'schedule',status:'new'},
           ],
-          moreCount:8,
+          moreCount:0,
           children:[
-            {id:'kelsey',name:'Kelsey',title:'Video Team',initials:'KE',
+            {id:'kelsey',name:'Kelsey Faye Kundert',title:'Creative Content Producer',initials:'KK',image:'images/kelsey-faye-kundert.png',
               aiEmployees:[
-                {name:'Video Script Writer',icon:'🎬',cat:'creative',desc:'Scripts optimized for retention and audience engagement'},
-                {name:'Thumbnail Designer',icon:'🖼️',cat:'creative',desc:'Click-worthy thumbnails for every piece of content'},
-                {name:'Content Repurposer',icon:'♻️',cat:'creative',desc:'One video becomes 10+ assets across platforms automatically'},
+                {name:'Video Script Writer',icon:'🎬',cat:'creative',desc:'Scripts optimized for retention and audience engagement',activation:'demand',status:'rebuild'},
+                {name:'Thumbnail Designer',icon:'🖼️',cat:'creative',desc:'Click-worthy thumbnails for every piece of content',activation:'demand',status:'rebuild'},
+                {name:'Content Repurposer',icon:'♻️',cat:'creative',desc:'One video becomes 10+ assets across platforms automatically',activation:'trigger',status:'rebuild'},
+                {name:'Video Brief Generator',icon:'📋',cat:'creative',desc:'Creates structured briefs for video shoots from topic outlines',activation:'demand',status:'new'},
+                {name:'B-Roll Suggestion Engine',icon:'🎥',cat:'creative',desc:'Suggests B-roll footage and visual overlays based on script content',activation:'demand',status:'new'},
               ],
-              moreCount:6,children:[]
+              moreCount:0,children:[]
             }
           ]
         },
         {
-          id:'lex',name:'Lex',title:'Director of Operations',initials:'LX',
+          id:'lex',name:'Alexys Bartok',title:'Director of Operations',initials:'AB',image:'images/alexys-bartok.png',
           aiEmployees:[
-            {name:'SOP Architect',icon:'📋',cat:'ops',desc:'Turns brain dumps into standardized, deploy-ready playbooks'},
-            {name:'Workflow Automator',icon:'⚡',cat:'engineering',desc:'Designs automated workflows that replace manual repetitive tasks'},
-            {name:'Event Planner',icon:'🗓️',cat:'ops',desc:'Full event build — budget, website, checkout — in hours, not weeks'},
-            {name:'Project Manager',icon:'📤',cat:'ops',desc:'Brain dumps into organized, assignable project briefs in Notion'},
-            {name:'Compliance & IP Specialist',icon:'🛡️',cat:'ops',desc:'Monitors and protects company intellectual property'},
+            {name:'SOP Architect',icon:'📋',cat:'ops',desc:'Turns brain dumps into standardized, deploy-ready playbooks',activation:'demand',status:'rebuild'},
+            {name:'Workflow Automator',icon:'⚡',cat:'engineering',desc:'Designs automated workflows that replace manual repetitive tasks',activation:'demand',status:'rebuild'},
+            {name:'Event Planner',icon:'🗓️',cat:'ops',desc:'Full event build — budget, website, checkout — in hours, not weeks',activation:'demand',status:'rebuild'},
+            {name:'Project Manager',icon:'📤',cat:'ops',desc:'Brain dumps into organized, assignable project briefs in Notion',activation:'demand',status:'rebuild'},
+            {name:'Compliance & IP Specialist',icon:'🛡️',cat:'ops',desc:'Monitors and protects company intellectual property',activation:'schedule',status:'rebuild'},
+            {name:'Launch Checklist Generator',icon:'✅',cat:'ops',desc:'Generates launch-specific checklists from the master launch SOP',activation:'trigger',status:'new'},
+            {name:'Post-Launch Debrief Compiler',icon:'📊',cat:'analytics',desc:'Compiles launch metrics, team feedback, and lessons learned',activation:'trigger',status:'new'},
+            {name:'Build Request Triage',icon:'🔀',cat:'ops',desc:'Routes incoming build requests to Express or Architect track',activation:'trigger',status:'new'},
+            {name:'Build Status Reporter',icon:'📈',cat:'ops',desc:'Weekly summary of build queue, completed builds, and blockers',activation:'schedule',status:'new'},
           ],
-          moreCount:8,children:[]
-        },
-        {
-          id:'nick',name:'Nick',title:'Copywriter',initials:'NM',
-          aiEmployees:[
-            {name:'Email Copywriter',icon:'✉️',cat:'voice',desc:'Single-CTA emails that compress and convert'},
-            {name:'Newsletter Writer',icon:'📰',cat:'voice',desc:'Weekly newsletter drafts in brand voice — scheduled every Tuesday at 5am'},
-            {name:'Hook Specialist',icon:'🪝',cat:'creative',desc:'Scroll-stopping hooks built from real engagement data'},
-            {name:'Sales Page Writer',icon:'📝',cat:'voice',desc:'Long-form sales pages that tell stories and close'},
-            {name:'A/B Test Analyst',icon:'🔬',cat:'analytics',desc:'Copy variant analysis and winner prediction'},
-          ],
-          moreCount:7,children:[]
-        },
-        {
-          id:'jodi-sales',name:'Jodi',title:'Director of Sales',initials:'JS',
-          aiEmployees:[
-            {name:'Sales Wizard',icon:'🧙',cat:'sales',desc:'Proof-loaded responses pulling real client stories for every objection'},
-            {name:'Lead Researcher',icon:'🔍',cat:'sales',desc:'Deep-profiles every prospect before the first call'},
-            {name:'DM Responder',icon:'💬',cat:'sales',desc:'Instant personalized replies to inbound DMs'},
-            {name:'Call Reviewer',icon:'📞',cat:'sales',desc:'Analyzes recorded calls — flags coaching moments'},
-            {name:'Case Study Finder',icon:'📖',cat:'sales',desc:'Pulls relevant success stories by industry or pain point'},
-          ],
-          moreCount:4,
+          moreCount:0,
           children:[
-            {id:'hilary',name:'Hilary',title:'Sales Rep',initials:'HI',aiEmployees:[],children:[]},
-            {id:'logan',name:'Logan',title:'Sales Rep',initials:'LO',aiEmployees:[],children:[]},
-            {id:'brooklyn',name:'Brooklyn',title:'Sales Rep',initials:'BR',aiEmployees:[],children:[]},
-            {id:'dylan',name:'Dylan',title:'Sales Rep',initials:'DY',aiEmployees:[],children:[]},
+            {id:'kath',name:'Kath Pulmones',title:'Operations Assistant',initials:'KP',image:'images/kath-pulmones.png',aiEmployees:[
+              {name:'Meeting Notes Formatter',icon:'📝',cat:'ops',desc:'Formats raw meeting notes into standardized templates with action items',activation:'trigger',status:'new'},
+              {name:'Follow-Up Tracker',icon:'🔔',cat:'ops',desc:'Flags overdue action items and sends reminder drafts',activation:'schedule',status:'new'},
+              {name:'Document Organizer',icon:'📁',cat:'ops',desc:'Files and tags new documents in the correct Google Drive/Notion locations',activation:'trigger',status:'new'},
+            ],moreCount:0,children:[]}
+          ]
+        },
+        {
+          id:'nick',name:'Nick Muscolino',title:'Senior Copywriter',initials:'NM',image:'images/nick-muscolino.png',
+          aiEmployees:[
+            {name:'Email Copywriter',icon:'✉️',cat:'voice',desc:'Single-CTA emails that compress and convert',activation:'demand',status:'rebuild'},
+            {name:'Newsletter Writer',icon:'📰',cat:'voice',desc:'Weekly newsletter drafts in brand voice',activation:'schedule',status:'rebuild'},
+            {name:'Nurture Sequence Builder',icon:'📬',cat:'voice',desc:'Multi-email nurture sequences for specific segments',activation:'demand',status:'new'},
+            {name:'Sales Page Writer',icon:'📝',cat:'voice',desc:'Long-form sales pages that tell stories and close',activation:'demand',status:'rebuild'},
+            {name:'Hook Specialist',icon:'🪝',cat:'creative',desc:'Scroll-stopping hooks built from real engagement data',activation:'demand',status:'rebuild'},
+            {name:'A/B Test Analyst',icon:'🔬',cat:'analytics',desc:'Copy variant analysis and winner prediction',activation:'demand',status:'rebuild'},
+            {name:'Transformation Statement Generator',icon:'✨',cat:'voice',desc:'Writes before/after transformation statements for specific ICPs',activation:'demand',status:'new'},
+            {name:'Testimonial Rewriter',icon:'💬',cat:'voice',desc:'Reformats raw testimonials into polished social proof copy',activation:'demand',status:'new'},
+          ],
+          moreCount:0,children:[]
+        },
+        {
+          id:'chantelle',name:'Chantelle Adams',title:'Sr. Manager of Affiliate & Partnerships',initials:'CA',image:'images/chantelle-adams.jfif',
+          aiEmployees:[
+            {name:'Podcast Booker',icon:'🎙️',cat:'research',desc:'Finds and pitches relevant podcasts for Callan to guest on',activation:'demand',status:'rebuild'},
+            {name:'PR Outreach Writer',icon:'✉️',cat:'voice',desc:'Crafts personalized media pitches in Callan\'s voice',activation:'demand',status:'rebuild'},
+            {name:'Media Kit Generator',icon:'📋',cat:'creative',desc:'Builds and updates press kits with latest stats and bios',activation:'demand',status:'rebuild'},
+            {name:'Event Scout',icon:'🗓️',cat:'research',desc:'Finds speaking opportunities, conferences, and stage appearances',activation:'schedule',status:'rebuild'},
+            {name:'Event Logistics Coordinator',icon:'📍',cat:'ops',desc:'Manages travel, venue details, tech riders, and day-of checklists',activation:'trigger',status:'rebuild'},
+            {name:'Affiliate Manager',icon:'📊',cat:'sales',desc:'Tracks affiliate partners, commissions, and performance dashboards',activation:'schedule',status:'rebuild'},
+            {name:'Affiliate Outreach Specialist',icon:'📬',cat:'sales',desc:'Finds and pitches new affiliate partners with personalized proposals',activation:'demand',status:'rebuild'},
+            {name:'Post-Podcast Content Extractor',icon:'✂️',cat:'creative',desc:'Takes podcast recordings and extracts clips, quotes, and social content',activation:'trigger',status:'new'},
+          ],
+          moreCount:0,
+          children:[
+            {id:'itzel',name:'Itzel Hernandez',title:'Affiliate & Operations Coordinator',initials:'IH',image:'images/itzel-hernandez.png',aiEmployees:[
+              {name:'Affiliate Data Compiler',icon:'📊',cat:'analytics',desc:'Aggregates affiliate performance data from multiple platforms into one report',activation:'schedule',status:'new'},
+              {name:'Commission Calculator',icon:'💰',cat:'finance',desc:'Calculates affiliate commissions based on tracked conversions',activation:'trigger',status:'new'},
+            ],moreCount:0,children:[]}
+          ]
+        },
+        {
+          id:'sydney',name:'Sydney Hagel',title:'Creative Director',initials:'SH',image:'images/sydney-hagel.png',
+          aiEmployees:[
+            {name:'Brand Template Generator',icon:'🎨',cat:'creative',desc:'Creates on-brand templates for social, email, and presentations',activation:'demand',status:'new'},
+            {name:'Design Brief Interpreter',icon:'📐',cat:'creative',desc:'Translates written design requests into structured briefs with specs',activation:'trigger',status:'new'},
+            {name:'Asset Resizer',icon:'🖼️',cat:'creative',desc:'Resizes and reformats designs for different platforms',activation:'demand',status:'new'},
+          ],moreCount:0,children:[]
+        },
+        {id:'christine',name:'Christine Joy Looc',title:'Graphic Designer',initials:'CL',image:'images/christine-joy-looc.jpeg',aiEmployees:[],children:[]},
+        {id:'archie',name:'Archie Reyes',title:'Graphic Designer',initials:'AR',image:'images/archie-reyes.png',aiEmployees:[],children:[]},
+        {id:'abhie',name:'Abhie Abellon',title:'Operations Coordinator',initials:'AA',image:'images/abhie-abellon.png',aiEmployees:[
+          {name:'Scheduling Assistant',icon:'🗓️',cat:'ops',desc:'Manages calendar coordination across time zones for team meetings',activation:'demand',status:'new'},
+          {name:'Data Entry Automator',icon:'⚡',cat:'ops',desc:'Processes form submissions, spreadsheet updates, and CRM entries',activation:'trigger',status:'new'},
+          {name:'Daily Task Prioritizer',icon:'📋',cat:'ops',desc:'Organizes daily tasks by urgency and deadline from Notion boards',activation:'schedule',status:'new'},
+        ],moreCount:0,children:[]},
+        {
+          id:'maggie',name:'Maggie Hilpisch',title:'Talent & Culture Lead',initials:'MH',image:'images/maggie-hilpisch.jpeg',
+          aiEmployees:[
+            {name:'Interview Panel Prep',icon:'📝',cat:'hr',desc:'Builds structured interview questions based on role, Kolbe, and culture fit',activation:'trigger',status:'new'},
+            {name:'New Hire Welcome Kit',icon:'🎉',cat:'hr',desc:'Generates personalized welcome messages and first-week schedules',activation:'trigger',status:'new'},
+            {name:'Team Pulse Analyzer',icon:'📊',cat:'hr',desc:'Analyzes team sentiment from check-ins and flags burnout risks',activation:'schedule',status:'new'},
+            {name:'Birthday & Anniversary Reminder',icon:'💌',cat:'hr',desc:'Generates personalized celebration messages for team milestones',activation:'schedule',status:'new'},
+          ],moreCount:0,children:[]
+        },
+        {
+          id:'jarrod',name:'Jarrod',title:'Fractional CFO',initials:'JR',
+          aiEmployees:[
+            {name:'AI Bookkeeper',icon:'🧾',cat:'finance',desc:'Raw credit card statements → categorized, CPA-ready reports in minutes',activation:'demand',status:'rebuild'},
+            {name:'Expense Categorizer',icon:'💳',cat:'finance',desc:'Remembers vendors, software stack, and categories — no repeat questions',activation:'trigger',status:'rebuild'},
+            {name:'Budget Tracker',icon:'💰',cat:'finance',desc:'Monitors spend against budget and flags overruns in real time',activation:'schedule',status:'rebuild'},
+            {name:'Financial Snapshot Generator',icon:'📊',cat:'finance',desc:'One-click P&L summaries and board-ready financial reports',activation:'demand',status:'rebuild'},
+            {name:'Revenue Forecaster',icon:'📈',cat:'finance',desc:'Cash flow projections and revenue modeling updated weekly',activation:'schedule',status:'rebuild'},
+            {name:'CFO Advisor',icon:'🧠',cat:'strategy',desc:'Strategic financial guidance — pricing scenarios, investment analysis, growth modeling',activation:'demand',status:'rebuild'},
+            {name:'Program ROI Calculator',icon:'⚖️',cat:'finance',desc:'Calculates cost-to-run vs. revenue for every program and cohort',activation:'demand',status:'rebuild'},
+          ],
+          moreCount:0,children:[]
+        }
+      ]
+    },
+    {
+      id:'carter',name:'Carter Jensen',title:'VP of Product & Innovation',initials:'CJ',image:'images/carter-jensen.jpeg',
+      aiEmployees:[
+        {name:'AI Trend Scout',icon:'🔭',cat:'research',desc:'Scans Product Hunt, Reddit, X daily — filtered for business relevance',activation:'schedule',status:'built'},
+        {name:'Competitive Intelligence Researcher',icon:'🕵️',cat:'research',desc:'Deep research on any company, market, or trend in 60 seconds',activation:'demand',status:'built'},
+        {name:'Audience Analyzer',icon:'👥',cat:'research',desc:'Deep-profiles any audience, event, or prospect in minutes',activation:'demand',status:'built'},
+        {name:'Product Validation Engine',icon:'⚖️',cat:'product',desc:'Pressure-tests product ideas — BUILD, RESHAPE, or SHELF',activation:'demand',status:'built'},
+        {name:'Curriculum Architect',icon:'📐',cat:'curriculum',desc:'Structures raw content ideas into week-by-week A2A curriculum',activation:'demand',status:'new'},
+        {name:'AI Employee Designer',icon:'🛠️',cat:'product',desc:'Designs new AI employees from workflow descriptions',activation:'demand',status:'new'},
+        {name:'LinkedIn Expert',icon:'🔗',cat:'voice',desc:'Transforms any content into ready-to-publish LinkedIn posts',activation:'demand',status:'built'},
+        {name:'UI/UX Designer',icon:'💎',cat:'engineering',desc:'Production-grade interfaces, apps, and interactive experiences',activation:'demand',status:'built'},
+        {name:'Second Brain Librarian',icon:'📚',cat:'ops',desc:'Processes transcripts and notes into the Obsidian vault with proper tagging',activation:'trigger',status:'new'},
+        {name:'Weekly AI Leadership Update',icon:'📊',cat:'research',desc:'Compiles AI news, tool releases, and strategic implications for the team',activation:'schedule',status:'built'},
+      ],
+      moreCount:0,
+      children:[
+        {
+          id:'eliot',name:'Eliot Prince',title:'AI Research & Playbook Developer',initials:'EP',image:'images/eliot-prince.png',
+          aiEmployees:[
+            {name:'Curriculum Developer',icon:'🎓',cat:'curriculum',desc:'Builds interactive trainings that shift beliefs and change behavior',activation:'demand',status:'rebuild'},
+            {name:'Framework Designer',icon:'🔺',cat:'curriculum',desc:'Extracts teachable frameworks from transcripts and creates visual diagrams',activation:'demand',status:'rebuild'},
+            {name:'Assessment Builder',icon:'📝',cat:'curriculum',desc:'Creates quizzes and skill assessments that measure real progress',activation:'demand',status:'rebuild'},
+            {name:'Playbook Writer',icon:'📋',cat:'curriculum',desc:'Turns raw curriculum concepts into step-by-step Notion playbooks',activation:'demand',status:'new'},
+            {name:'Content Repurposer',icon:'♻️',cat:'curriculum',desc:'One transcript → content ideas → publish-ready carousels',activation:'demand',status:'rebuild'},
+            {name:'Brand Skill Builder',icon:'🏷️',cat:'curriculum',desc:'Turns any brand folder into AI-ready guidelines instantly',activation:'demand',status:'rebuild'},
+            {name:'YouTube Script Writer',icon:'🎬',cat:'creative',desc:'Writes YouTube scripts from curriculum topics optimized for retention',activation:'demand',status:'new'},
+            {name:'YouTube Thumbnail Designer',icon:'🖼️',cat:'creative',desc:'Click-worthy thumbnails for YouTube content',activation:'demand',status:'new'},
+            {name:'CalChat Transcript Updater',icon:'🔄',cat:'ops',desc:'Weekly transcript updates to CalChat Plus knowledge base',activation:'schedule',status:'built'},
+            {name:'TubConnect QA Tester',icon:'🧪',cat:'engineering',desc:'Tests platform features and flags bugs after deployments',activation:'trigger',status:'new'},
+          ],
+          moreCount:0,children:[]
+        },
+        {
+          id:'nikhil',name:'Nikhil Kumar',title:'Automations & Tech Specialist',initials:'NK',image:'images/nikhil-kumar.jpg',
+          aiEmployees:[
+            {name:'Zapier Workflow Builder',icon:'⚡',cat:'engineering',desc:'Designs Zapier workflows from plain-language descriptions',activation:'demand',status:'new'},
+            {name:'Integration Debugger',icon:'🔧',cat:'engineering',desc:'Diagnoses broken automations and suggests fixes',activation:'demand',status:'new'},
+          ],moreCount:0,children:[]
+        },
+        {
+          id:'scott',name:'Scott Wright',title:'Product Automation Specialist',initials:'SW',image:'images/scott-wright.jfif',
+          aiEmployees:[
+            {name:'Tech Stack Auditor',icon:'🔍',cat:'engineering',desc:'Reviews current tools for redundancy, cost savings, and integration opportunities',activation:'schedule',status:'new'},
+            {name:'API Connector Builder',icon:'🔌',cat:'engineering',desc:'Builds custom API integrations between business tools',activation:'demand',status:'new'},
+          ],moreCount:0,children:[]
+        },
+        {
+          id:'jodi',name:'Jodi Thornock',title:'Student Success Manager',initials:'JT',image:'images/jodi-thornock.jfif',
+          aiEmployees:[
+            {name:'Sales Wizard',icon:'🧙',cat:'sales',desc:'Proof-loaded responses pulling real client stories for every objection',activation:'demand',status:'rebuild'},
+            {name:'Lead Researcher',icon:'🔍',cat:'sales',desc:'Deep-profiles every prospect before the first call',activation:'trigger',status:'rebuild'},
+            {name:'DM Responder',icon:'💬',cat:'sales',desc:'Instant personalized replies to inbound DMs',activation:'demand',status:'rebuild'},
+            {name:'Call Reviewer',icon:'📞',cat:'sales',desc:'Analyzes recorded calls — flags coaching moments',activation:'trigger',status:'rebuild'},
+            {name:'Case Study Finder',icon:'📖',cat:'sales',desc:'Pulls relevant success stories by industry or pain point',activation:'demand',status:'rebuild'},
+            {name:'Student Onboarding Specialist',icon:'👋',cat:'ops',desc:'Personalized welcome experience for every new student',activation:'trigger',status:'rebuild'},
+            {name:'Community Manager',icon:'🏘️',cat:'ops',desc:'Monitors community health and surfaces students who need help',activation:'schedule',status:'rebuild'},
+            {name:'Progress Tracker',icon:'📈',cat:'analytics',desc:'Milestone tracking and early-warning flags for fall-behind students',activation:'schedule',status:'rebuild'},
+            {name:'Client Story Engine',icon:'🏆',cat:'sales',desc:'Indexes every success story for instant retrieval in sales and content',activation:'trigger',status:'rebuild'},
+            {name:'Win-Back Sequencer',icon:'📬',cat:'sales',desc:'Re-engagement sequences for students who\'ve gone quiet',activation:'trigger',status:'new'},
+          ],
+          moreCount:0,
+          children:[
+            {id:'hilary',name:'Hilary Krueger',title:'Enrollment Specialist',initials:'HK',image:'images/hilary-krueger.webp',aiEmployees:[],children:[]},
+            {id:'logan',name:'Logan Chauvin',title:'Enrollment Specialist',initials:'LC',image:'images/logan-chauvin.png',aiEmployees:[],children:[]},
+            {id:'brooklyn',name:'Brooklyn Mailloux',title:'Enrollment Specialist',initials:'BM',image:'images/brooklyn-mailloux.png',aiEmployees:[],children:[]},
+            {id:'dylan',name:'Dylan Swarers',title:'Enrollment Specialist',initials:'DS',image:'images/dylan-swarers.webp',aiEmployees:[],children:[]},
+            {id:'sarah',name:'Sarah Threadgill',title:'Enrollment Specialist',initials:'ST',image:'images/sarah-threadgill.jpg',aiEmployees:[],children:[]},
+            {id:'meaghan',name:'Meaghan Alton',title:'Enrollment Specialist',initials:'MA',image:'images/meaghan-alton.png',aiEmployees:[],children:[]},
           ],
           salesTeam: true,
           salesTeamAI:[
@@ -97,76 +239,52 @@ const SHARED_ORG = {
             {name:'Proposal Generator',icon:'📄',cat:'sales',desc:'Custom proposals in minutes with pricing, timeline, and social proof'},
             {name:'Follow-Up Sequencer',icon:'📬',cat:'sales',desc:'Automated nurture sequences personalized to each prospect\'s journey'},
             {name:'Pipeline Tracker',icon:'📊',cat:'sales',desc:'Real-time deal stage tracking with revenue forecasting and at-risk flags'},
+            {name:'Concierge Welcome Message',icon:'🤝',cat:'sales',desc:'First-touch message that leads with value, not a sales pitch',activation:'trigger',status:'new'},
+            {name:'Bootcamp-to-A2A Upsell Recommender',icon:'🎓',cat:'sales',desc:'Identifies bootcamp grads ready for A2A based on engagement signals',activation:'schedule',status:'new'},
           ],
-          salesTeamMoreCount:5,
+          salesTeamMoreCount:0,
         },
-        {
-          id:'chantelle',name:'Chantelle',title:'PR & Partnerships',initials:'CH',
+        {id:'irene',name:'Irene Ramos',title:'Student Success Assistant',initials:'IR',image:'images/irene-ramos.png',
           aiEmployees:[
-            {name:'Podcast Booker',icon:'🎙️',cat:'research',desc:'Finds and pitches relevant podcasts for Callan to guest on'},
-            {name:'PR Outreach Writer',icon:'✉️',cat:'voice',desc:'Crafts personalized media pitches in Callan\'s voice'},
-            {name:'Media Kit Generator',icon:'📋',cat:'creative',desc:'Builds and updates press kits with latest stats and bios'},
-            {name:'Event Scout',icon:'🗓️',cat:'research',desc:'Finds speaking opportunities, conferences, and stage appearances'},
-            {name:'Event Logistics Coordinator',icon:'📍',cat:'ops',desc:'Manages travel, venue details, tech riders, and day-of checklists'},
-            {name:'Affiliate Manager',icon:'🤝',cat:'sales',desc:'Tracks affiliate partners, commissions, and performance dashboards'},
-            {name:'Affiliate Outreach Specialist',icon:'📬',cat:'sales',desc:'Finds and pitches new affiliate partners with personalized proposals'},
-          ],
-          moreCount:5,children:[]
-        },
-        {
-          id:'jarrod',name:'Jarrod',title:'Fractional CFO',initials:'JR',
+            {name:'Student Check-In Generator',icon:'💬',cat:'ops',desc:'Writes personalized check-in messages based on student progress data',activation:'schedule',status:'new'},
+            {name:'FAQ Responder',icon:'❓',cat:'ops',desc:'Answers common student questions pulling from knowledge base',activation:'demand',status:'new'},
+            {name:'Engagement Scorer',icon:'📊',cat:'analytics',desc:'Scores student engagement weekly and flags at-risk students',activation:'schedule',status:'new'},
+            {name:'Session Recap Writer',icon:'📝',cat:'ops',desc:'Writes post-session recap emails with key takeaways and next steps',activation:'trigger',status:'new'},
+            {name:'Resource Recommender',icon:'📚',cat:'curriculum',desc:'Suggests relevant playbooks, recordings, and resources based on curriculum progress',activation:'demand',status:'new'},
+            {name:'Graduation Certificate Generator',icon:'🎓',cat:'ops',desc:'Creates personalized completion certificates and celebration messages',activation:'trigger',status:'new'},
+          ],moreCount:0,children:[]},
+        {id:'ferlita',name:'Ferlita Bastian',title:'Student Success Assistant',initials:'FB',image:'images/ferlita-bastian.png',
           aiEmployees:[
-            {name:'AI Bookkeeper',icon:'🧾',cat:'finance',desc:'Raw credit card statements → categorized, CPA-ready reports in minutes'},
-            {name:'Expense Categorizer',icon:'💳',cat:'finance',desc:'Remembers your vendors, software stack, and categories — no repeat questions'},
-            {name:'Budget Tracker',icon:'💰',cat:'finance',desc:'Monitors spend against budget and flags overruns in real time'},
-            {name:'Financial Snapshot Generator',icon:'📊',cat:'finance',desc:'One-click P&L summaries and board-ready financial reports'},
-            {name:'Revenue Forecaster',icon:'📈',cat:'finance',desc:'Cash flow projections and revenue modeling updated weekly'},
-            {name:'CFO Advisor',icon:'🧠',cat:'strategy',desc:'Strategic financial guidance — pricing scenarios, investment analysis, growth modeling'},
-            {name:'Program ROI Calculator',icon:'⚖️',cat:'finance',desc:'Calculates cost-to-run vs. revenue for every program and cohort'},
-          ],
-          moreCount:5,children:[]
-        }
+            {name:'Student Check-In Generator',icon:'💬',cat:'ops',desc:'Writes personalized check-in messages based on student progress data',activation:'schedule',status:'new'},
+            {name:'FAQ Responder',icon:'❓',cat:'ops',desc:'Answers common student questions pulling from knowledge base',activation:'demand',status:'new'},
+            {name:'Engagement Scorer',icon:'📊',cat:'analytics',desc:'Scores student engagement weekly and flags at-risk students',activation:'schedule',status:'new'},
+            {name:'Session Recap Writer',icon:'📝',cat:'ops',desc:'Writes post-session recap emails with key takeaways and next steps',activation:'trigger',status:'new'},
+            {name:'Resource Recommender',icon:'📚',cat:'curriculum',desc:'Suggests relevant playbooks, recordings, and resources based on curriculum progress',activation:'demand',status:'new'},
+            {name:'Graduation Certificate Generator',icon:'🎓',cat:'ops',desc:'Creates personalized completion certificates and celebration messages',activation:'trigger',status:'new'},
+          ],moreCount:0,children:[]},
+        {id:'alyssa',name:'Alyssa Garcia',title:'Student Success Assistant',initials:'AG',image:'images/alyssa-garcia.webp',
+          aiEmployees:[
+            {name:'Student Check-In Generator',icon:'💬',cat:'ops',desc:'Writes personalized check-in messages based on student progress data',activation:'schedule',status:'new'},
+            {name:'FAQ Responder',icon:'❓',cat:'ops',desc:'Answers common student questions pulling from knowledge base',activation:'demand',status:'new'},
+            {name:'Engagement Scorer',icon:'📊',cat:'analytics',desc:'Scores student engagement weekly and flags at-risk students',activation:'schedule',status:'new'},
+            {name:'Session Recap Writer',icon:'📝',cat:'ops',desc:'Writes post-session recap emails with key takeaways and next steps',activation:'trigger',status:'new'},
+            {name:'Resource Recommender',icon:'📚',cat:'curriculum',desc:'Suggests relevant playbooks, recordings, and resources based on curriculum progress',activation:'demand',status:'new'},
+            {name:'Graduation Certificate Generator',icon:'🎓',cat:'ops',desc:'Creates personalized completion certificates and celebration messages',activation:'trigger',status:'new'},
+          ],moreCount:0,children:[]}
       ]
     },
     {
-      id:'carter',name:'Carter',title:'VP of Product & Innovation',initials:'CJ',
+      id:'nicole',name:'Nicole Tormey',title:'Human Performance Program Dir.',initials:'NT',image:'images/nicole-tormey.jpg',
       aiEmployees:[
-        {name:'AI Trend Scout',icon:'🔭',cat:'research',desc:'Scans Product Hunt, Reddit, X daily — filtered for business relevance'},
-        {name:'Audience Analyzer',icon:'👥',cat:'research',desc:'Deep-profiles any audience, event, or prospect in minutes'},
-        {name:'Product Validation Engine',icon:'⚖️',cat:'product',desc:'Pressure-tests product ideas — BUILD, RESHAPE, or SHELF'},
-        {name:'LinkedIn Expert',icon:'🔗',cat:'voice',desc:'Transforms any content into ready-to-publish LinkedIn posts'},
-        {name:'UI/UX Designer',icon:'💎',cat:'engineering',desc:'Production-grade interfaces, apps, and interactive experiences'},
-        {name:'Competitive Intelligence Researcher',icon:'🕵️',cat:'research',desc:'Deep research on any company, market, or trend in 60 seconds'},
-      ],
-      moreCount:13,
-      children:[
-        {
-          id:'elliot',name:'Elliot',title:'Director of Curriculum',initials:'EL',
-          aiEmployees:[
-            {name:'Curriculum Developer',icon:'🎓',cat:'curriculum',desc:'Interactive trainings that shift beliefs and change behavior'},
-            {name:'Content Repurposer',icon:'♻️',cat:'curriculum',desc:'One transcript → content ideas → publish-ready carousels'},
-            {name:'Framework Designer',icon:'🔺',cat:'curriculum',desc:'Extracts teachable frameworks and creates visual diagrams'},
-            {name:'Brand Skill Builder',icon:'🏷️',cat:'curriculum',desc:'Turns any brand folder into AI-ready guidelines instantly'},
-            {name:'Assessment Builder',icon:'📝',cat:'curriculum',desc:'Quizzes and skill assessments that measure real progress'},
-          ],
-          moreCount:9,children:[]
-        },
-        {
-          id:'jodi-ss',name:'Jodi',title:'Student Success Lead',initials:'JD',
-          aiEmployees:[
-            {name:'Student Onboarding Specialist',icon:'👋',cat:'ops',desc:'Personalized welcome experience for every new student'},
-            {name:'Community Manager',icon:'💬',cat:'ops',desc:'Monitors community health and surfaces students who need help'},
-            {name:'Progress Tracker',icon:'📈',cat:'analytics',desc:'Milestone tracking and early-warning flags for fall-behind students'},
-            {name:'Client Story Engine',icon:'📖',cat:'sales',desc:'Indexes every success story for instant retrieval in sales and content'},
-          ],
-          moreCount:7,children:[]
-        }
-      ]
+        {name:'Aliveness Assessment Scorer',icon:'📋',cat:'curriculum',desc:'Processes assessment responses and generates personalized reports',activation:'trigger',status:'new'},
+        {name:'GRACE Model Coach',icon:'🧭',cat:'curriculum',desc:'Provides personalized coaching prompts based on the GRACE framework',activation:'demand',status:'new'},
+        {name:'Burnout Prevention Monitor',icon:'🛡️',cat:'hr',desc:'Tracks team workload signals and recommends intervention timing',activation:'schedule',status:'new'},
+      ],moreCount:0,children:[]
     }
   ]
 };
 
-const TOTAL_HUMANS = 17;
+const TOTAL_HUMANS = 30;
 
 // ═══ MONDAY MORNING TIMELINE EVENTS ═══
 // Each event = one AI employee completing a task while humans sleep
