@@ -172,7 +172,25 @@ const SHARED_ORG = {
           {name:'Meeting Notes Formatter',icon:'📝',cat:'ops',desc:'Formats raw meeting notes into standardized templates with action items',activation:'trigger',status:'new'},
           {name:'Follow-Up Tracker',icon:'🔔',cat:'ops',desc:'Flags overdue action items and sends reminder drafts',activation:'schedule',status:'new'},
           {name:'Document Organizer',icon:'📁',cat:'ops',desc:'Files and tags new documents in the correct Google Drive/Notion locations',activation:'trigger',status:'new'},
-        ],moreCount:0,children:[]}
+        ],moreCount:0,children:[]},
+        {
+        id:'nikhil',name:'Nikhil Kumar',title:'Automations & Tech Specialist',initials:'NK',image:'images/nikhil-kumar.jpg',
+        aiEmployees:[
+          {name:'Zapier Workflow Builder',icon:'⚡',cat:'engineering',desc:'Designs Zapier workflows from plain-language descriptions',activation:'demand',status:'new'},
+          {name:'Integration Debugger',icon:'🔧',cat:'engineering',desc:'Diagnoses broken automations and suggests fixes',activation:'demand',status:'new'},
+          {name:'Automation Health Monitor',icon:'🩺',cat:'ops',desc:'Scans all active Zaps weekly and flags errors, failures, and slowdowns',activation:'schedule',status:'new'},
+          {name:'Baserow Schema Manager',icon:'🗄️',cat:'engineering',desc:'Documents and validates Baserow database structures and field relationships',activation:'demand',status:'new'},
+        ],moreCount:0,children:[]
+      },
+      {
+        id:'scott',name:'Scott Wright',title:'Product Automation Specialist',initials:'SW',image:'images/scott-wright.jfif',
+        aiEmployees:[
+          {name:'Tech Stack Auditor',icon:'🔍',cat:'engineering',desc:'Reviews current tools for redundancy, cost savings, and integration opportunities',activation:'schedule',status:'new'},
+          {name:'API Connector Builder',icon:'🔌',cat:'engineering',desc:'Builds custom API integrations between business tools',activation:'demand',status:'new'},
+          {name:'Automation Documenter',icon:'📋',cat:'ops',desc:'Generates documentation for every automation — what it does, what triggers it, what breaks',activation:'trigger',status:'new'},
+          {name:'No-Code App Builder',icon:'🧱',cat:'product',desc:'Scaffolds internal tools and dashboards from plain-language requirements',activation:'demand',status:'new'},
+        ],moreCount:0,children:[]
+      },
       ]
     },
     {
@@ -206,24 +224,6 @@ const SHARED_ORG = {
             {name:'TubConnect QA Tester',icon:'🧪',cat:'engineering',desc:'Tests platform features and flags bugs after deployments',activation:'trigger',status:'new'},
           ],
           moreCount:0,children:[]
-        },
-        {
-          id:'nikhil',name:'Nikhil Kumar',title:'Automations & Tech Specialist',initials:'NK',image:'images/nikhil-kumar.jpg',
-          aiEmployees:[
-            {name:'Zapier Workflow Builder',icon:'⚡',cat:'engineering',desc:'Designs Zapier workflows from plain-language descriptions',activation:'demand',status:'new'},
-            {name:'Integration Debugger',icon:'🔧',cat:'engineering',desc:'Diagnoses broken automations and suggests fixes',activation:'demand',status:'new'},
-            {name:'Automation Health Monitor',icon:'🩺',cat:'ops',desc:'Scans all active Zaps weekly and flags errors, failures, and slowdowns',activation:'schedule',status:'new'},
-            {name:'Baserow Schema Manager',icon:'🗄️',cat:'engineering',desc:'Documents and validates Baserow database structures and field relationships',activation:'demand',status:'new'},
-          ],moreCount:0,children:[]
-        },
-        {
-          id:'scott',name:'Scott Wright',title:'Product Automation Specialist',initials:'SW',image:'images/scott-wright.jfif',
-          aiEmployees:[
-            {name:'Tech Stack Auditor',icon:'🔍',cat:'engineering',desc:'Reviews current tools for redundancy, cost savings, and integration opportunities',activation:'schedule',status:'new'},
-            {name:'API Connector Builder',icon:'🔌',cat:'engineering',desc:'Builds custom API integrations between business tools',activation:'demand',status:'new'},
-            {name:'Automation Documenter',icon:'📋',cat:'ops',desc:'Generates documentation for every automation — what it does, what triggers it, what breaks',activation:'trigger',status:'new'},
-            {name:'No-Code App Builder',icon:'🧱',cat:'product',desc:'Scaffolds internal tools and dashboards from plain-language requirements',activation:'demand',status:'new'},
-          ],moreCount:0,children:[]
         },
         {
           id:'jodi',name:'Jodi Thornock',title:'Student Success Manager',initials:'JT',image:'images/jodi-thornock.jfif',
