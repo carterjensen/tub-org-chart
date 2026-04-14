@@ -45,6 +45,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .meta-block{flex:1;min-width:0}
 .person-name{font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-.2px;line-height:1.2}
 .person-title{font-size:12px;color:#888;margin-top:2px}
+.reports-to{font-size:10px;color:#8B7024;margin-top:3px;font-style:italic;display:flex;align-items:center;gap:4px}
+.reports-to::before{content:'';width:12px;height:1px;background:#D1B25A;border-top:1px dashed #D1B25A;display:inline-block}
 
 .pills-row{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;transition:background .15s;cursor:pointer}
@@ -335,6 +337,7 @@ function PersonNode({node,orgOpen,aiOpen,toggleOrg,toggleAI}){
             <div className="meta-block">
               <div className="person-name">{node.name}</div>
               <div className="person-title">{node.title}</div>
+              {node.reportsTo && <div className="reports-to">Reports to {node.reportsTo.name}</div>}
             </div>
           </div>
           <div className="pills-row">
@@ -495,9 +498,6 @@ function App(){
           </div>
         </div>
         <div className="top-bar-right">
-          <div className="stat-chip"><span className="stat-chip-dot green"/><span className="num">{TOTAL_HUMANS}</span> humans</div>
-          <div className="stat-chip"><span className="stat-chip-dot amber"/><span className="num gold">173</span> AI employees</div>
-          <div className="top-sep"/>
           {anyOpen?<button className="tb-btn" onClick={collapseAll}>Collapse all</button>:<button className="tb-btn" onClick={expandAllOrg}>Expand all</button>}
         </div>
       </div>
@@ -508,11 +508,6 @@ function App(){
 
           <div className="hero-panel">
             <h1>The AI-Powered <em>Company</em></h1>
-            <div className="hero-stats">
-              <div className="hero-stat"><div className="hero-stat-num">{TOTAL_HUMANS}</div><div className="hero-stat-lbl">Humans</div></div>
-              <div className="hero-stat"><div className="hero-stat-num gold">173</div><div className="hero-stat-lbl">AI Employees</div></div>
-              <div className="hero-stat"><div className="hero-stat-num gold">190+</div><div className="hero-stat-lbl">Total Instances</div></div>
-            </div>
             <div className="hero-divider"/>
             <p className="hero-tagline">"We don't hire people to do process work. We train humans to become AI Architects — then they build AI employees that handle the rest. Take a team of 5, operate like a team of 50."</p>
             <p className="hero-cta"><span>Click any card</span> to explore the org. Click <span>AI Employees</span> to see who's really doing the work.</p>

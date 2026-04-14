@@ -66,28 +66,6 @@ const SHARED_ORG = {
           ]
         },
         {
-          id:'lex',name:'Alexys Bartok',title:'Director of Operations',initials:'AB',image:'images/alexys-bartok.png',
-          aiEmployees:[
-            {name:'SOP Architect',icon:'📋',cat:'ops',desc:'Turns brain dumps into standardized, deploy-ready playbooks',activation:'demand',status:'rebuild'},
-            {name:'Workflow Automator',icon:'⚡',cat:'engineering',desc:'Designs automated workflows that replace manual repetitive tasks',activation:'demand',status:'rebuild'},
-            {name:'Event Planner',icon:'🗓️',cat:'ops',desc:'Full event build — budget, website, checkout — in hours, not weeks',activation:'demand',status:'rebuild'},
-            {name:'Project Manager',icon:'📤',cat:'ops',desc:'Brain dumps into organized, assignable project briefs in Notion',activation:'demand',status:'rebuild'},
-            {name:'Compliance & IP Specialist',icon:'🛡️',cat:'ops',desc:'Monitors and protects company intellectual property',activation:'schedule',status:'rebuild'},
-            {name:'Launch Checklist Generator',icon:'✅',cat:'ops',desc:'Generates launch-specific checklists from the master launch SOP',activation:'trigger',status:'new'},
-            {name:'Post-Launch Debrief Compiler',icon:'📊',cat:'analytics',desc:'Compiles launch metrics, team feedback, and lessons learned',activation:'trigger',status:'new'},
-            {name:'Build Request Triage',icon:'🔀',cat:'ops',desc:'Routes incoming build requests to Express or Architect track',activation:'trigger',status:'new'},
-            {name:'Build Status Reporter',icon:'📈',cat:'ops',desc:'Weekly summary of build queue, completed builds, and blockers',activation:'schedule',status:'new'},
-          ],
-          moreCount:0,
-          children:[
-            {id:'kath',name:'Kath Pulmones',title:'Operations Assistant',initials:'KP',image:'images/kath-pulmones.png',aiEmployees:[
-              {name:'Meeting Notes Formatter',icon:'📝',cat:'ops',desc:'Formats raw meeting notes into standardized templates with action items',activation:'trigger',status:'new'},
-              {name:'Follow-Up Tracker',icon:'🔔',cat:'ops',desc:'Flags overdue action items and sends reminder drafts',activation:'schedule',status:'new'},
-              {name:'Document Organizer',icon:'📁',cat:'ops',desc:'Files and tags new documents in the correct Google Drive/Notion locations',activation:'trigger',status:'new'},
-            ],moreCount:0,children:[]}
-          ]
-        },
-        {
           id:'nick',name:'Nick Muscolino',title:'Senior Copywriter',initials:'NM',image:'images/nick-muscolino.png',
           aiEmployees:[
             {name:'Email Copywriter',icon:'✉️',cat:'voice',desc:'Single-CTA emails that compress and convert',activation:'demand',status:'rebuild'},
@@ -172,6 +150,29 @@ const SHARED_ORG = {
           ],
           moreCount:0,children:[]
         }
+      ]
+    },
+    {
+      id:'lex',name:'Alexys Bartok',title:'Director of Operations',initials:'AB',image:'images/alexys-bartok.png',
+      reportsTo:{id:'kinsey',name:'Kinsey Machos'},
+      aiEmployees:[
+        {name:'SOP Architect',icon:'📋',cat:'ops',desc:'Turns brain dumps into standardized, deploy-ready playbooks',activation:'demand',status:'rebuild'},
+        {name:'Workflow Automator',icon:'⚡',cat:'engineering',desc:'Designs automated workflows that replace manual repetitive tasks',activation:'demand',status:'rebuild'},
+        {name:'Event Planner',icon:'🗓️',cat:'ops',desc:'Full event build — budget, website, checkout — in hours, not weeks',activation:'demand',status:'rebuild'},
+        {name:'Project Manager',icon:'📤',cat:'ops',desc:'Brain dumps into organized, assignable project briefs in Notion',activation:'demand',status:'rebuild'},
+        {name:'Compliance & IP Specialist',icon:'🛡️',cat:'ops',desc:'Monitors and protects company intellectual property',activation:'schedule',status:'rebuild'},
+        {name:'Launch Checklist Generator',icon:'✅',cat:'ops',desc:'Generates launch-specific checklists from the master launch SOP',activation:'trigger',status:'new'},
+        {name:'Post-Launch Debrief Compiler',icon:'📊',cat:'analytics',desc:'Compiles launch metrics, team feedback, and lessons learned',activation:'trigger',status:'new'},
+        {name:'Build Request Triage',icon:'🔀',cat:'ops',desc:'Routes incoming build requests to Express or Architect track',activation:'trigger',status:'new'},
+        {name:'Build Status Reporter',icon:'📈',cat:'ops',desc:'Weekly summary of build queue, completed builds, and blockers',activation:'schedule',status:'new'},
+      ],
+      moreCount:0,
+      children:[
+        {id:'kath',name:'Kath Pulmones',title:'Operations Assistant',initials:'KP',image:'images/kath-pulmones.png',aiEmployees:[
+          {name:'Meeting Notes Formatter',icon:'📝',cat:'ops',desc:'Formats raw meeting notes into standardized templates with action items',activation:'trigger',status:'new'},
+          {name:'Follow-Up Tracker',icon:'🔔',cat:'ops',desc:'Flags overdue action items and sends reminder drafts',activation:'schedule',status:'new'},
+          {name:'Document Organizer',icon:'📁',cat:'ops',desc:'Files and tags new documents in the correct Google Drive/Notion locations',activation:'trigger',status:'new'},
+        ],moreCount:0,children:[]}
       ]
     },
     {
