@@ -1083,23 +1083,6 @@ function Explorer(){
 
   return(
     <section className="explorer">
-      <div className="explorer-head">
-        <div>
-          <div className="eyebrow">
-            <span className="eyebrow-bar"/>
-            The five department workspaces
-          </div>
-          <h2 className="explorer-title">
-            Each workspace is built from the files that <em>power it</em> — plus the broader business files it can reference. Pick a department.
-          </h2>
-        </div>
-        <div className="explorer-meta">
-          5 workspaces<br/>
-          Core + supporting split<br/>
-          Click any card
-        </div>
-      </div>
-
       <div className="tabs">
         {DEPARTMENTS.map(d=>(
           <button key={d.id} className={`tab ${activeId===d.id?'active':''}`} style={{'--tab-accent':d.accent}} onClick={()=>{setActiveId(d.id);setOpenFile(null)}}>
