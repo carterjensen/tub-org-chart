@@ -18,7 +18,8 @@
     document.documentElement.dataset.theme=theme;
   }catch(e){document.documentElement.dataset.theme='dark'}
   try{
-    if(localStorage.getItem('tub-access')!=='granted'){
+    var exp=parseInt(localStorage.getItem('tub-access')||'0',10);
+    if(!exp||Date.now()>exp){
       document.documentElement.classList.add('locked');
     }
   }catch(e){document.documentElement.classList.add('locked')}
@@ -308,7 +309,7 @@ html.locked body{overflow:hidden}
     e.preventDefault();
     var pwd=(input.value||'').trim().toLowerCase();
     if(pwd==='employee'){
-      try{localStorage.setItem('tub-access','granted')}catch(e){}
+      try{localStorage.setItem('tub-access',String(Date.now()+7*24*60*60*1000))}catch(e){}
       document.documentElement.classList.remove('locked');
     }else{
       err.classList.remove('show');
