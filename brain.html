@@ -17,6 +17,11 @@
     var theme=saved||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
     document.documentElement.dataset.theme=theme;
   }catch(e){document.documentElement.dataset.theme='dark'}
+  try{
+    if(localStorage.getItem('tub-access')!=='granted'){
+      document.documentElement.classList.add('locked');
+    }
+  }catch(e){document.documentElement.classList.add('locked')}
 })();
 </script>
 <style>
@@ -227,6 +232,30 @@ img{display:block;max-width:100%;height:auto}
 :root[data-theme="light"] .theme-toggle-thumb{transform:translateX(30px)}
 .theme-toggle-btn:hover{color:var(--text)}
 
+/* PASSWORD GATE */
+#gate{display:none;position:fixed;inset:0;z-index:10000;background:var(--bg);align-items:center;justify-content:center;padding:40px;overflow:hidden;transition:background .5s,color .5s;color:var(--text);font-family:'Geist',-apple-system,sans-serif}
+html.locked #gate{display:flex}
+html.locked #root{display:none}
+html.locked body{overflow:hidden}
+.gate-bg-grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:96px 96px;mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 50%,#000 20%,transparent 80%);pointer-events:none;opacity:.5}
+.gate-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,var(--gold-soft),transparent 60%);pointer-events:none}
+.gate-inner{position:relative;z-index:2;max-width:460px;width:100%;text-align:center;animation:gateIn .9s cubic-bezier(.22,1,.36,1) both}
+@keyframes gateIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+.gate-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;margin-bottom:30px}
+.gate-eyebrow-bar{display:inline-block;width:28px;height:1px;background:var(--gold);margin-right:14px}
+.gate-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,5vw,56px);font-weight:300;letter-spacing:-.03em;color:var(--text);line-height:1;margin:0 0 20px;font-variation-settings:'opsz' 144}
+.gate-title em{font-style:italic;color:var(--gold);font-weight:300}
+.gate-sub{font-size:15px;line-height:1.55;color:var(--text-mute);margin:0 auto 40px;max-width:380px;font-weight:300}
+.gate-form{display:flex;gap:8px;justify-content:center;max-width:420px;margin:0 auto;flex-wrap:wrap}
+.gate-input{flex:1;min-width:0;padding:14px 20px;background:var(--surface-subtle);border:1px solid var(--hairline);border-radius:100px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.5px;outline:none;transition:border-color .25s,background .25s}
+.gate-input:focus{border-color:var(--gold);background:var(--surface-raised)}
+.gate-input::placeholder{color:var(--text-faint);text-transform:uppercase;letter-spacing:1.6px;font-size:10.5px}
+.gate-btn{padding:14px 26px;background:var(--gold-soft);border:1px solid var(--gold-medium);border-radius:100px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:all .25s cubic-bezier(.22,1,.36,1)}
+.gate-btn:hover{background:var(--gold-medium);border-color:var(--gold);color:var(--gold-bright);transform:translateY(-1px);box-shadow:0 4px 14px var(--gold-medium)}
+.gate-error{min-height:18px;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:#E74C3C;opacity:0;transition:opacity .3s}
+.gate-error.show{opacity:.9;animation:gateShake .4s ease-out}
+@keyframes gateShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+
 /* MOBILE */
 @media(max-width:900px){
   .nav-top{padding:16px 20px}
@@ -255,6 +284,42 @@ img{display:block;max-width:100%;height:auto}
 </style>
 </head>
 <body>
+<div id="gate">
+  <div class="gate-bg-grid"></div>
+  <div class="gate-bg-gradient"></div>
+  <div class="gate-inner">
+    <div class="gate-eyebrow"><span class="gate-eyebrow-bar"></span>Private access</div>
+    <h1 class="gate-title">The Uncommon <em>Business</em></h1>
+    <p class="gate-sub">Enter the password to step inside the demo.</p>
+    <form class="gate-form" id="gate-form" autocomplete="off">
+      <input type="password" class="gate-input" id="gate-input" placeholder="Password" autocomplete="off" autofocus>
+      <button type="submit" class="gate-btn">Enter</button>
+    </form>
+    <div class="gate-error" id="gate-error">Incorrect password</div>
+  </div>
+</div>
+<script>
+(function(){
+  var form=document.getElementById('gate-form');
+  var input=document.getElementById('gate-input');
+  var err=document.getElementById('gate-error');
+  if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var pwd=(input.value||'').trim().toLowerCase();
+    if(pwd==='employee'){
+      try{localStorage.setItem('tub-access','granted')}catch(e){}
+      document.documentElement.classList.remove('locked');
+    }else{
+      err.classList.remove('show');
+      void err.offsetWidth;
+      err.classList.add('show');
+      input.value='';
+      input.focus();
+    }
+  });
+})();
+</script>
 <div id="root"></div>
 <script type="text/babel">
 const{useState,useEffect,useMemo}=React;
