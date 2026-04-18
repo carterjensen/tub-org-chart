@@ -10,26 +10,67 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script>
+(function(){
+  try{
+    var saved=localStorage.getItem('tub-theme');
+    var theme=saved||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+    document.documentElement.dataset.theme=theme;
+  }catch(e){document.documentElement.dataset.theme='dark'}
+})();
+</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:#0B0A08;color:#EDE8DC;
+  background:var(--bg);color:var(--text);
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   overflow-x:hidden;font-feature-settings:'ss01','ss02','cv11';letter-spacing:-.01em;
+  transition:background-color .5s cubic-bezier(.4,0,.2,1),color .5s cubic-bezier(.4,0,.2,1);
 }
-::selection{background:#D1B25A;color:#0B0A08}
+::selection{background:var(--gold);color:var(--bg)}
 a{color:inherit;text-decoration:none}
 button{background:none;border:none;color:inherit;font-family:inherit;cursor:pointer}
 img{display:block;max-width:100%;height:auto}
 
-:root{
+/* ═══ THEME VARIABLES ═══ */
+:root,:root[data-theme="dark"]{
   --bg:#0B0A08;--bg-warm:#13110D;--bg-warmer:#1C1812;
   --text:#EDE8DC;--text-mute:rgba(237,232,220,.55);--text-faint:rgba(237,232,220,.28);
-  --gold:#D1B25A;--gold-bright:#E8C570;--gold-soft:rgba(209,178,90,.12);
-  --green:#4A8C5C;--red:#E74C3C;
+  --gold:#D1B25A;--gold-bright:#E8C570;
+  --gold-subtle:rgba(209,178,90,.05);--gold-soft:rgba(209,178,90,.12);
+  --gold-medium:rgba(209,178,90,.22);--gold-strong:rgba(209,178,90,.35);
+  --gold-glow:rgba(209,178,90,.5);
+  --green:#4A8C5C;--green-soft:rgba(74,140,92,.07);--red:#E74C3C;
   --hairline:rgba(237,232,220,.08);--hairline-strong:rgba(237,232,220,.15);
+  --surface-subtle:rgba(237,232,220,.025);--surface-raised:rgba(237,232,220,.04);
+  --nav-bg-start:rgba(11,10,8,.88);--nav-bg-mid:rgba(11,10,8,.45);
+  --tabs-bg:rgba(11,10,8,.85);
+  --drawer-overlay:rgba(11,10,8,.7);
+  --shadow-card:0 6px 20px rgba(0,0,0,.2);
+  --shadow-raised:0 10px 30px rgba(0,0,0,.2);
+  --grid-line:rgba(237,232,220,.025);
+  --grain-opacity:.06;
+}
+
+:root[data-theme="light"]{
+  --bg:#F5F2EC;--bg-warm:#EDE8DC;--bg-warmer:#DFD8C5;
+  --text:#18160F;--text-mute:rgba(24,22,15,.62);--text-faint:rgba(24,22,15,.4);
+  --gold:#8B7024;--gold-bright:#A88C35;
+  --gold-subtle:rgba(139,112,36,.04);--gold-soft:rgba(139,112,36,.1);
+  --gold-medium:rgba(139,112,36,.22);--gold-strong:rgba(139,112,36,.32);
+  --gold-glow:rgba(139,112,36,.38);
+  --green:#2F5B4A;--green-soft:rgba(47,91,74,.06);--red:#C53530;
+  --hairline:rgba(24,22,15,.1);--hairline-strong:rgba(24,22,15,.2);
+  --surface-subtle:rgba(24,22,15,.03);--surface-raised:rgba(24,22,15,.06);
+  --nav-bg-start:rgba(245,242,236,.94);--nav-bg-mid:rgba(245,242,236,.55);
+  --tabs-bg:rgba(245,242,236,.9);
+  --drawer-overlay:rgba(24,22,15,.45);
+  --shadow-card:0 4px 20px rgba(24,22,15,.08);
+  --shadow-raised:0 10px 30px rgba(24,22,15,.1);
+  --grid-line:rgba(24,22,15,.05);
+  --grain-opacity:.12;
 }
 
 .serif{font-family:'Fraunces',Georgia,serif;font-feature-settings:'ss01','ss02','ss03'}
@@ -38,7 +79,7 @@ img{display:block;max-width:100%;height:auto}
 .eyebrow-bar{display:inline-block;width:28px;height:1px;background:var(--gold);margin-right:14px}
 
 /* NAV */
-.nav-top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;font-size:12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:linear-gradient(180deg,rgba(11,10,8,.88) 0%,rgba(11,10,8,.45) 70%,transparent 100%)}
+.nav-top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;font-size:12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:linear-gradient(180deg,var(--nav-bg-start) 0%,var(--nav-bg-mid) 70%,transparent 100%);transition:background .5s}
 .nav-logo{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:400;letter-spacing:-.015em}
 .nav-logo em{font-style:italic;color:var(--gold);font-weight:300}
 .nav-right{display:flex;align-items:center;gap:10px}
@@ -48,8 +89,8 @@ img{display:block;max-width:100%;height:auto}
 
 /* HERO */
 .hero{position:relative;padding:140px 48px 80px;overflow:hidden}
-.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(237,232,220,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,220,.025) 1px,transparent 1px);background-size:96px 96px;background-position:center;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);pointer-events:none}
-.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 30%,rgba(209,178,90,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 70%,rgba(74,140,92,.07) 0%,transparent 60%);pointer-events:none}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:96px 96px;background-position:center;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);pointer-events:none}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 30%,var(--gold-subtle) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 70%,var(--green-soft) 0%,transparent 60%);pointer-events:none}
 .hero-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto}
 .hero-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(56px,9vw,140px);line-height:.9;font-weight:300;letter-spacing:-.045em;margin-top:28px;color:var(--text);font-variation-settings:'opsz' 144,'SOFT' 40}
 .hero-title em{font-style:italic;color:var(--gold);font-weight:300;font-variation-settings:'opsz' 144,'SOFT' 100}
@@ -74,9 +115,9 @@ img{display:block;max-width:100%;height:auto}
 .explorer-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint);text-align:right;line-height:1.8}
 
 /* TABS */
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:48px;position:sticky;top:72px;z-index:50;background:rgba(11,10,8,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:14px;border-radius:10px;border:1px solid var(--hairline)}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:48px;position:sticky;top:72px;z-index:50;background:var(--tabs-bg);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:14px;border-radius:10px;border:1px solid var(--hairline);transition:background .5s,border-color .5s}
 .tab{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--text-mute);cursor:pointer;background:transparent;transition:all .3s cubic-bezier(.22,1,.36,1);border:1px solid transparent;position:relative}
-.tab:hover{color:var(--text);background:rgba(237,232,220,.04)}
+.tab:hover{color:var(--text);background:var(--surface-raised)}
 .tab.active{background:var(--bg-warm);border-color:var(--tab-accent);color:var(--text)}
 .tab.active .tab-dot{animation:dotPulse 1.6s ease-in-out infinite}
 .tab-dot{width:6px;height:6px;border-radius:50%;background:var(--tab-accent);box-shadow:0 0 8px var(--tab-accent);opacity:.5;transition:opacity .3s}
@@ -102,32 +143,35 @@ img{display:block;max-width:100%;height:auto}
 .file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 .file-card{position:relative;padding:18px 20px;background:var(--bg-warm);border:1px solid var(--hairline);border-radius:6px;transition:all .3s cubic-bezier(.22,1,.36,1);cursor:pointer;text-align:left;font-family:inherit;color:var(--text);overflow:hidden}
 .file-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 100% 100%,var(--card-accent-soft,rgba(209,178,90,.12)),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
-.file-card:hover{border-color:var(--card-accent,var(--gold));transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.file-card:hover{border-color:var(--card-accent,var(--gold));transform:translateY(-2px);box-shadow:var(--shadow-card)}
 .file-card:hover::before{opacity:1}
 .file-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
-.file-icon{display:flex;align-items:center;justify-content:center;width:34px;height:40px;flex-shrink:0;background:rgba(237,232,220,.04);border:1px solid var(--hairline);border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.5px;color:var(--card-accent,var(--gold));font-weight:500;position:relative}
-.file-icon::after{content:'';position:absolute;top:-1px;right:-1px;width:9px;height:9px;background:var(--bg-warm);border-left:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.file-icon{display:flex;align-items:center;justify-content:center;width:38px;height:44px;flex-shrink:0;background:var(--surface-raised);border:1px solid var(--hairline);border-radius:4px;color:var(--card-accent,var(--gold));position:relative;transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .3s,background .3s}
+.file-icon::after{content:'';position:absolute;top:-1px;right:-1px;width:8px;height:8px;background:var(--bg-warm);border-left:1px solid var(--hairline);border-bottom:1px solid var(--hairline);transition:background .3s,border-color .3s}
+.file-icon svg{transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.file-card:hover .file-icon{transform:translateY(-1px) rotate(-3deg);border-color:var(--card-accent,var(--gold))}
+.file-card:hover .file-icon svg{transform:scale(1.1)}
 .file-meta{min-width:0;flex:1}
 .file-name{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:400;line-height:1.2;letter-spacing:-.01em;color:var(--text);word-break:break-word}
 .file-tag{display:inline-block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--card-accent,var(--gold))}
 .file-desc{font-size:12.5px;line-height:1.55;color:var(--text-mute);font-weight:300}
 
 /* DRAWER */
-.drawer-overlay{position:fixed;inset:0;z-index:400;background:rgba(11,10,8,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer-overlay{position:fixed;inset:0;z-index:400;background:var(--drawer-overlay);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s,background .5s}
 .drawer-overlay.open{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;bottom:0;z-index:500;width:min(620px,94vw);background:var(--bg-warm);border-left:1px solid var(--hairline-strong);transform:translateX(100%);transition:transform .5s cubic-bezier(.22,1,.36,1);overflow-y:auto}
 .drawer.open{transform:translateX(0)}
 .drawer::-webkit-scrollbar{width:6px}
 .drawer::-webkit-scrollbar-thumb{background:var(--hairline-strong);border-radius:4px}
 .drawer-inner{padding:32px 40px 56px}
-.drawer-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(237,232,220,.04);border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-mute);cursor:pointer;transition:all .25s;z-index:10}
-.drawer-close:hover{color:var(--text);background:rgba(237,232,220,.08);border-color:var(--hairline-strong)}
+.drawer-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:var(--surface-raised);border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-mute);cursor:pointer;transition:all .25s;z-index:10}
+.drawer-close:hover{color:var(--text);background:var(--surface-raised);border-color:var(--hairline-strong)}
 .drawer-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:100px;background:var(--drawer-accent-soft,rgba(209,178,90,.1));border:1px solid var(--drawer-accent,rgba(209,178,90,.3));font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--drawer-accent,var(--gold));margin-top:32px}
 .drawer-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--drawer-accent,var(--gold));box-shadow:0 0 6px var(--drawer-accent,var(--gold));animation:dotPulse 2s ease-in-out infinite}
 .drawer-file{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;color:var(--text-faint);margin-top:20px}
 .drawer-title{font-family:'Fraunces',Georgia,serif;font-size:40px;font-weight:300;line-height:1;letter-spacing:-.03em;color:var(--text);margin-top:10px;font-variation-settings:'opsz' 144,'SOFT' 40}
 .drawer-title em{font-style:italic;color:var(--drawer-accent,var(--gold));font-weight:300}
-.drawer-purpose{margin-top:24px;padding:20px 22px;background:rgba(237,232,220,.02);border-left:2px solid var(--drawer-accent,var(--gold));border-radius:2px;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:17px;line-height:1.5;font-weight:300;color:var(--text);letter-spacing:-.005em}
+.drawer-purpose{margin-top:24px;padding:20px 22px;background:var(--surface-subtle);border-left:2px solid var(--drawer-accent,var(--gold));border-radius:2px;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:17px;line-height:1.5;font-weight:300;color:var(--text);letter-spacing:-.005em}
 .drawer-section{margin-top:36px}
 .drawer-section-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--drawer-accent,var(--gold));margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .drawer-section-title .bar{flex:1;height:1px;background:var(--hairline)}
@@ -136,13 +180,14 @@ img{display:block;max-width:100%;height:auto}
 .drawer-contents{display:flex;flex-direction:column;gap:6px}
 .content-item{background:var(--bg-warmer);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;transition:border-color .3s}
 .content-item.open{border-color:var(--drawer-accent,var(--gold))}
-.content-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .2s}
-.content-header:hover{background:rgba(237,232,220,.02)}
+.content-header{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .2s}
+.content-header:hover{background:var(--surface-subtle)}
 .content-header .chev{width:10px;height:10px;flex-shrink:0;border-right:1.5px solid var(--text-faint);border-bottom:1.5px solid var(--text-faint);transform:rotate(-45deg);transition:transform .3s,border-color .3s;margin-left:auto}
 .content-item.open .content-header .chev{transform:rotate(45deg);border-color:var(--drawer-accent,var(--gold))}
 .content-label{flex:1;font-size:13px;line-height:1.5;color:var(--text);font-weight:400;min-width:0}
-.content-dot{width:5px;height:5px;border-radius:50%;background:var(--drawer-accent,var(--gold));flex-shrink:0;transition:box-shadow .3s}
-.content-item.open .content-dot{box-shadow:0 0 8px var(--drawer-accent,var(--gold))}
+.content-icon{display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex-shrink:0;color:var(--drawer-accent,var(--gold));opacity:.55;transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),filter .35s}
+.content-item:hover .content-icon{opacity:.85}
+.content-item.open .content-icon{opacity:1;transform:scale(1.12);filter:drop-shadow(0 0 4px var(--drawer-accent,var(--gold)))}
 .content-detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .5s cubic-bezier(.22,1,.36,1),opacity .3s,padding .3s;padding:0 18px;font-size:13px;line-height:1.7;color:var(--text-mute);font-weight:300;border-top:1px solid transparent}
 .content-item.open .content-detail{max-height:3000px;opacity:1;padding:18px 20px 22px;border-top-color:var(--hairline)}
 .content-detail p{margin-bottom:12px}
@@ -152,14 +197,14 @@ img{display:block;max-width:100%;height:auto}
 .content-detail li{margin-bottom:6px;line-height:1.6}
 .content-detail strong{color:var(--text);font-weight:500}
 .content-detail em{color:var(--drawer-accent,var(--gold));font-style:italic}
-.content-detail blockquote{margin:14px 0;padding:10px 16px;border-left:2px solid var(--drawer-accent,var(--gold));background:rgba(237,232,220,.03);font-style:italic;font-family:'Fraunces',Georgia,serif;font-size:13.5px;line-height:1.55;color:var(--text)}
+.content-detail blockquote{margin:14px 0;padding:10px 16px;border-left:2px solid var(--drawer-accent,var(--gold));background:var(--surface-subtle);font-style:italic;font-family:'Fraunces',Georgia,serif;font-size:13.5px;line-height:1.55;color:var(--text)}
 .content-detail blockquote cite{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:10px;color:var(--text-faint);letter-spacing:.8px;text-transform:uppercase}
 .content-detail table{margin:12px 0;border-collapse:collapse;font-size:12px;width:100%}
 .content-detail th,.content-detail td{padding:8px 10px;border-bottom:1px solid var(--hairline);text-align:left;vertical-align:top}
 .content-detail th{color:var(--drawer-accent,var(--gold));font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.8px}
-.content-detail code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(237,232,220,.06);padding:2px 6px;border-radius:3px;color:var(--text)}
+.content-detail code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--surface-raised);padding:2px 6px;border-radius:3px;color:var(--text)}
 .content-detail h4{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--text);font-weight:400;margin:16px 0 8px;font-variation-settings:'opsz' 144}
-.content-detail .callout{padding:12px 14px;background:rgba(209,178,90,.05);border:1px solid rgba(209,178,90,.15);border-radius:4px;margin:14px 0;font-size:12.5px;line-height:1.55;color:var(--text)}
+.content-detail .callout{padding:12px 14px;background:var(--gold-subtle);border:1px solid var(--gold-medium);border-radius:4px;margin:14px 0;font-size:12.5px;line-height:1.55;color:var(--text)}
 
 .drawer-note{margin-top:32px;padding-top:24px;border-top:1px solid var(--hairline);font-size:12.5px;line-height:1.55;color:var(--text-mute);font-style:italic;font-family:'Fraunces',Georgia,serif;font-weight:300}
 
@@ -169,9 +214,18 @@ img{display:block;max-width:100%;height:auto}
 .return-text{font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3vw,42px);font-weight:300;letter-spacing:-.025em;line-height:1.1;color:var(--text);max-width:660px}
 .return-text em{font-style:italic;color:var(--gold)}
 .return-cta{display:flex;align-items:center;gap:12px;padding:14px 22px;background:var(--bg);border:1px solid var(--hairline-strong);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text);transition:all .3s cubic-bezier(.22,1,.36,1)}
-.return-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 20px rgba(209,178,90,.2)}
+.return-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 20px var(--gold-medium)}
 .return-cta-arrow{transition:transform .3s}
 .return-cta:hover .return-cta-arrow{transform:translateX(4px)}
+
+/* THEME TOGGLE */
+.theme-toggle{display:inline-flex;align-items:center;gap:2px;padding:3px;background:var(--surface-subtle);border:1px solid var(--hairline);border-radius:100px;position:relative}
+.theme-toggle-btn{position:relative;z-index:2;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-faint);cursor:pointer;transition:color .4s}
+.theme-toggle-btn.active{color:var(--gold)}
+.theme-toggle-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.theme-toggle-thumb{position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:50%;background:var(--surface-raised);border:1px solid var(--hairline-strong);transition:transform .45s cubic-bezier(.22,1,.36,1),background .4s,border-color .4s;z-index:1;pointer-events:none}
+:root[data-theme="light"] .theme-toggle-thumb{transform:translateX(30px)}
+.theme-toggle-btn:hover{color:var(--text)}
 
 /* MOBILE */
 @media(max-width:900px){
@@ -204,6 +258,136 @@ img{display:block;max-width:100%;height:auto}
 <div id="root"></div>
 <script type="text/babel">
 const{useState,useEffect,useMemo}=React;
+
+// ═══════════════════════════════════════
+// LUCIDE ICONS — minimal stroke set, MIT licensed (lucide.dev)
+// ═══════════════════════════════════════
+const LUCIDE={
+  'file-text':'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  'file-cog':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h5"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><circle cx="17" cy="17" r="3"/><path d="M17 13v1"/><path d="M17 20v1"/><path d="M21 17h-1"/><path d="M14 17h-1"/><path d="m19.83 14.83-.71.71"/><path d="m15.17 19.17-.71.71"/><path d="m19.83 19.17-.71-.71"/><path d="m15.17 14.83-.71-.71"/>',
+  'folder':'<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/>',
+  'layers':'<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+  'user':'<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
+  'users':'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  'book-open':'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  'target':'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  'sparkles':'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.13 1.58a.5.5 0 0 1 0 .96L15.5 14.06A2 2 0 0 0 14.06 15.5l-1.58 6.13a.5.5 0 0 1-.96 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+  'activity':'<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.5.5 0 0 1-.96 0L9.24 2.18a.5.5 0 0 0-.96 0l-2.35 8.36A2 2 0 0 1 4 12H2"/>',
+  'git-branch':'<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+  'shield':'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  'star':'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/>',
+  'quote':'<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>',
+  'trending-up':'<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  'heart':'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/>',
+  'compass':'<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88"/>',
+  'help-circle':'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/>',
+  'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  'zap':'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/>',
+  'alert-circle':'<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>',
+  'eye-off':'<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>',
+  'check-square':'<path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  'megaphone':'<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+  'network':'<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+  'clock':'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  'award':'<circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/>',
+  'briefcase':'<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  'columns':'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+  'eye':'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  'list-ordered':'<path d="M10 6h11"/><path d="M10 12h11"/><path d="M10 18h11"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
+  'circle-dot':'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+};
+
+function Icon({name,size=16,className=''}){
+  const content=LUCIDE[name]||LUCIDE['circle-dot'];
+  return(
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{__html:content}}/>
+  );
+}
+
+// File-name → icon mapping (per-file type visual)
+const FILE_ICONS={
+  '_instructions':'file-cog',
+  'About Us':'file-text',
+  'Brand Voice':'megaphone',
+  'Case Studies':'book-open',
+  'Founder Story':'star',
+  'ICP':'target',
+  'Mission and Values':'compass',
+  'Org Chart & Decision Rights':'network',
+  'Products & Offerings':'layers',
+  'Team Profiles':'users',
+  'Testimonials':'quote',
+  'What Makes Us Unique':'sparkles',
+  'Content Pillars':'columns',
+  'Greatest Hits':'award',
+  'Objection Library':'shield',
+  'Offer Stack & Pricing':'layers',
+  'FAQ':'help-circle',
+  'Key Links':'link',
+  'Revenue & Unit Economics':'trending-up',
+  'Meeting Transcripts':'folder',
+};
+
+// Infer icon from bullet label
+function inferIcon(label){
+  const l=label.toLowerCase();
+  if(l.includes('three-layer')||l.includes('layer')||l.includes('ladder')||l.includes('stack')||l.includes('matrix')||l.includes('structure'))return'layers';
+  if(l.includes('identity')||l.includes('who this'))return'user';
+  if(l.includes('team')||l.includes('partnership')||l.includes('community')||l.includes('leadership map')||l.includes('handoff'))return'users';
+  if(l.includes('knowledge')||l.includes('terminology')||l.includes('philosophy')||l.includes('a2a term')||l.includes('assumption'))return'book-open';
+  if(l.includes('objective')||l.includes('positioning')||l.includes('steph')||l.includes('cac')||l.includes('target'))return'target';
+  if(l.includes('embodiment')||l.includes('unique')||l.includes('signature')||l.includes('july 2023')||l.includes('innovation'))return'sparkles';
+  if(l.includes('move')||l.includes('flow')||l.includes('pattern')||l.includes('process')||l.includes('methodology')||l.includes('how processed')||l.includes('margin'))return'activity';
+  if(l.includes('process')||l.includes('escalation')||l.includes('decision')||l.includes('lean in')||l.includes('upsell')||l.includes('branch'))return'git-branch';
+  if(l.includes('boundaries')||l.includes('guardrail')||l.includes('objection')||l.includes('refund')||l.includes('hold')||l.includes('don\'t work'))return'shield';
+  if(l.includes('mandate')||l.includes('trust signal')||l.includes('award')||l.includes('proof')||l.includes('aggregate'))return'award';
+  if(l.includes('mission')||l.includes('callan stand')||l.includes('core focus')||l.includes('compass'))return'compass';
+  if(l.includes('value')||l.includes('why we exist')||l.includes('why tub')||l.includes('life transformation')||l.includes('mission'))return'heart';
+  if(l.includes('10 rules')||l.includes('checklist')||l.includes('how values apply')||l.includes('tone rules'))return'check-square';
+  if(l.includes('quote')||l.includes('verbatim')||l.includes('sample post'))return'quote';
+  if(l.includes('revenue')||l.includes('trending')||l.includes('growth')||l.includes('breakdown'))return'trending-up';
+  if(l.includes('time saving')||l.includes('clock')||l.includes('sample: time')||l.includes('scheduling'))return'clock';
+  if(l.includes('faq')||l.includes('help')||l.includes('question'))return'help-circle';
+  if(l.includes('key links')||l.includes('portal')||l.includes('link'))return'link';
+  if(l.includes('pain point')||l.includes('banned list')||l.includes('sample: price')||l.includes('what doesn\'t work'))return'alert-circle';
+  if(l.includes('false belief')||l.includes('one test'))return'eye';
+  if(l.includes('eye-off'))return'eye-off';
+  if(l.includes('hook')||l.includes('what we actually do')||l.includes('ai employee')||l.includes('tebb'))return'zap';
+  if(l.includes('specificity'))return'target';
+  if(l.includes('career')||l.includes('briefcase'))return'briefcase';
+  if(l.includes('what goes in')||l.includes('folder'))return'folder';
+  if(l.includes('why in every brain'))return'network';
+  if(l.includes('what enables')||l.includes('what it enables'))return'sparkles';
+  if(l.includes('radical specificity'))return'target';
+  return'circle-dot';
+}
+
+// ═══ THEME ═══
+function useTheme(){
+  const[theme,setTheme]=useState(()=>{
+    if(typeof document==='undefined')return'dark';
+    return document.documentElement.dataset.theme||'dark';
+  });
+  useEffect(()=>{
+    document.documentElement.dataset.theme=theme;
+    try{localStorage.setItem('tub-theme',theme)}catch(e){}
+  },[theme]);
+  return[theme,setTheme];
+}
+
+function ThemeToggle({theme,setTheme}){
+  return(
+    <div className="theme-toggle" role="group" aria-label="Theme">
+      <span className="theme-toggle-thumb"/>
+      <button className={`theme-toggle-btn ${theme==='dark'?'active':''}`} onClick={()=>setTheme('dark')} aria-label="Dark mode" aria-pressed={theme==='dark'}>
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button className={`theme-toggle-btn ${theme==='light'?'active':''}`} onClick={()=>setTheme('light')} aria-label="Light mode" aria-pressed={theme==='light'}>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════
 // DATA — real TUB brain files with expandable content
@@ -294,7 +478,7 @@ const COMMON_FILES=[
     name:'Products & Offerings',prefix:'[TUB]',
     purpose:'The complete offer stack — every program, pricing, audience, entry point. The sales team reads this before every call.',
     contents:[
-      {label:'The product ladder — awareness to enterprise',html:`<pre style="font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.6;background:rgba(237,232,220,.03);padding:14px 16px;border-radius:4px;color:var(--text)">Awareness:      AI Masterclass (Free–$97)
+      {label:'The product ladder — awareness to enterprise',html:`<pre style="font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.6;background:var(--surface-subtle);padding:14px 16px;border-radius:4px;color:var(--text)">Awareness:      AI Masterclass (Free–$97)
 Entry:          TEBB ($97–$297)
 Foundation:     SuperHuman Work ($997) → SuperHuman Plus ($1,497)
 Flagship:       A2A Program ($8,997 PIF)
@@ -375,6 +559,7 @@ const DEPARTMENTS=[
     id:'marketing',name:'Marketing',accent:'#D47B2E',accentSoft:'rgba(212,123,46,.14)',
     tagline:'The department brain for content, brand, and campaign work.',
     description:'Runs the content calendar, writes captions in Callan\'s voice, pulls the right case study for the right post, and knows which competitor hook to adapt vs. ignore.',
+    powersCompany:['Brand Voice','ICP','Case Studies','Testimonials','What Makes Us Unique','Founder Story'],
     specific:[
       {
         name:'Content Pillars',prefix:'[TUB-MRK]',
@@ -404,6 +589,7 @@ const DEPARTMENTS=[
     id:'sales',name:'Sales',accent:'#C26688',accentSoft:'rgba(194,102,136,.14)',
     tagline:'The department brain for outbound, conversions, and deal-closing.',
     description:'Prepares every call with the prospect\'s ICP match, matches testimonials to objections, generates proposals in brand voice, and knows when to push vs. when to walk away.',
+    powersCompany:['Brand Voice','ICP','Products & Offerings','Case Studies','Testimonials'],
     specific:[
       {
         name:'Objection Library',prefix:'[TUB-SLS]',
@@ -433,6 +619,7 @@ const DEPARTMENTS=[
     id:'cs',name:'Customer Success',accent:'#4A8C5C',accentSoft:'rgba(74,140,92,.14)',
     tagline:'The department brain for onboarding, support, and community.',
     description:'Answers FAQs in brand voice, knows every link a student or teammate might need, flags at-risk students from engagement signals, and handles escalations without losing the voice.',
+    powersCompany:['Brand Voice','Products & Offerings','ICP','Team Profiles'],
     specific:[
       {
         name:'FAQ',prefix:'[TUB-CS]',
@@ -462,12 +649,14 @@ const DEPARTMENTS=[
     id:'operations',name:'Operations',accent:'#3A7CA5',accentSoft:'rgba(58,124,165,.14)',
     tagline:'The department brain for workflows, SOPs, and systems.',
     description:'Delegates projects in TUB format, turns brain dumps into playbooks, tracks launch checklists, audits automations, and protects IP when content gets lifted.',
+    powersCompany:['Org Chart & Decision Rights','Team Profiles','Mission and Values','About Us'],
     specific:[],
   },
   {
     id:'finance',name:'Finance',accent:'#C9A253',accentSoft:'rgba(201,162,83,.14)',
     tagline:'The department brain for revenue, unit economics, and forecasting.',
     description:'Runs P&L snapshots, calculates program ROI, categorizes expenses without repeat questions, and flags when a program\'s margin is slipping before anyone else notices.',
+    powersCompany:['Products & Offerings','Org Chart & Decision Rights','About Us'],
     specific:[
       {
         name:'Revenue & Unit Economics',prefix:'[TUB-FIN]',
@@ -487,11 +676,12 @@ const DEPARTMENTS=[
 // ═══════════════════════════════════════
 // TOP NAV
 // ═══════════════════════════════════════
-function TopNav(){
+function TopNav({theme,setTheme}){
   return(
     <nav className="nav-top">
       <div className="nav-logo">The Uncommon <em>Business</em></div>
       <div className="nav-right">
+        <ThemeToggle theme={theme} setTheme={setTheme}/>
         <a className="nav-back" href="live.html">
           <span className="nav-back-arrow">←</span>
           <span>Back to the demo</span>
@@ -518,7 +708,7 @@ function Hero(){
           Inside a<br/><em>business brain.</em>
         </h1>
         <p className="hero-sub">
-          What a working AI brain actually contains. Every TUB brain is five department brains — <em>Marketing, Sales, Customer Success, Operations, Finance</em>. Each one stocked with the same company-wide knowledge, plus the files unique to that department, plus the custom instructions that make the whole thing behave like an employee. Click any file to peek inside — then <em>click the bullets</em> to see the real content.
+          Every AI brain is five <em>department workspaces</em> — Marketing, Sales, Customer Success, Operations, Finance. Each one has the core files that <em>power it</em>, plus the wider business knowledge it can reference. Click any file to peek inside.
         </p>
       </div>
     </section>
@@ -557,7 +747,7 @@ function Explainer(){
 // FILE CARD
 // ═══════════════════════════════════════
 function FileCard({file,accent,accentSoft,onClick}){
-  const iconLabel=file.prefix==='folder'?'DIR':(file.prefix?file.prefix.replace(/[\[\]]/g,''):'MD');
+  const iconName=FILE_ICONS[file.name]||(file.prefix==='folder'?'folder':'file-text');
   return(
     <button
       className="file-card"
@@ -565,7 +755,9 @@ function FileCard({file,accent,accentSoft,onClick}){
       onClick={onClick}
     >
       <div className="file-card-head">
-        <div className="file-icon">{iconLabel}</div>
+        <div className="file-icon">
+          <Icon name={iconName} size={18}/>
+        </div>
         <div className="file-meta">
           <div className="file-name">{file.name}</div>
           <div className="file-tag">{file.prefix==='folder'?'Folder':(file.prefix||'Instructions')}</div>
@@ -599,10 +791,11 @@ function FileSection({title,count,emphasize,files,accent,accentSoft,onOpen}){
 // CONTENT ITEM (toggle)
 // ═══════════════════════════════════════
 function ContentItem({item,isOpen,onToggle}){
+  const iconName=item.icon||inferIcon(item.label);
   return(
     <div className={`content-item ${isOpen?'open':''}`}>
       <div className="content-header" onClick={onToggle}>
-        <span className="content-dot"/>
+        <span className="content-icon"><Icon name={iconName} size={17}/></span>
         <span className="content-label">{item.label}</span>
         <span className="chev"/>
       </div>
@@ -677,9 +870,13 @@ function Explorer(){
   const[activeId,setActiveId]=useState('marketing');
   const[openFile,setOpenFile]=useState(null);
   const dept=DEPARTMENTS.find(d=>d.id===activeId);
-  const sharedCount=COMMON_FILES.length;
-  const specificCount=dept.specific.length;
-  const totalFiles=1+sharedCount+specificCount+1;
+
+  // Split company-wide files into "powers this workspace" vs "supporting"
+  const powersCompanyFiles=COMMON_FILES.filter(f=>dept.powersCompany.includes(f.name));
+  const supportingCompanyFiles=COMMON_FILES.filter(f=>!dept.powersCompany.includes(f.name));
+
+  const powersGroup=[INSTRUCTIONS,...dept.specific,...powersCompanyFiles];
+  const supportingGroup=[...supportingCompanyFiles,MEETING_TRANSCRIPTS];
 
   function handleOpen(file){setOpenFile(file)}
   function handleClose(){setOpenFile(null)}
@@ -690,15 +887,15 @@ function Explorer(){
         <div>
           <div className="eyebrow">
             <span className="eyebrow-bar"/>
-            Explore the file system
+            The five department workspaces
           </div>
           <h2 className="explorer-title">
-            Pick a department and <em>click any file</em>. Inside each one, toggle the bullets to read the real content.
+            Each workspace is built from the files that <em>power it</em> — plus the broader business files it can reference. Pick a department.
           </h2>
         </div>
         <div className="explorer-meta">
-          5 department brains<br/>
-          19 unique files per company<br/>
+          5 workspaces<br/>
+          Core + supporting split<br/>
           Click any card
         </div>
       </div>
@@ -714,25 +911,35 @@ function Explorer(){
 
       <div className="dept-intro" style={{'--dept-accent':dept.accent}}>
         <div className="dept-intro-left">
-          <h2>The <em>{dept.name}</em> Brain</h2>
+          <h2>The <em>{dept.name}</em> Workspace</h2>
           <div className="dept-desc">{dept.description}</div>
         </div>
         <div className="dept-intro-right">
-          <div><span className="accent">{totalFiles}</span> total files</div>
-          <div><span className="accent">{specificCount}</span> unique to this department</div>
-          <div>Plus transcript folder</div>
+          <div><span className="accent">{powersGroup.length}</span> files power this workspace</div>
+          <div><span className="accent">{supportingGroup.length}</span> supporting files available</div>
+          <div>Meeting transcripts included</div>
         </div>
       </div>
 
-      <FileSection title="Custom Instructions" emphasize="how it thinks" count={1} files={[INSTRUCTIONS]} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+      <FileSection
+        title="What Powers this Workspace"
+        emphasize="the files it actually runs on"
+        count={powersGroup.length}
+        files={powersGroup}
+        accent={dept.accent}
+        accentSoft={dept.accentSoft}
+        onOpen={handleOpen}
+      />
 
-      {dept.specific.length>0&&(
-        <FileSection title={`${dept.name} Knowledge`} emphasize="only in this brain" count={dept.specific.length} files={dept.specific} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
-      )}
-
-      <FileSection title="Company-wide Knowledge" emphasize="shared across all brains" count={COMMON_FILES.length} files={COMMON_FILES} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
-
-      <FileSection title="Meeting Transcripts" emphasize="the living memory" count={1} files={[MEETING_TRANSCRIPTS]} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+      <FileSection
+        title="Supporting Business Files"
+        emphasize="available context, not core"
+        count={supportingGroup.length}
+        files={supportingGroup}
+        accent={dept.accent}
+        accentSoft={dept.accentSoft}
+        onOpen={handleOpen}
+      />
 
       <Drawer file={openFile} accent={dept.accent} accentSoft={dept.accentSoft} dept={dept.name} onClose={handleClose}/>
     </section>
@@ -762,11 +969,11 @@ function Return(){
 // APP
 // ═══════════════════════════════════════
 function App(){
+  const[theme,setTheme]=useTheme();
   return(
     <>
-      <TopNav/>
+      <TopNav theme={theme} setTheme={setTheme}/>
       <Hero/>
-      <Explainer/>
       <Explorer/>
       <Return/>
     </>
