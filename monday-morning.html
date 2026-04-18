@@ -215,6 +215,9 @@ body{
 .sleeping-awake .sleeping-status{color:rgba(209,178,90,.4)}
 
 /* ═══ MOBILE ═══ */
+@media(hover:none) and (pointer:coarse){
+  *{-webkit-tap-highlight-color:transparent}
+}
 @media(max-width:768px){
   .nav-bar{height:auto;flex-wrap:wrap;padding:10px 14px;gap:6px}
   .nav-left{width:100%;justify-content:space-between}

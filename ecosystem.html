@@ -161,6 +161,9 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .flow-step:last-child .flow-step-arrow{display:none}
 
 /* ═══ MOBILE ═══ */
+@media(hover:none) and (pointer:coarse){
+  *{-webkit-tap-highlight-color:transparent}
+}
 @media(max-width:768px){
   .nav-bar{flex-wrap:wrap;height:auto;padding:10px 14px;gap:6px}
   .nav-left{width:100%;justify-content:space-between}
