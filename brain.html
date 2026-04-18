@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUB — Inside a Business Brain</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#0B0A08;color:#EDE8DC;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;font-feature-settings:'ss01','ss02','cv11';letter-spacing:-.01em;
+}
+::selection{background:#D1B25A;color:#0B0A08}
+a{color:inherit;text-decoration:none}
+button{background:none;border:none;color:inherit;font-family:inherit;cursor:pointer}
+img{display:block;max-width:100%;height:auto}
+
+:root{
+  --bg:#0B0A08;--bg-warm:#13110D;--bg-warmer:#1C1812;
+  --text:#EDE8DC;--text-mute:rgba(237,232,220,.55);--text-faint:rgba(237,232,220,.28);
+  --gold:#D1B25A;--gold-bright:#E8C570;--gold-soft:rgba(209,178,90,.12);
+  --green:#4A8C5C;--red:#E74C3C;
+  --hairline:rgba(237,232,220,.08);--hairline-strong:rgba(237,232,220,.15);
+}
+
+.serif{font-family:'Fraunces',Georgia,serif;font-feature-settings:'ss01','ss02','ss03'}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center}
+.eyebrow-bar{display:inline-block;width:28px;height:1px;background:var(--gold);margin-right:14px}
+
+/* NAV */
+.nav-top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 40px;font-size:12px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:linear-gradient(180deg,rgba(11,10,8,.88) 0%,rgba(11,10,8,.45) 70%,transparent 100%)}
+.nav-logo{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:400;letter-spacing:-.015em}
+.nav-logo em{font-style:italic;color:var(--gold);font-weight:300}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-back{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-mute);padding:6px 12px;border:1px solid var(--hairline);border-radius:100px;transition:all .25s}
+.nav-back:hover{color:var(--text);border-color:var(--hairline-strong)}
+.nav-back-arrow{font-size:13px}
+
+/* HERO */
+.hero{position:relative;padding:140px 48px 80px;overflow:hidden}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(237,232,220,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,220,.025) 1px,transparent 1px);background-size:96px 96px;background-position:center;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);pointer-events:none}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 30%,rgba(209,178,90,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 70%,rgba(74,140,92,.07) 0%,transparent 60%);pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto}
+.hero-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(56px,9vw,140px);line-height:.9;font-weight:300;letter-spacing:-.045em;margin-top:28px;color:var(--text);font-variation-settings:'opsz' 144,'SOFT' 40}
+.hero-title em{font-style:italic;color:var(--gold);font-weight:300;font-variation-settings:'opsz' 144,'SOFT' 100}
+.hero-sub{max-width:680px;margin-top:36px;font-size:17px;line-height:1.6;color:var(--text-mute);font-weight:300}
+.hero-sub em{font-style:italic;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:18px}
+
+/* EXPLAINER */
+.explainer{padding:40px 48px 80px;max-width:1440px;margin:0 auto}
+.explainer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.explainer-card{padding:32px 28px 28px;background:var(--bg-warm);border:1px solid var(--hairline);border-radius:6px;transition:all .3s}
+.explainer-card:hover{border-color:var(--hairline-strong)}
+.explainer-num{font-family:'Fraunces',Georgia,serif;font-style:italic;color:var(--gold);font-size:40px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-bottom:16px;font-variation-settings:'opsz' 144}
+.explainer-title{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:-.015em;color:var(--text);margin-bottom:10px}
+.explainer-title em{font-style:italic;color:var(--gold)}
+.explainer-desc{font-size:13.5px;line-height:1.55;color:var(--text-mute);font-weight:300}
+
+/* EXPLORER */
+.explorer{padding:40px 48px 120px;max-width:1440px;margin:0 auto}
+.explorer-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:36px;flex-wrap:wrap}
+.explorer-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3vw,40px);font-weight:300;letter-spacing:-.02em;line-height:1.1;color:var(--text);max-width:620px;margin-top:16px}
+.explorer-title em{font-style:italic;color:var(--gold)}
+.explorer-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint);text-align:right;line-height:1.8}
+
+/* TABS */
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:48px;position:sticky;top:72px;z-index:50;background:rgba(11,10,8,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:14px;border-radius:10px;border:1px solid var(--hairline)}
+.tab{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--text-mute);cursor:pointer;background:transparent;transition:all .3s cubic-bezier(.22,1,.36,1);border:1px solid transparent;position:relative}
+.tab:hover{color:var(--text);background:rgba(237,232,220,.04)}
+.tab.active{background:var(--bg-warm);border-color:var(--tab-accent);color:var(--text)}
+.tab.active .tab-dot{animation:dotPulse 1.6s ease-in-out infinite}
+.tab-dot{width:6px;height:6px;border-radius:50%;background:var(--tab-accent);box-shadow:0 0 8px var(--tab-accent);opacity:.5;transition:opacity .3s}
+.tab.active .tab-dot{opacity:1}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(.82)}}
+
+/* DEPT INTRO */
+.dept-intro{padding:28px 0 24px;border-bottom:1px solid var(--hairline);margin-bottom:40px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.dept-intro-left h2{font-family:'Fraunces',Georgia,serif;font-size:48px;font-weight:300;letter-spacing:-.025em;line-height:1;color:var(--text);font-variation-settings:'opsz' 144,'SOFT' 40}
+.dept-intro-left h2 em{font-style:italic;color:var(--dept-accent);font-weight:300}
+.dept-intro-left .dept-desc{margin-top:14px;font-size:14px;line-height:1.55;color:var(--text-mute);max-width:620px;font-weight:300}
+.dept-intro-right{display:flex;flex-direction:column;gap:4px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-faint)}
+.dept-intro-right span.accent{color:var(--dept-accent)}
+
+/* FILE SECTIONS */
+.file-section{margin-bottom:52px}
+.file-section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--hairline)}
+.file-section-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:400;letter-spacing:-.01em;color:var(--text)}
+.file-section-title em{font-style:italic;color:var(--dept-accent)}
+.file-section-count{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-faint);margin-left:auto}
+
+/* FILE CARD */
+.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.file-card{position:relative;padding:18px 20px;background:var(--bg-warm);border:1px solid var(--hairline);border-radius:6px;transition:all .3s cubic-bezier(.22,1,.36,1);cursor:pointer;text-align:left;font-family:inherit;color:var(--text);overflow:hidden}
+.file-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 100% 100%,var(--card-accent-soft,rgba(209,178,90,.12)),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.file-card:hover{border-color:var(--card-accent,var(--gold));transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.file-card:hover::before{opacity:1}
+.file-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.file-icon{display:flex;align-items:center;justify-content:center;width:34px;height:40px;flex-shrink:0;background:rgba(237,232,220,.04);border:1px solid var(--hairline);border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.5px;color:var(--card-accent,var(--gold));font-weight:500;position:relative}
+.file-icon::after{content:'';position:absolute;top:-1px;right:-1px;width:9px;height:9px;background:var(--bg-warm);border-left:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.file-meta{min-width:0;flex:1}
+.file-name{font-family:'Fraunces',Georgia,serif;font-size:17px;font-weight:400;line-height:1.2;letter-spacing:-.01em;color:var(--text);word-break:break-word}
+.file-tag{display:inline-block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--card-accent,var(--gold))}
+.file-desc{font-size:12.5px;line-height:1.55;color:var(--text-mute);font-weight:300}
+
+/* DRAWER */
+.drawer-overlay{position:fixed;inset:0;z-index:400;background:rgba(11,10,8,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer-overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:500;width:min(620px,94vw);background:var(--bg-warm);border-left:1px solid var(--hairline-strong);transform:translateX(100%);transition:transform .5s cubic-bezier(.22,1,.36,1);overflow-y:auto}
+.drawer.open{transform:translateX(0)}
+.drawer::-webkit-scrollbar{width:6px}
+.drawer::-webkit-scrollbar-thumb{background:var(--hairline-strong);border-radius:4px}
+.drawer-inner{padding:32px 40px 56px}
+.drawer-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(237,232,220,.04);border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-mute);cursor:pointer;transition:all .25s;z-index:10}
+.drawer-close:hover{color:var(--text);background:rgba(237,232,220,.08);border-color:var(--hairline-strong)}
+.drawer-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:100px;background:var(--drawer-accent-soft,rgba(209,178,90,.1));border:1px solid var(--drawer-accent,rgba(209,178,90,.3));font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--drawer-accent,var(--gold));margin-top:32px}
+.drawer-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--drawer-accent,var(--gold));box-shadow:0 0 6px var(--drawer-accent,var(--gold));animation:dotPulse 2s ease-in-out infinite}
+.drawer-file{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;color:var(--text-faint);margin-top:20px}
+.drawer-title{font-family:'Fraunces',Georgia,serif;font-size:40px;font-weight:300;line-height:1;letter-spacing:-.03em;color:var(--text);margin-top:10px;font-variation-settings:'opsz' 144,'SOFT' 40}
+.drawer-title em{font-style:italic;color:var(--drawer-accent,var(--gold));font-weight:300}
+.drawer-purpose{margin-top:24px;padding:20px 22px;background:rgba(237,232,220,.02);border-left:2px solid var(--drawer-accent,var(--gold));border-radius:2px;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:17px;line-height:1.5;font-weight:300;color:var(--text);letter-spacing:-.005em}
+.drawer-section{margin-top:36px}
+.drawer-section-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--drawer-accent,var(--gold));margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.drawer-section-title .bar{flex:1;height:1px;background:var(--hairline)}
+
+/* TOGGLE CONTENT ITEMS */
+.drawer-contents{display:flex;flex-direction:column;gap:6px}
+.content-item{background:var(--bg-warmer);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;transition:border-color .3s}
+.content-item.open{border-color:var(--drawer-accent,var(--gold))}
+.content-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;transition:background .2s}
+.content-header:hover{background:rgba(237,232,220,.02)}
+.content-header .chev{width:10px;height:10px;flex-shrink:0;border-right:1.5px solid var(--text-faint);border-bottom:1.5px solid var(--text-faint);transform:rotate(-45deg);transition:transform .3s,border-color .3s;margin-left:auto}
+.content-item.open .content-header .chev{transform:rotate(45deg);border-color:var(--drawer-accent,var(--gold))}
+.content-label{flex:1;font-size:13px;line-height:1.5;color:var(--text);font-weight:400;min-width:0}
+.content-dot{width:5px;height:5px;border-radius:50%;background:var(--drawer-accent,var(--gold));flex-shrink:0;transition:box-shadow .3s}
+.content-item.open .content-dot{box-shadow:0 0 8px var(--drawer-accent,var(--gold))}
+.content-detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .5s cubic-bezier(.22,1,.36,1),opacity .3s,padding .3s;padding:0 18px;font-size:13px;line-height:1.7;color:var(--text-mute);font-weight:300;border-top:1px solid transparent}
+.content-item.open .content-detail{max-height:3000px;opacity:1;padding:18px 20px 22px;border-top-color:var(--hairline)}
+.content-detail p{margin-bottom:12px}
+.content-detail p:last-child{margin-bottom:0}
+.content-detail ul{padding-left:18px;margin:10px 0}
+.content-detail ol{padding-left:20px;margin:10px 0}
+.content-detail li{margin-bottom:6px;line-height:1.6}
+.content-detail strong{color:var(--text);font-weight:500}
+.content-detail em{color:var(--drawer-accent,var(--gold));font-style:italic}
+.content-detail blockquote{margin:14px 0;padding:10px 16px;border-left:2px solid var(--drawer-accent,var(--gold));background:rgba(237,232,220,.03);font-style:italic;font-family:'Fraunces',Georgia,serif;font-size:13.5px;line-height:1.55;color:var(--text)}
+.content-detail blockquote cite{display:block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:10px;color:var(--text-faint);letter-spacing:.8px;text-transform:uppercase}
+.content-detail table{margin:12px 0;border-collapse:collapse;font-size:12px;width:100%}
+.content-detail th,.content-detail td{padding:8px 10px;border-bottom:1px solid var(--hairline);text-align:left;vertical-align:top}
+.content-detail th{color:var(--drawer-accent,var(--gold));font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:.8px}
+.content-detail code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(237,232,220,.06);padding:2px 6px;border-radius:3px;color:var(--text)}
+.content-detail h4{font-family:'Fraunces',Georgia,serif;font-size:16px;color:var(--text);font-weight:400;margin:16px 0 8px;font-variation-settings:'opsz' 144}
+.content-detail .callout{padding:12px 14px;background:rgba(209,178,90,.05);border:1px solid rgba(209,178,90,.15);border-radius:4px;margin:14px 0;font-size:12.5px;line-height:1.55;color:var(--text)}
+
+.drawer-note{margin-top:32px;padding-top:24px;border-top:1px solid var(--hairline);font-size:12.5px;line-height:1.55;color:var(--text-mute);font-style:italic;font-family:'Fraunces',Georgia,serif;font-weight:300}
+
+/* RETURN */
+.return{padding:120px 48px 80px;border-top:1px solid var(--hairline);background:var(--bg-warm)}
+.return-inner{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.return-text{font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3vw,42px);font-weight:300;letter-spacing:-.025em;line-height:1.1;color:var(--text);max-width:660px}
+.return-text em{font-style:italic;color:var(--gold)}
+.return-cta{display:flex;align-items:center;gap:12px;padding:14px 22px;background:var(--bg);border:1px solid var(--hairline-strong);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text);transition:all .3s cubic-bezier(.22,1,.36,1)}
+.return-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 8px 20px rgba(209,178,90,.2)}
+.return-cta-arrow{transition:transform .3s}
+.return-cta:hover .return-cta-arrow{transform:translateX(4px)}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-top{padding:16px 20px}
+  .nav-logo{font-size:15px}
+  .hero{padding:120px 22px 60px}
+  .hero-title{font-size:42px}
+  .hero-sub{font-size:15px}
+  .explainer{padding:20px 22px 60px}
+  .explainer-grid{grid-template-columns:1fr;gap:10px}
+  .explorer{padding:20px 22px 80px}
+  .explorer-head{flex-direction:column;align-items:flex-start}
+  .explorer-meta{text-align:left}
+  .tabs{grid-template-columns:repeat(2,1fr);gap:4px;padding:10px;top:60px}
+  .tab{padding:10px 12px;font-size:9.5px;letter-spacing:1.1px;gap:6px}
+  .dept-intro{grid-template-columns:1fr;gap:12px}
+  .dept-intro-left h2{font-size:32px}
+  .dept-intro-right{text-align:left}
+  .file-grid{grid-template-columns:1fr}
+  .drawer{width:100%}
+  .drawer-inner{padding:28px 22px 48px}
+  .drawer-title{font-size:30px}
+  .return{padding:80px 22px 60px}
+  .return-inner{grid-template-columns:1fr;gap:24px}
+  .return-text{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useMemo}=React;
+
+// ═══════════════════════════════════════
+// DATA — real TUB brain files with expandable content
+// ═══════════════════════════════════════
+
+const COMMON_FILES=[
+  {
+    name:'About Us',prefix:'[TUB]',
+    purpose:'The company snapshot — who TUB is, what we do, how we position, why we exist. Every AI employee reads this first.',
+    contents:[
+      {label:'Positioning — first in the world',html:`<p>The Uncommon Business is the <strong>first company in the world to train humans on becoming AI Architects</strong>. We are a human training company, not a tech company that teaches AI. We teach business owners and their teams how to integrate AI into every department of their organization as a full operating system that compounds over time.</p><p><strong>Scale:</strong> 25 humans operating 150+ AI employees across content, operations, sales, and curriculum development.</p>`},
+      {label:'Mission — implementation to imagination',html:`<p><strong>Move all humans from implementation to imagination.</strong> AI handles the doing; humans focus on strategy and creative thinking.</p><p>Based on Myron Golden's 4 Levels of Value:</p><ul><li><strong>Implementation</strong> (lowest value) — doing the tasks</li><li><strong>Unification</strong> — organizing people and resources</li><li><strong>Communication</strong> — selling and influencing</li><li><strong>Imagination</strong> (highest value) — strategy and creative thinking</li></ul><p>AI should handle Implementation so humans can operate at Imagination. Every program we run moves people up this ladder.</p>`},
+      {label:'What we actually do',html:`<p>We run live cohort programs where business owners build AI employees department by department across their entire organization. Students don't just learn about AI. They leave with <strong>60+ working AI employees, a complete AI Operating System, and the skills to keep building after the program ends</strong>.</p><p>Our core 12-week program (A2A) has a <em>78% completion rate</em> and <em>68.5 NPS</em>.</p>`},
+      {label:'What we do NOT do (prevents AI hallucination)',html:`<ul><li>We do NOT build AI tools or software products</li><li>We do NOT offer consulting or done-for-you AI implementation (except through the new Build Team)</li><li>We do NOT claim AI replaces humans. Our entire model is <em>human-first</em>.</li><li>We do NOT guarantee specific revenue outcomes</li><li>We do NOT teach "hacks" or "tricks." We build systems.</li><li>We do NOT say "simple" or "easy." This work is worth doing, not effortless.</li></ul>`},
+      {label:'Core frameworks — the named IP',html:`<ol><li><strong>Spot, Build, Train</strong> — The AI Architect identity. Spot bottlenecks, Build AI employees to solve them, Train the system to improve over time.</li><li><strong>AI Employee Definition</strong> — A helper built inside your computer, taught a specific job, that works on schedule or on demand. Four components: knowledge base, skills, connectors, memory. The test: <em>"Can you just say 'go'?"</em></li><li><strong>AI Operating System</strong> — Four layers: Knowledge (filing cabinet), Skills (verbs), Tools Access (integrations), Personal Knowledge (individual context).</li></ol>`},
+      {label:'Values that run through every decision',html:`<ul><li><strong>Human-first</strong> — AI amplifies human capability; it does not replace human purpose</li><li><strong>Invitation over fear</strong> — Marketing leans into possibility, not urgency or scarcity</li><li><strong>Specificity over vagueness</strong> — Be concrete, tell stories, avoid cliches</li><li><strong>Interactive learning</strong> — Every session has hands-on building, not passive consumption</li><li><strong>Authenticity</strong> — Content must never read as obviously AI-generated</li></ul>`},
+    ],
+  },
+  {
+    name:'Brand Voice',prefix:'[TUB]',
+    purpose:'The writing-style guide that keeps every AI output sounding like Callan. Not like a chatbot with TUB\'s logo on it.',
+    contents:[
+      {label:'The One Test — no one should know AI touched it',html:`<p>Every piece of content must pass this: <em>no one should know AI touched it</em>. If someone could tell, rewrite it.</p><p>For newsletters specifically, add a second test: <em>would a reader screenshot it, forward it, or save it?</em> If not, it's not done.</p><p><strong>The final test:</strong> Read it out loud. Does it sound like Callan typing on her phone while sitting somewhere beautiful, telling you something she just figured out? If not, rewrite.</p>`},
+      {label:'The signature move — sentence flow',html:`<p>This is the single biggest thing that separates Callan's voice from AI-generated copy. AI writes uniformly choppy or uniformly medium sentences. Callan connects thoughts with commas and "and," letting sentences flow like she's talking.</p><blockquote><strong>Bad (AI voice):</strong> "We slowed down. We listened. We shared what does not get posted publicly."<br/><br/><strong>Good (Callan voice):</strong> "We slowed all the way down, we listened to each other, and we shared the stuff that never makes it to the feed."</blockquote><ul><li>Connect thoughts with "and" — Callan's signature connector</li><li>Use commas for momentum within sentences</li><li>Drop in occasional short sentences for emphasis, but don't make every sentence short</li><li>Mix lengths — real writing is messier than AI writing</li><li>Use ampersand (&) when flowing fast and casual</li></ul>`},
+      {label:'The complete banned list — words and phrases',html:`<h4>Filler qualifiers (biggest AI tells)</h4><table><tr><th>Word</th><th>Why</th></tr><tr><td>genuinely</td><td>AI crutch word</td></tr><tr><td>honestly</td><td>Same problem</td></tr><tr><td>actually</td><td>Filler that adds nothing</td></tr><tr><td>really</td><td>Makes sentences weaker</td></tr><tr><td>truly</td><td>Sounds like trying too hard</td></tr></table><h4>AI vocabulary red flags</h4><p>Dead giveaways that AI wrote it: <code>delve, tapestry, multifaceted, nuanced, resonate, embark, journey, foster, illuminate, paramount, pivotal, robust, seamless, holistic, testament, meticulous, furthermore, moreover, in addition</code></p><h4>Banned corporate and buzzword speak</h4><p><code>unpack, deep dive, pivot, leverage (as verb), utilize, aligned, game changer, cutting-edge, revolutionary</code></p><h4>Banned phrases (with replacements)</h4><table><tr><th>Phrase</th><th>Replacement</th></tr><tr><td>here's the thing</td><td>Just state the thing</td></tr><tr><td>at the end of the day</td><td>Delete entirely</td></tr><tr><td>let that sink in</td><td>Delete. Trust the reader.</td></tr><tr><td>sound familiar?</td><td>Delete. No engagement bait.</td></tr></table><h4>Banned punctuation</h4><ul><li>Em-dashes → use commas or line breaks</li><li>Semicolons → periods or commas</li><li>Rhetorical questions → statements</li></ul>`},
+      {label:'The 10 Rules for writing as Callan',html:`<ol><li><strong>Avoid antithesis.</strong> State what it IS about directly.</li><li><strong>The 20% rule.</strong> After drafting, cut 20% of the words.</li><li><strong>Avoid uniformly short sentences.</strong> Mix lengths. Connect with "and" and commas.</li><li><strong>Avoid repetitive patterns.</strong> Don't start consecutive paragraphs the same way.</li><li><strong>Rule of 3.</strong> When listing, use 1 or 3 items. Never 2 (creates artificial antithesis).</li><li><strong>Do not overexplain.</strong> Trust the reader. Delete "The lesson here is..."</li><li><strong>Make it personal.</strong> Use "I," "you," "me," "your."</li><li><strong>No filler phrases.</strong> Every banned phrase exists because it adds zero value.</li><li><strong>Avoid line break overload.</strong> Not every sentence needs its own line.</li><li><strong>Avoid too many one-liners.</strong> Mix in longer, flowing passages.</li></ol>`},
+      {label:'Radical specificity — this is a rule, not a vibe',html:`<p>If a vague word can be replaced with a specific number, name, or detail and you don't replace it, you're leaving trust on the table.</p><table><tr><th>Vague</th><th>Specific</th></tr><tr><td>recently</td><td>last week</td></tr><tr><td>a tool</td><td>Replit</td></tr><tr><td>a lot of money</td><td>$25,000 to $30,000</td></tr><tr><td>saved time</td><td>got back 18 hours a week</td></tr><tr><td>a trip</td><td>Nosara, Costa Rica</td></tr><tr><td>dinner</td><td>Howler's restaurant eating tuna carpaccio</td></tr></table><p><strong>Real people, named.</strong> Every great piece is populated with real humans doing real things. Give them a one-line role so the reader can place them ("Kinsey, who runs the day-to-day as COO").</p>`},
+      {label:'TUB terminology — always use these',html:`<table><tr><th>Always say</th><th>Never say</th></tr><tr><td>AI employee</td><td>agent, bot, assistant</td></tr><tr><td>AI Architect</td><td>AI consultant, AI specialist</td></tr><tr><td>Spot, Build, Train</td><td>(never paraphrase the framework)</td></tr><tr><td>collapse time</td><td>save time</td></tr><tr><td>build, ship, train, wire, architect</td><td>implement, deploy, integrate</td></tr></table><p>Programs: <em>Automate to Accelerate (A2A)</em>, <em>Uncommon Leaders (UCL)</em>, <em>SuperHuman Work / Foundations of AI (FOA)</em>. Full name first reference, abbreviation after.</p>`},
+      {label:'Pre-send checklist — the final gate',html:`<p>Before any content goes out, run through:</p><h4>Voice quality</h4><ul><li>Does this sound like Callan talking to a friend at a coffee shop?</li><li>Would she say this out loud?</li><li>Could someone know AI wrote it?</li></ul><h4>Structure check</h4><ul><li>No rhetorical or engagement-bait questions?</li><li>No em-dashes or semicolons?</li><li>Sentence length varied?</li><li>No throat-clearing opener?</li><li>No clever antithesis closing or philosophical summary bow?</li></ul><h4>Specificity check</h4><ul><li>Tools named, costs named, dates named, people named?</li><li>All names, numbers, and claims accurate and verified?</li></ul><div class="callout"><strong>The Safety Question:</strong> What would Callan be upset about if this goes live? Misrepresentation of people, offensive assumptions, inaccurate claims, AI tells, preachy tone, missing context, relationship damage.</div>`},
+    ],
+  },
+  {
+    name:'Case Studies',prefix:'[TUB]',
+    purpose:'Deep narrative case studies of A2A graduates. Every story has specific names, numbers, and verbatim quotes. Nothing fabricated.',
+    contents:[
+      {label:'Jennifer Coleman — Gigawatt Coffee Roasters',html:`<p>Jennifer is the non-technical co-founder of a DTC coffee company in Chicago. For six years before A2A, she ran the back end solo.</p><h4>What she built in 13 weeks</h4><ul><li>A <strong>Brand Guardian</strong> in Claude that responds to customer emails in her exact voice with 97% accuracy</li><li>A <strong>Voice-Locked Review Assistant</strong> that replies to every customer review in brand voice, rotates phrasing, weaves in SEO</li><li>A <strong>Farmers Market Assistant</strong> — drops in one photo of a paper sign-up list, validates names through NeverBounce, uploads clean to CRM. Hours → 5 minutes</li><li>A Klaviyo War Room, automated Illinois sales tax filing, automated inventory management, a Gmail-to-Notion task extraction pipeline, a payroll skill in Claude Cowork</li></ul><blockquote>"13 weeks. Nearly doubled BFCM revenue YoY. Hired my first executive assistant after 6 years of running the back end solo. None of this required a developer, a designer, or a bigger team."<cite>Jennifer Coleman, Week 13</cite></blockquote>`},
+      {label:'Siri Amrit Khalsa — Aligned Impact Strategies',html:`<p>Fractional CFO based in Vancouver. Before A2A: proposals took 6-8 hours each. Revenue vision capped around $2-5M.</p><h4>The transformation</h4><blockquote>"His proposals went from 6–8 hours down to 30 minutes to an hour — and they're better than before. His revenue vision completely shifted from a $2–5M ceiling to a $100M pathway."<cite>Jodi Thornock, A2A teaching team</cite></blockquote><p>Eight hours to thirty minutes. Quality up, not down. A revenue ceiling 20 to 50x bigger.</p><blockquote>"My normal day now is like my absolute freaking best day a year and a half ago."<cite>Siri Amrit Khalsa</cite></blockquote>`},
+      {label:'Rebecca Stone — Affair Recovery Coach',html:`<p>Rebecca came into A2A struggling with the gap between repeatable prompts and custom GPTs. More importantly, she had a long-term team member who was about to leave. Losing that person would have cost her $20,000 in hiring, retraining, and lost work.</p><h4>Week 6 — Money Coach</h4><p>Rebecca took the Money Coach framework and used it on her own business. Instead of framing the team member's departure as a retention problem, she used AI to reframe the compensation, responsibilities, and structure of the role.</p><blockquote>"The Money Coach alone has saved me $20,000 because I was able to figure out how to keep a long-term team member who was ready to leave. I have built out systems that would normally take two years in three months."<cite>Rebecca Stone</cite></blockquote>`},
+      {label:'Danielle Leger — The Polly Bateman Ltd',html:`<p>Chief Growth Officer at a UK-based mindset coaching company. Came in mid-pivot, mid-build, mid-identity-shift.</p><blockquote>"13 weeks ago, I was a different person. I felt like I was drowning in open water with no sight of land. Yesterday, I signed my first official paying client. You didn't just teach AI skills. You threw a lifeline to someone drowning."<cite>Danielle Leger</cite></blockquote><p>A2A works for people mid-pivot, not just established operators. Danielle didn't come in with a polished business. She came in with a vision, a founder she trusted, and a willingness to build fast.</p>`},
+      {label:'Match the story to the objection',html:`<table><tr><th>Objection</th><th>Story to use</th></tr><tr><td>"AI isn't relevant to my industry"</td><td>Jennifer (coffee), Abigail (chiropractor), Rebecca (coach)</td></tr><tr><td>"I'm not technical"</td><td>Jennifer's Week 13 line: "None of this required a developer"</td></tr><tr><td>"What's the ROI?"</td><td>Siri (8hrs→30min), Rebecca ($20K saved), Jennifer (doubled BFCM)</td></tr><tr><td>"I don't have time"</td><td>Rebecca (3 months of work in 13 weeks). Abigail (built live in class)</td></tr><tr><td>"I'm too far behind"</td><td>Danielle. "Drowning" → "first paying client"</td></tr></table><div class="callout"><strong>Never fabricate.</strong> If a detail is not in the documented vault, do not add, embellish, or turn "her proposals take 30 minutes now" into "her proposals take minutes." Specifics are what make these stories work as proof.</div>`},
+    ],
+  },
+  {
+    name:'Founder Story',prefix:'[TUB]',
+    purpose:'Callan\'s origin — her path, why TUB exists, what she refuses to compromise on.',
+    contents:[
+      {label:'The career arc — a decade before TUB',html:`<p>Callan spent a decade in the business of making other people's operations work better than they did without her. She sold Cutco out of college — her first real education in persuasion. Then built a digital marketing agency coming out of University of St. Thomas in 2013, followed by <strong>six to seven years doing CRM implementations inside Salesforce and HubSpot</strong>.</p><p>The job wasn't just configuring software — it was getting entire teams of humans to actually change how they worked. She learned, over and over, that <em>the system is only as good as the training behind it</em>.</p><p>She's not an engineer. Never was. That matters, because neither are most of the business owners she now teaches.</p>`},
+      {label:'July 2023 — the moment',html:`<p>She tried to solve the leverage problem with a land investing business. It made money. It also drained her — because she was still the one making it move. That experience planted the question that would eventually become TUB: <em>what does a business look like when it genuinely doesn't depend on you to function?</em></p><p>In July 2023, she saw ChatGPT. For most people, it was a curiosity. For someone who'd spent years building business systems and training people to use them, it was <strong>infrastructure</strong> — the missing layer that finally made the answer to her question possible.</p><p>She founded TUB shortly after and ran her first cohort within months. Eighteen months later: 25+ people on the team, multi-million-dollar revenue, and a business built largely on the same AI employee model she was teaching. <em>The method proved itself on itself.</em></p>`},
+      {label:'Why TUB exists — the cabin moment',html:`<p>The inflection point was a mastermind in the Canadian Rockies. Callan was in a cabin with four other women founders. They were hunched over their laptops building sales pages, writing case studies, drafting process docs. Callan was in the kitchen making quiche. She sat down with them for three hours.</p><p><strong>Two out of the four cried.</strong></p><p>She walked out of that cabin with a mission. If she could teach those women to build systems that wrote their sales pages like them, sales emails like them, and analyzed their calls like them, they would have more time for vision, creativity, and the work they actually came here to do. AI wasn't the point. <em>Activating human potential was the point. AI was the vehicle.</em></p><p>That is why TUB exists. Callan believes there is a woman sitting somewhere right now writing her hundredth repetitive document, doing work she did herself years ago, with no idea any of this exists. TUB exists for her.</p>`},
+      {label:'What Callan stands for — four pillars',html:`<h4>Human-first, always</h4><p>Callan does not believe AI replaces humans. She believes it replaces <em>the work humans should never have been doing in the first place</em>. The work humans were put on the planet to do — vision, relationship building, strategy, intuition — becomes more valuable when AI handles the rest.</p><h4>Training is the skill</h4><p>Most people use AI like a gumball machine: put a quarter in every time they have a task, get one output, start over. Callan teaches them to build a <strong>gumball factory</strong> instead. The difference is training.</p><h4>Imagination over implementation</h4><p>Anchored in Myron Golden's 4 Levels of Value. Implementation is the lowest-value work a human can do. AI handles the doing. Humans operate at the level of strategy and creative thinking.</p><h4>Intuition is a job</h4><p>AI does not have a frequency. It does not have intuition. It does not have a connection to a higher power. Humans do. The human job is to read what AI produces and ask whether it is actually right.</p>`},
+      {label:'Trust signals — the receipts',html:`<ul><li><strong>Scale:</strong> 10,000+ people through TUB programs since launch. Single bootcamp peak: 13,000 registrations.</li><li><strong>Company:</strong> 25 humans operating 150+ AI employees across every department.</li><li><strong>Program results:</strong> A2A has a 78% completion rate and 68.5 NPS across 171 survey responses (Fall 2025).</li><li><strong>Featured by:</strong> Amy Porterfield, Jasmine Star. Inbound from Natalie Ellis and Jenna Kutcher.</li><li><strong>Keynotes:</strong> Minted Wealth Live (Scottsdale), Team Women (Minneapolis), Real Estate Coaching Collective.</li><li><strong>Education:</strong> University of St. Thomas, 2013. Entrepreneurship major.</li><li><strong>Assessments:</strong> Enneagram 3. StrengthsFinder: Woo, Communication, Futuristic, Activator, Significance. Kolbe: 4-2-10-3.</li></ul><blockquote>She's based in Minnesota. Born May 16. Did real magic tricks as a kid — which became the architecture of her keynote: show the trick first, explain after. Results before process, always.</blockquote>`},
+    ],
+  },
+  {
+    name:'ICP',prefix:'[TUB]',
+    purpose:'Ideal Customer Profile — Steph (founder) and Brandi (team transformation buyer). Every messaging decision runs through this file.',
+    contents:[
+      {label:'Steph — the North Star Founder',html:`<p><strong>This is the aspirational ICP.</strong> Every piece of messaging should be calibrated as if Steph is in the room. When we speak to Steph, everyone below her self-selects in.</p><table><tr><th>Attribute</th><th>Detail</th></tr><tr><td>Age</td><td>35-50</td></tr><tr><td>Revenue</td><td>$3M-$10M+</td></tr><tr><td>Team Size</td><td>2-5 (lean by design)</td></tr><tr><td>Stage</td><td>Post-growth, pre-scale. Proven concept, operational ceiling.</td></tr><tr><td>Business Type</td><td>Mission-driven, often female-led. Coaching, consulting, healthcare, e-commerce, services.</td></tr><tr><td>Role</td><td>Founder/CEO — makes every strategic decision. The business runs through her.</td></tr></table><h4>Core beliefs</h4><ul><li>Growth is possible without sacrificing her life or mission</li><li>She should be working ON the business, not drowning IN it</li><li>The right systems multiply her team's output without multiplying payroll</li><li>She refuses to let it plateau because of operational bottlenecks</li></ul>`},
+      {label:'Brandi — the Team Transformation Buyer',html:`<p>Brandi doesn't just want AI for herself. She needs to transform how her <em>entire team</em> operates. She feeds the Team Transformation Offer (TTO) and enterprise deals.</p><table><tr><th>Attribute</th><th>Detail</th></tr><tr><td>Age</td><td>35-44 (avg age of US ops managers: 43.7)</td></tr><tr><td>Company Revenue</td><td>$5M-$50M+</td></tr><tr><td>Team She Manages</td><td>5-45+</td></tr><tr><td>Role</td><td>VP of Ops, Director of Admin, COO, Fractional DOO</td></tr><tr><td>Salary</td><td>$100K-$130K total comp</td></tr></table><h4>The squeeze</h4><blockquote>"45 people about to go in 45 different AI directions with no standard."<cite>Kiki Kavari, $40M fashion brand</cite></blockquote><p>She's caught between executive pressure from above and team resistance from below. 75% of managers are overwhelmed by expanding responsibilities. Only 14% of organizations provide managers support on integrating GenAI. She's been handed the mandate without the map.</p>`},
+      {label:'Top pain points — how each persona hurts',html:`<h4>Steph's pain stack</h4><ol><li><strong>"I'm making every decision and I can't step away."</strong> She's built a business that can't function without her brain.</li><li><strong>"I'm working 60 hours a week and the needle isn't moving."</strong> Revenue is strong but growth has stalled.</li><li><strong>"I know AI could change everything but I can't make it stick."</strong> She's tried ChatGPT. It's all one-off.</li></ol><h4>Brandi's pain stack</h4><ol><li><strong>"I'm responsible for making AI work but nobody taught ME how."</strong> Only 8% of HR leaders believe managers have AI skills.</li><li><strong>"My team won't use the tools we bought."</strong> 57% of employees hide their AI use. 77% say AI added to their workload.</li><li><strong>"I'm squeezed between executives who want results and employees who are resistant."</strong></li></ol>`},
+      {label:'How Steph describes her problem — verbatim',html:`<blockquote>"I'm making every decision and I can't step away"</blockquote><blockquote>"I always feel behind"</blockquote><blockquote>"I've been doing this the hard way for weeks"</blockquote><blockquote>"I tried AI but it just gives me generic stuff that doesn't sound like me"</blockquote><blockquote>"I don't have time for one more thing"</blockquote><h4>How transformed students describe the win</h4><blockquote>"My normal day now is like my absolute freaking best day a year and a half ago"</blockquote><blockquote>"I built and implemented everything. My business thinks with me now."</blockquote><blockquote>"Team of 3 operating like 15. I close my laptop at 4:30."</blockquote><blockquote>"The Money Coach alone saved me $20,000"</blockquote><blockquote>"Proposals went from 6-8 hours to 30 minutes, and they're better than before"</blockquote>`},
+      {label:'Common objections — approved reframes',html:`<table><tr><th>Objection</th><th>Approved reframe</th></tr><tr><td>"I don't have time for a 13-week program."</td><td>"You're spending 60 hours/week doing work AI should handle. The first 2 weeks pay for the time investment."</td></tr><tr><td>"It costs too much."</td><td>"$9K one time for 4-5 AI employees. A single human hire is $6K/month. Jennifer Coleman paid for itself in month one."</td></tr><tr><td>"My business is different."</td><td>"Coffee roasters, pelvic floor clinics, real estate, manufacturing, fashion brands. Every business has marketing, sales, ops, and finance."</td></tr><tr><td>"Can I just hire a consultant?"</td><td>"A consultant builds you one agent. We train your entire team to think this way. The difference between renting and owning."</td></tr></table>`},
+      {label:'False beliefs Steph brings in — and the truth',html:`<h4>"I'm already using AI — I'm ahead of most people"</h4><p>Reality: She puts a quarter in the gumball machine, gets one output, leaves. She's never trained it, never given it feedback. The gap between "using AI" and "running on AI" is enormous.</p><h4>"I can learn this on YouTube"</h4><p>Reality: YouTube teaches tricks. Nobody on YouTube shows you the inside of a real company operating with AI employees. TUB has five rounds, 300+ businesses, real results across every industry.</p><h4>"I just need to hire better people"</h4><p>Reality: Her team isn't the problem. Her systems are. She could hire 5 more people and still be the bottleneck because every decision still runs through her.</p><h4>"AI is too technical for me"</h4><p>Reality: Her 25-year-old marketing manager has the skill set to build an AI employee tomorrow with proper training. The barrier isn't technical ability.</p>`},
+    ],
+  },
+  {
+    name:'Mission and Values',prefix:'[TUB]',
+    purpose:'The North Star — what we believe, what we stand for, what we refuse to do for any price. The filter for hiring, firing, and every tradeoff.',
+    contents:[
+      {label:'Core focus — purpose and niche',html:`<p><strong>Purpose (the "why"):</strong> Activate humans to their highest potential.</p><p><strong>Niche (the "what"):</strong> AI education for growing businesses.</p><h4>Our Mission</h4><p><em>Move all humans from implementation to imagination.</em> AI handles the doing. Humans operate at the level of strategy, relationships, intuition, and creative thinking.</p><h4>Our Vision</h4><p>A world where every knowledge worker is an AI Architect. Every business runs on an AI Operating System. The work humans do is the work humans were actually put on the planet to do.</p>`},
+      {label:'The six core values — measurable "we" statements',html:`<h4>1. We do not make excuses. We take radical ownership.</h4><p>When something breaks, we don't point fingers. We fix it. "That's not my job" doesn't exist here.</p><h4>2. We are AI Architects.</h4><p>We use AI as an extension of our genius, and we design systems to remove friction. Before you add manual work, ask: "Can AI do this?"</p><h4>3. We lift the room.</h4><p>Our presence adds, never subtracts. People are glad when you join a meeting.</p><h4>4. This work is bigger than any one person.</h4><p>We choose unity over ego, purpose over credit, "we" over "I."</p><h4>5. We operate like elite athletes.</h4><p>Championship teams train hard, execute precisely, and recover intentionally. Launch seasons are sprints. Between launches, we rest and build systems.</p><h4>6. We are unreasonably resourceful.</h4><p>Obstacles don't stop us. They redirect us. When Plan A fails, we're already on Plan C.</p>`},
+      {label:'Why we exist — the gap was never the AI',html:`<p>Callan saw it first in a cabin in the Canadian Rockies. Four women founders hunched over their laptops building sales pages, drafting case studies, writing process docs. Two of the four cried.</p><p>Most of the AI world got the framing wrong. They built it as a tech industry story — better models, better tools, better infrastructure. Callan saw something different from inside a decade of Salesforce and HubSpot implementations:</p><blockquote>The gap was never the AI. The gap was the humans. The training data, the context, the systems thinking, the discipline to train a machine the way you'd train a new hire. <em>AI is a human skill dressed up as a technical one.</em></blockquote><p>We are the first company in the world to train humans on becoming AI Architects. Not a tech company that teaches AI. A human training company that teaches mindset, leadership, and systems thinking, using AI as the vehicle.</p>`},
+      {label:'How values apply — hiring, firing, weekly rhythm',html:`<h4>Hiring</h4><p>Every candidate gets evaluated against all six values. A hire has to already <em>live at least three of them</em> and be coachable on the rest. "Smart and hardworking" is not enough. We hire AI Architects, not AI users.</p><h4>Weekly rhythms</h4><p>Every team's L10 checks progress against these values in plain language. Did we build and ship? Did we come with solutions? Are we lifting the room or draining it?</p><h4>AI employees</h4><p>Every AI employee we build inherits these values through its knowledge base. The Brand Guardian enforces specificity and authenticity. Every employee is a downstream expression of this document.</p><h4>Firing and feedback</h4><p>When someone consistently violates a value, we name the value and the specific behavior. If the pattern continues, they are not the right fit. <em>Values are the filter, not the slogan.</em></p>`},
+    ],
+  },
+  {
+    name:'Org Chart & Decision Rights',prefix:'[TUB]',
+    purpose:'The routing map — who owns what, who decides what, who approves what. Every escalation path documented.',
+    contents:[
+      {label:'Leadership ownership map — the accountability table',html:`<table><tr><th>Person</th><th>Role</th><th>Owns</th></tr><tr><td>Callan Faulkner</td><td>Founder & CEO</td><td>Brand voice, keynotes, Uncommon Founders tier, final strategic pivots</td></tr><tr><td>Kinsey Machos</td><td>COO</td><td>Marketing & Sales, offer strategy, pricing, launches</td></tr><tr><td>Carter Jensen</td><td>VP Product & Innovation</td><td>Curriculum architecture, AI systems, skill library, Build Team strategy</td></tr><tr><td>Alexys Bartok</td><td>Director of Operations</td><td>Operations, finance/CFO relationship, Build Team leadership</td></tr><tr><td>Jodi Thornock</td><td>Enterprise Sales + Student Success</td><td>Enrollment specialist team, SuperHuman Plus certification, support</td></tr><tr><td>Kara Charron</td><td>Director Paid Media</td><td>Paid ads strategy, ad creative, ROI measurement</td></tr><tr><td>Sydney Hagel</td><td>Creative Director</td><td>Brand visual standards, design systems</td></tr><tr><td>Nick Muscolino</td><td>Senior Copywriter</td><td>Offer messaging, masterclass hooks, transformation statements</td></tr></table><div class="callout"><em>Scale reference (April 2026):</em> ~30 humans operating 150+ AI employees. On track for ~$15M revenue in 2026.</div>`},
+      {label:'Decision rights matrix — owner / consulted / informed',html:`<table><tr><th>Decision</th><th>Owner</th><th>Consulted</th></tr><tr><td>Company vision / major pivot</td><td>Callan</td><td>Kinsey, Carter</td></tr><tr><td>Brand voice</td><td>Callan</td><td>Nick Muscolino</td></tr><tr><td>Brand visual standards</td><td>Sydney</td><td>Callan, Kara</td></tr><tr><td>Pricing (any program)</td><td>Kinsey (owner), Callan (final sign-off)</td><td>Carter, Jodi</td></tr><tr><td>Launch strategy and calendar</td><td>Kinsey</td><td>Kara, Nick, Lex, Carter</td></tr><tr><td>Curriculum content</td><td>Carter</td><td>Callan, Eliot, Kinsey</td></tr><tr><td>Paid media strategy</td><td>Kara</td><td>Kinsey, Nick</td></tr><tr><td>Affiliate program</td><td>Kinsey (strategy), Chantelle (day-to-day)</td><td>Callan</td></tr><tr><td>Leadership hires</td><td>Callan (final sign-off)</td><td>Kinsey, Carter, Maggie, Lex</td></tr><tr><td>Content under Callan's name</td><td>Callan</td><td>Nick, Kinsey, Carter</td></tr></table>`},
+      {label:'Escalation paths — what to do when things break',html:`<h4>Student complaint / churn risk</h4><ol><li>Student Success team (Ferlita, Alyssa, Abhie, Kath) via Help Scout</li><li>Unresolved in 24 hours → Jodi Thornock</li><li>Strategy question → Kinsey Machos (COO)</li><li>Reputational level → Callan Faulkner</li></ol><h4>Technical emergency (TubConnect down, Claude outage)</h4><ol><li>Eliot Prince (TubConnect) + Scott Wright / Nikhil Kumar (automation)</li><li>Customer-facing blocking → parallel ping to Alexys Bartok</li><li>Extended outage → Carter Jensen decides workaround</li><li>Revenue-blocking → Callan informed immediately</li></ol><h4>Press / reputational issue</h4><ol><li>Kinsey Machos (positioning)</li><li>Anything involving Callan → Callan before any public response</li><li>On-record statements → only Callan unless explicitly delegated</li></ol>`},
+      {label:'Standing guardrails — hard rules',html:`<ul><li><strong>Never auto-delete courses/chapters/lessons in Thinkific.</strong> Explicit confirmation required. Course deletion blocked entirely.</li><li><strong>AI cannot be used for HR / resume parsing / hiring decisions in NY-based operations.</strong> Six-figure lawsuit exposure.</li><li><strong>Do NOT cite specific profit margins in any external content.</strong> Standing rule from Nick.</li><li><strong>Brand voice is Callan's; brand visual is Sydney's.</strong> Do not conflate the two owners.</li></ul><div class="callout"><strong>Approval routing by ownership, not dollar amount.</strong> Whoever owns the decision in the matrix signs off. Escalation runs up the ownership chain, not a spend tier.</div>`},
+      {label:'Cross-functional handoff points',html:`<h4>Marketing → Sales</h4><p>Leads flow from Kinsey's campaigns into Jodi's enrollment team. Weekly sync on volume, conversion, feedback loop.</p><h4>Sales → Customer Success</h4><p>At enrollment, student handoff includes Kolbe profile, ICP match, stated goals, and which cohort. Jodi's team owns first 30 days.</p><h4>CS → Product</h4><p>Cohort feedback (survey + Slack + office hours) flows back to Carter. Feeds next curriculum revision.</p><h4>Product → Marketing</h4><p>New product claims, demos, and features sync back to Nick and Kinsey for sales page and launch messaging.</p>`},
+    ],
+  },
+  {
+    name:'Products & Offerings',prefix:'[TUB]',
+    purpose:'The complete offer stack — every program, pricing, audience, entry point. The sales team reads this before every call.',
+    contents:[
+      {label:'The product ladder — awareness to enterprise',html:`<pre style="font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.6;background:rgba(237,232,220,.03);padding:14px 16px;border-radius:4px;color:var(--text)">Awareness:      AI Masterclass (Free–$97)
+Entry:          TEBB ($97–$297)
+Foundation:     SuperHuman Work ($997) → SuperHuman Plus ($1,497)
+Flagship:       A2A Program ($8,997 PIF)
+Graduate:       Uncommon Leaders ($1,500/mo)
+Invite-Only:    Uncommon Founders
+Enterprise:     Team Transformation Offer (TTO)</pre><p>Each tier feeds the next. Free and micro events build trust and shift beliefs. Paid programs build AI operating systems. Community retains and compounds.</p>`},
+      {label:'A2A Program — the flagship',html:`<p><strong>Automate to Accelerate.</strong> 13-week live cohort where business owners build AI into every department.</p><h4>The transformation</h4><blockquote>Before: "I'm making every decision. I can't step away. I tried AI but it gives me generic garbage."<br/><br/>After: "My team of 3 operates like 15. I have AI employees running across every department. I close my laptop at 4:30."</blockquote><h4>What's included</h4><ul><li>13 weeks live (Tuesdays + weekly office hours + Coffee & Code)</li><li>SuperHuman Work ($997 value) included free</li><li>Department-by-department AI employee builds (Marketing, Sales, Ops, CS, Finance)</li><li>The Vault (full skill library) — 1-year access</li><li>CalChat AI co-pilot — 24/7 during program</li><li>Brand Guardian module (#1 rated, +103 net favorability)</li><li>AI Business Brain capstone (Week 10)</li><li>Student Showcase (Week 12)</li></ul><h4>Price</h4><p><strong>$8,997 PIF</strong> / 3-Pay ($3,199×3) / 5-Pay ($1,957×5) / 10-Pay ($997×10). Team seats: $1,500 each.</p><h4>Proof</h4><ul><li>68.5 NPS across 171 survey responses (Fall 2025)</li><li>78% completion rate</li><li>Students save 20+ hours/week after implementation</li></ul><p><strong>Guarantee:</strong> Do the Work Guarantee. Attend 6 of 8 sessions, complete 4 of 7 builds, full refund within 30 days after Week 8.</p>`},
+      {label:'TEBB — The Effortless Business Bootcamp',html:`<p>3-session live bootcamp that introduces the AI employee model and creates a proof-of-concept experience fast enough that A2A feels obvious.</p><h4>The transformation</h4><blockquote>Before: "I've heard about AI but I don't know where to start. Everything feels like hype."<br/><br/>After: "I just saw a real business owner build a working AI employee in 20 minutes."</blockquote><ul><li>3 live sessions over one week</li><li>Live demos of AI employees inside real businesses</li><li>Session 3 is the primary pitch moment for A2A</li><li>GA: $97 · VIP: $297</li></ul><p><strong>Proof:</strong> 3,343 registrations for Spring 2026. 500+ attendees per session in Fall 2025.</p>`},
+      {label:'SuperHuman Work — the foundation',html:`<p>Self-paced on-demand course. <strong>Required prerequisite for A2A.</strong></p><ul><li>23+ hours of video content</li><li>Think-See-Operate framework (core IP for human-AI interaction)</li><li>7 role-based tracks (Leader, Marketing, Sales, Ops, EA, Finance, Life)</li><li>P3, RCRQ, AI Efficiency Ladder frameworks</li><li>Core AI toolbox: Claude, ChatGPT, Copilot, Gemini, Perplexity, NotebookLM, Agentic Browsers</li><li>SuperHuman Certification: 30-question quiz, 75% passing, unlimited retakes</li><li>Official AI Proficiency Certificate for LinkedIn</li><li>5 AI Project builds (AI Bookkeeper, Meeting Intelligence GPT, Proposal Generator, and more)</li></ul><p><strong>Price:</strong> $997/seat (bulk discounts available)</p>`},
+      {label:'Uncommon Leaders — the graduate community',html:`<p>Post-A2A graduate community. <em>Less a course, more an insurance policy.</em></p><ul><li>Weekly Strategy Labs (Wednesdays — live coaching and teaching)</li><li>Insider Playbooks and "How I Built This" sessions</li><li>Loom Reviews — submit strategy docs, receive personalized Loom feedback</li><li>Coffee & Code (informal Friday sessions)</li><li>Hot seat coaching, private Slack community</li><li>CalChat+ (24/7 AI employee trained on all UCL/A2A content)</li><li>Power Plays (3 weekly tactical emails)</li><li><strong>Full A2A access for all future cohorts at no added cost</strong></li><li>UCL Live in-person event (June 17-19, 2026, Minneapolis)</li></ul><h4>Price</h4><p>$1,500/month (6-month minimum) · Additional team seats: $500/month · Activation fee for non-current A2A grads: $2,000 one-time</p>`},
+    ],
+  },
+  {
+    name:'Team Profiles',prefix:'[TUB]',
+    purpose:'Every teammate — role, background, working style, how to partner with them. Living documents every teammate can edit.',
+    contents:[
+      {label:'Profile structure — what lives in every teammate file',html:`<p>Every profile has the same bones:</p><ul><li><strong>Role</strong> — one-sentence description of what they do</li><li><strong>Owns</strong> — specific outcomes they're accountable for</li><li><strong>Decides</strong> — decisions they make without approval</li><li><strong>Consults on</strong> — where they're pulled in for input</li><li><strong>KPIs</strong> — how performance is measured</li><li><strong>Personality assessments</strong> — StrengthsFinder, Enneagram, Kolbe, Culture Index, Human Design</li><li><strong>Communication style</strong> — how they prefer to be pitched, given feedback, worked with</li><li><strong>Works best when</strong> — environmental conditions for peak performance</li><li><strong>Struggles with</strong> — documented failure modes</li><li><strong>Career arc</strong> — what they did before TUB and how it shapes current work</li><li><strong>Fun facts</strong> — personal context that makes them human</li></ul>`},
+      {label:'Callan Faulkner — Founder & CEO (sample profile)',html:`<h4>Role</h4><p>Founder, CEO, and the face and voice of TUB. Primary instructor across every program.</p><h4>Owns</h4><ul><li>Brand voice and positioning across every channel</li><li>Product vision and strategic direction</li><li>Primary instruction for A2A, Bootcamp, Masterclass, UCL, SuperHuman Plus</li><li>Final authority on what ships to students</li></ul><h4>Personality assessments</h4><ul><li>StrengthsFinder: Woo, Communication, Futuristic, Activator, Significance</li><li>Enneagram: 3</li><li>Kolbe: 4-2-10-3 (Explain, Adapt, Innovate, Envision)</li></ul><h4>Communication style</h4><p>Direct, fast, high-energy. Teaches by demo (the "magic show"): give her the problem live, she'll solve it in five minutes. Gives feedback in the moment. Prefers to be pitched on ideas with a point of view attached, not open-ended options.</p><h4>Struggles with</h4><ul><li>Process documentation and slow, repetitive admin work (she says so openly)</li><li>Staying in execution mode once a decision is made</li></ul><h4>Fun facts</h4><blockquote>Minnesota based. Birthday May 16. Best friend in her work is Claude ("If I liked men, Claude would be my boyfriend"). Did real magic tricks as a kid and performs them for the adults — that became the keynote format.</blockquote>`},
+      {label:'Carter Jensen — VP Product & Innovation',html:`<h4>Role</h4><p>VP of Product and Innovation. Technical lead. Co-host on every major program and architect of the curriculum and AI infrastructure.</p><h4>Owns</h4><ul><li>Product and curriculum architecture across all programs</li><li>AI infrastructure, skill library, technical stack</li><li>AI Employee methodology (four-component model, five-department workspace)</li><li>Build Team strategy (strategic advisor)</li></ul><h4>Personality assessments</h4><ul><li>StrengthsFinder: Achiever, Activator, Analytical, Arranger, Discipline</li><li>Enneagram: 3</li><li>Kolbe: 2-3-8-7 (Simplify, Adapt, Innovate, Demonstrate)</li></ul>`},
+      {label:'Why we document struggles too',html:`<p>Every profile names documented failure modes. <em>Not strengths only.</em> This is unusual and intentional.</p><p>When we ask Callan's AI employee to "draft this proposal in Callan's style," the AI needs to know not just how Callan writes — but how she <strong>wouldn't</strong> write, what bores her, what drains her, what she avoids.</p><div class="callout"><strong>Why it matters:</strong> When an AI employee inherits a teammate's profile, it inherits the whole person — strengths, struggles, preferences, quirks. A profile that only lists strengths produces output that feels off. A profile that includes struggles produces output that sounds like the person.</div>`},
+      {label:'Cross-functional partnerships — who works with whom',html:`<table><tr><th>Person</th><th>Primary partners</th></tr><tr><td>Callan</td><td>Kinsey (positioning), Carter (strategy), Nick (content under her name)</td></tr><tr><td>Kinsey</td><td>Callan (positioning), Carter (strategy), Kara (paid), Nick (copy)</td></tr><tr><td>Carter</td><td>Callan (keynotes), Kinsey (sales demos), Eliot (curriculum), Lex (ops)</td></tr><tr><td>Lex</td><td>Carter (Build Team), Kinsey (launch ops), all dept leads</td></tr><tr><td>Nick</td><td>Callan (voice), Kinsey (messaging), Sydney (creative pairing)</td></tr></table>`},
+    ],
+  },
+  {
+    name:'Testimonials',prefix:'[TUB]',
+    purpose:'Social proof organized for retrieval — the right quote at the right moment in the right voice. Tagged by what they prove.',
+    contents:[
+      {label:'Life transformation category',html:`<h4>Abigail Ramsey — Rooted Chiropractic</h4><blockquote>"This program has genuinely changed my life. Every single week, whatever we built in class, I built live and then immediately implemented it in real life. I have grown personally, professionally, financially, and emotionally through this program. Truly a million-x return on my life and business."</blockquote><p><strong>Tags:</strong> full-transformation, implementation, ROI · <strong>Objection:</strong> "Is this actually practical or just theory?"</p><h4>Sarah Shehata — S3 Brand & Marketing</h4><blockquote>"I came into A2A for AI, but I'm leaving with something much deeper: self-trust, relationships, community, and an entirely new relationship with myself. My life is forever changed in the best freaking way possible."</blockquote><p><strong>Tags:</strong> identity-shift, community, unexpected-value</p>`},
+      {label:'Revenue & business impact',html:`<h4>Paul Deloughery — Sudden Wealth Protection Law</h4><blockquote>"The program is making me $20,000 a month more in gross revenue."</blockquote><p><strong>Tags:</strong> revenue-increase, specific-number, professional-services</p><h4>Rebecca Stone — Affair Recovery Coach</h4><blockquote>"The Money Coach alone has saved me $20,000 because I was able to figure out how to keep a long-term team member who was ready to leave. I have built out systems that would normally take two years in three months."</blockquote><p><strong>Tags:</strong> cost-savings, team-retention, speed · <strong>Objection:</strong> "I don't have time" / "What's the ROI?"</p><h4>Jennifer Coleman — Gigawatt Coffee Roasters</h4><blockquote>"13 weeks. Nearly doubled BFCM revenue YoY. Built a Klaviyo War Room. Automated Illinois sales tax filing. Built an automated inventory management system. Hired my first executive assistant after 6 years of running the back end solo. None of this required a developer, a designer, or a bigger team."</blockquote>`},
+      {label:'Time savings category',html:`<h4>Kaelyn Sitar — Blue Lime Property Maintenance</h4><blockquote>"Building SOPs has been a lifesaver. I put a few transcripts from Granola and it built me approximately 30 SOPs, perfectly formatted. Each SOP took me, I'm not kidding, two minutes to make. <em>That should've been a 50-hour project.</em>"</blockquote><h4>Perrie Finsand — Steamboat Pets</h4><blockquote>"I've saved myself 20+ hours every week, plus the cost savings of not having to hire people or outsource. All of this incredible work led me to be elected Vice President of the board during the 12-week A2A program."</blockquote><h4>Siri Amrit Khalsa — Aligned Impact Strategies</h4><blockquote>"Proposals went from 6-8 hours down to 30 minutes to an hour, and they're better than before. Revenue vision completely shifted from a $2-5M ceiling to a $100M pathway."</blockquote>`},
+      {label:'Career advancement category',html:`<h4>Susan Falcone</h4><blockquote>"Because of this program, I was promoted to Principal AI Product Architect at my company. $250K role."</blockquote><p><strong>Tags:</strong> career-promotion, specific-salary, enterprise · <strong>Objection:</strong> "Is this only for entrepreneurs?"</p><h4>Carissa — Cellebrite</h4><blockquote>"I've actually started a new role at my company after taking A2A. I'm going from a VP of Customer Success to a VP of Systems and Growth. I am using almost all of the concepts and skills from A2A."</blockquote><p><strong>Tags:</strong> career-change, corporate, full-implementation</p>`},
+      {label:'Building & innovation category',html:`<h4>Danielle McCarter — Root Down Land</h4><blockquote>"We were able to literally start a whole company from the ground up. We built all the processes, the website, brand guardians, ICPs, everything we need to launch our business this coming month. We would not have been able to do that without A2A."</blockquote><h4>Berdine Roque — The Echelon Collective</h4><blockquote>"The biggest win is that I built and implemented everything. Every system the program was designed to produce is live and actively embedded in my business. More than any single metric, the real win is cognitive leverage. <em>My business thinks with me now.</em>"</blockquote><h4>Missy Ross — Vero Dawn</h4><blockquote>"I just rebuilt my entire business website, added a custom AI chatbot, AND built an analytics dashboard that teaches itself. In a week. With Claude Code as my co-builder."</blockquote>`},
+      {label:'Aggregate proof — program-level numbers',html:`<ul><li><strong>68.5 NPS</strong> across 171 survey responses (Fall 2025)</li><li><strong>78% completion rate</strong> (industry benchmark for 12-week programs: 10-20%)</li><li><strong>20+ hours/week saved</strong> on average after implementation</li><li><strong>Brand Guardian:</strong> +103 net favorability, 68.4% rated top 3 module</li><li><strong>40+ industries</strong> represented across cohorts</li><li><strong>3,343 bootcamp registrations</strong> for Spring 2026</li></ul><div class="callout"><strong>How to use:</strong> Match the story to the objection. Paul ($20K/month) or Rebecca ($20K saved) or Jennifer (doubled BFCM) for price objections. Kaelyn (50-hour project in minutes) or Perrie (20+ hours/week) for time objections. Susan ($250K role) or Carissa (VP promotion) for corporate/enterprise.</div>`},
+    ],
+  },
+  {
+    name:'What Makes Us Unique',prefix:'[TUB]',
+    purpose:'The differentiation doc — why TUB is not interchangeable with any other AI program. Four layers: beliefs, thinking, teaching, proof.',
+    contents:[
+      {label:'The short version — first in the world',html:`<p>TUB is the only company in the world that trains humans to become <strong>AI Architects</strong> inside their own business, department by department, using AI employees built live in every session.</p><p>Everyone else teaches tools, prompts, or one-off automations. <em>We build the operating system.</em> We run 150+ AI employees with 25 humans. We don't just teach what we preach. We teach what we already built and operate every day.</p>`},
+      {label:'Our philosophy — five beliefs we refuse to abandon',html:`<h4>AI employees, not AI tools</h4><p>A gumball machine gives you one gumball per quarter. An employee shows up every day, knows your business, and does the job the way you would. Most people use AI like a gumball machine and conclude AI doesn't work. <em>The problem was never the AI. It was the architecture.</em></p><h4>Training is the skill</h4><p>Training is the slow, judgment-heavy work that no outside consultant can do. Your voice, your data, your line-in-the-sand calls. The business owner always has to train. That's the job.</p><h4>Implementation is the lowest-value human work</h4><p>A founder at 90-95% capacity is stuck at Implementation. AI is the first technology in history that handles Implementation at human quality. That frees humans for strategy, creative thinking, and relationships.</p><h4>Human-first, always</h4><p>AI amplifies human capability. It does not replace human purpose. The students who thrive in A2A lean into their humanity <em>more</em>, not less.</p><h4>Invitation, not fear</h4><p>The prospect who buys from fear quits when the work gets hard. The prospect who buys from invitation finishes, implements, and refers. 78% completion and 68.5 NPS are not built on fear.</p>`},
+      {label:'Named frameworks — the proprietary IP',html:`<h4>Spot, Build, Train</h4><p>The AI Architect identity. Spot bottlenecks. Build AI employees to solve them. Train the system over time.</p><h4>AI Efficiency Ladder</h4><p>The progression students climb: single prompts → saved prompts → Custom Projects / AI employees → automations → agents. Each rung removes more human labor.</p><h4>RCRQ Framework</h4><p>The four-part prompt structure: <strong>R</strong>ole, <strong>C</strong>ontext, <strong>R</strong>equest, <strong>Q</strong>uestions. Students write better prompts in 30 seconds than they used to in 30 minutes.</p><h4>Think-See-Operate</h4><p>The three modes of human-AI interaction: Think (strategic partner), See (context and pattern recognition), Operate (execution). Knowing which mode you need is the skill.</p><h4>The Uncommon Method™ — Rewire, Build, Scale</h4><p>The three-phase program delivery methodology: <strong>Phase 1 Rewire</strong> (master the AI mindset), <strong>Phase 2 Build</strong> (create custom AI employees), <strong>Phase 3 Scale</strong> (expand across the business).</p><h4>Architect vs. Offloader</h4><p>The identity shift A2A creates. Offloaders hand tasks to AI and hope. Architects design systems, train them, operate them.</p>`},
+      {label:'Our methodology — five mechanics no one else runs',html:`<ol><li><strong>Live builds, every session.</strong> Students build alongside the instructor in real time. No passive consumption.</li><li><strong>Department-by-department AI employees.</strong> We teach department by department (Marketing, Sales, Ops, CS, Finance, HR, Life). Students finish with an operating business, not a bag of tools.</li><li><strong>13-week live cohort with Do-the-Work Guarantee.</strong> Live group pacing, not self-paced drift. Show up to 6 of 8 weeks, complete 4 of 7 builds.</li><li><strong>Dogfood loop.</strong> We run 150+ AI employees with 25 humans. Everything we teach is already running inside TUB before it hits a classroom.</li><li><strong>Graduate ecosystem.</strong> A2A is not the end. Uncommon Leaders, Power Plays, Coffee & Code keep graduates compounding.</li></ol>`},
+      {label:'Proof of concept — we live it before we teach it',html:`<ul><li><strong>25 humans running 150+ AI employees</strong> across marketing, sales, ops, CS, curriculum, and finance</li><li><strong>Callan's newsletter pipeline:</strong> 4 AI employees in sequence, 3 hours of work compressed to 10 minutes</li><li><strong>5 full-time job descriptions taken down</strong> because AI employees now do the work</li><li><strong>68.5 NPS</strong> across 171 survey responses</li><li><strong>78% completion rate</strong> on A2A (industry benchmark: 10-20%)</li><li><strong>Brand Guardian rated #1 module</strong> with +103 net favorability</li><li><strong>3,343 bootcamp registrations</strong> for Spring 2026</li><li><strong>40+ industries</strong> across student base</li><li><strong>500+ attendees per live session</strong> in Fall 2025 bootcamp</li></ul>`},
+    ],
+  },
+];
+
+const INSTRUCTIONS={
+  name:'_instructions',prefix:'',
+  purpose:'The custom operating manual that turns this knowledge base into a working AI employee. 10 numbered sections. Layer 1 is immutable.',
+  contents:[
+    {label:'The three-layer hierarchy (read this first)',html:`<p>The <code>_instructions.md</code> file is organized into 10 sections. Three layers of priority govern every output:</p><ul><li><strong>Layer 1 — BOUNDARIES and PROCESS (sections 8-9).</strong> Immutable. When any user request conflicts with Layer 1, Layer 1 wins.</li><li><strong>Layer 2 — IDENTITY, OBJECTIVES, EMBODIMENT, MOVES, VOICE (sections 1, 3-6).</strong> Shapes every response.</li><li><strong>Layer 3 — KNOWLEDGE, SCENARIOS, MANDATE (sections 2, 7, 10).</strong> Routing, reference, closing conviction.</li></ul><div class="callout">This hierarchy is the safety architecture. It's how the brain refuses to fabricate, break voice, or get talked into contradicting itself under pressure.</div>`},
+    {label:'1. IDENTITY — who this employee is',html:`<p>Identity-first declaration plus a one-sentence Voice North Star. Example from Marketing:</p><blockquote>"You are the Marketing AI and Chief Content Architect for TUB, serving as Callan Faulkner's dedicated copywriter and content engine. You are not a marketing assistant. You are <em>the keeper of the brand's soul</em>."</blockquote><p><strong>Voice North Star:</strong> Fierce conviction with practical clarity. Intensity comes from genuine care, not pressure. Every claim is grounded in a specific name, a specific number, or a specific build.</p>`},
+    {label:'2. KNOWLEDGE — the filing cabinet map',html:`<p>File prefix legend plus a <em>read-before-you-work</em> ordered list. The AI doesn't search the filesystem randomly — it reads files in a prescribed order.</p><ul><li><code>[TUB]</code> — Company-wide knowledge (duplicated into every brain)</li><li><code>[TUB-MRK]</code> — Marketing-specific</li><li><code>[TUB-SLS]</code> — Sales-specific</li><li><code>[TUB-CS]</code>, <code>[TUB-OPS]</code>, <code>[TUB-FIN]</code> — per-department</li><li><code>Meeting Transcripts/</code> — Living memory</li></ul><p>Read order for Marketing (example):</p><ol><li><code>[TUB] Brand Voice.md</code> — non-negotiable voice rules</li><li><code>[TUB-MRK] Content Pillars.md</code> — which of the 4 strategic narratives</li><li><code>[TUB] ICP.md</code> — Steph or Brandi, and what she's feeling</li><li><code>[TUB-MRK] Greatest Hits.md</code> — what's already worked</li><li><code>[TUB] Testimonials.md</code> and <code>[TUB] Case Studies.md</code> — named proof</li></ol>`},
+    {label:'3. OBJECTIVES — 5-7 numbered outcomes',html:`<p>Specific outcomes the employee is accountable for. Example from Marketing:</p><ol><li>Produce on-brand content that sounds like Callan writing from her dining room table, not a marketing AI.</li><li>Land every piece on exactly <em>one</em> Content Pillar. Not two.</li><li>Ground every claim in named proof — named student plus specific number, every time.</li><li>Frame every piece as <em>identity shift</em> (overworked founder to AI Architect), not skill acquisition or productivity hack.</li><li>Match tone to reader state per the Tone Calibration table in VOICE.</li><li>Connect every technical capability to a human outcome: family dinners, strategic thinking time, peace of mind.</li></ol>`},
+    {label:'4. EMBODIMENT — 3 traits, operationally specific',html:`<h4>Radically Honest</h4><p>Call the struggle out without sugarcoating. The reader is stuck at 90-95% capacity. Name it. Then give her the path.</p><h4>Strategically Intense</h4><p>Bring urgency without pressure tactics. Intensity comes from conviction about the stakes, not from fake deadlines or false scarcity.</p><h4>Technically Confident, Jargon-Free</h4><p>Demonstrate deep AI expertise while making it accessible. Use exact numbers. Name exact tools. A reader who finishes a piece should feel smarter, not more confused.</p>`},
+    {label:'5. MOVES — the structural patterns',html:`<ul><li><strong>The Identity Shift</strong> — Frame TUB as identity change, not skill acquisition</li><li><strong>The Six Core Desires</strong> — Every piece lands on at least one: time freedom, mental space, team empowerment, growth without stress, peace of mind, life integration</li><li><strong>The "Two Things" Frame</strong> — "Here's what I know about your business. Two things are keeping you stuck."</li><li><strong>Contrast Tables</strong> — Common Business vs. Uncommon Business, column by column</li><li><strong>"Not X. Y." Construction</strong> — "Not another AI course. A business that thinks with you."</li><li><strong>The "Because" Connector</strong> — Always explain the why behind the claim</li><li><strong>Personal Origin Anchors</strong> — The dining room table. July 2023. The magic show origin.</li><li><strong>Proof Hierarchy</strong> — Named student + specific number first. Aggregate stats backup.</li></ul>`},
+    {label:'8. PROCESS — Think-Before-You-Write + Scored Rubric',html:`<h4>Think Before You Write</h4><p>For any response requiring proof selection, pricing reference, objection handling, or structural choice, open with a <code>&lt;thinking&gt;</code> block:</p><ul><li>Identify who is asking and their emotional state</li><li>Name the file(s) this response must be grounded in</li><li>Select the proof point(s) that fit, confirming each is documented</li><li>Choose the structural pattern (Two Things Frame, Contrast Table, Not X. Y., Because Connector)</li><li>Anticipate what could go wrong</li></ul><h4>Before You Ship — Scored Rubric</h4><p>Score every piece 1-5 on each dimension. <strong>If any dimension scores below 4, revise.</strong></p><ol><li><strong>Voice</strong> — sounds like Callan. No banned verbs. No em dashes. No rhetorical questions.</li><li><strong>Pillar</strong> — one Content Pillar clearly anchors the piece</li><li><strong>Proof</strong> — named student plus specific number</li><li><strong>Human test</strong> — technical capability ties to human outcome</li><li><strong>ICP test</strong> — Steph or Brandi would say "she understands exactly where I am"</li></ol>`},
+    {label:'9. BOUNDARIES — hard rules + confidence calibration',html:`<h4>Hard Boundaries</h4><ul><li>Never fabricate a client name, story, or number</li><li>Never make empty promises or guarantee specific outcomes</li><li>Never use scarcity tactics or manipulation</li><li>Never make the piece about the tool instead of the identity shift</li><li>Never use em dashes, rhetorical questions, or rule-of-three patterns</li></ul><h4>Confidence Calibration</h4><p>When the answer requires a specific number, name, URL, or policy that is <em>not present in the knowledge files</em>, stop. Do not fabricate. Respond with:</p><blockquote>"I don't have that in the brain. To answer accurately, I need [specific data]. Want me to proceed with what I can cover, or wait?"</blockquote><h4>Hold the Line</h4><p>If a request would compromise voice, fabricate proof, or contradict pricing, decline and explain why. <em>"I can't do that, here's what I can do"</em> beats silent compromise. Agreement is not the goal. Accurate, on-voice help is.</p>`},
+    {label:'10. MANDATE — the closing conviction',html:`<p>Two to three sentences. Bookends the identity from section 1.</p><blockquote>"You are not creating content. You are architecting identity-shift narratives that honor the reader's current success while showing her the uncommon path forward. Every word reflects the conviction of someone who has walked the hardest path and refuses to watch others struggle unnecessarily."</blockquote><div class="callout">The Mandate is deliberately aspirational. It reminds the AI employee what success looks like — not just what to avoid. It's the difference between following rules and embodying a role.</div>`},
+  ],
+};
+
+const MEETING_TRANSCRIPTS={
+  name:'Meeting Transcripts',prefix:'folder',
+  purpose:'A living folder of meeting recordings, processed into searchable context. The ongoing memory of the business — always growing.',
+  contents:[
+    {label:'What goes in the folder',html:`<ul><li>Weekly leadership L10 transcripts</li><li>Client and enterprise sales call transcripts</li><li>Strategy and planning sessions</li><li>Quarterly reviews and retreats</li><li>Podcast appearances and keynotes (transcripts of Callan speaking)</li><li>Key 1:1s that shift strategy</li></ul><p>Anything where the business's thinking, debates, decisions, or voice are captured live.</p>`},
+    {label:'How it gets processed',html:`<p>Raw recordings run through a dedicated <strong>Meeting Intelligence Manager</strong> AI employee:</p><ol><li>Transcribe (usually from Granola or Fathom)</li><li>Extract decisions, action items, and themes</li><li>Tag participants and topics</li><li>Add context about what preceded and what the decision unlocks</li><li>File into the transcript folder with standardized metadata</li></ol><p>By the time it lives in the folder, a future AI employee can pull "what did Callan say about pricing in the February L10" in three seconds.</p>`},
+    {label:'Why it\'s part of every brain',html:`<p>Shared across all 5 department brains, not just one. Any AI employee can reference a leadership decision, a customer call, or a strategy debate — as long as it lives in the transcript folder.</p><blockquote>The brain is only as smart as its most recent context. If the team decided last Tuesday to shift pricing, the AI employee needs to know by Wednesday — not next quarter when the product doc gets updated.</blockquote>`},
+    {label:'What it enables',html:`<ul><li>Sales calls where the AI employee remembers what the customer said on the intake call three weeks ago</li><li>Content that reflects the decision the team just made, not the one it made last quarter</li><li>Onboarding that includes the actual reasoning behind every rule, not just the rule</li><li>Customer support that speaks in the exact tone of the most recent leadership update</li></ul>`},
+  ],
+};
+
+const DEPARTMENTS=[
+  {
+    id:'marketing',name:'Marketing',accent:'#D47B2E',accentSoft:'rgba(212,123,46,.14)',
+    tagline:'The department brain for content, brand, and campaign work.',
+    description:'Runs the content calendar, writes captions in Callan\'s voice, pulls the right case study for the right post, and knows which competitor hook to adapt vs. ignore.',
+    specific:[
+      {
+        name:'Content Pillars',prefix:'[TUB-MRK]',
+        purpose:'The 4 strategic narratives TUB returns to in every piece of content. Every post ladders to one pillar. Not two.',
+        contents:[
+          {label:'Pillar 1 — AI Employees, not AI Tools',html:`<p><strong>Core message:</strong> Most people use AI like a gumball machine. Put in a quarter, get one output, start over. We build AI employees. Trained once, working on schedule, doing the job the way you would every single time.</p><h4>Sounds like</h4><blockquote>"Kaelyn dropped Granola transcripts in and built 30 SOPs, perfectly formatted, 2 minutes each. That's not using AI. That's an AI employee."</blockquote><blockquote>"25 humans. 150+ AI employees. That's the org chart we run."</blockquote><h4>Doesn't sound like</h4><blockquote>"Leverage AI to unlock new levels of productivity in your business."</blockquote><h4>Proof points</h4><ul><li>Kaelyn Sitar: 30 SOPs, 2 minutes each, would've been a 50-hour project</li><li>Callan's newsletter workflow: 4 AI employees in sequence, 3 hours → 10 minutes</li><li>Rebecca Stone: Money Coach AI employee saved $20K by keeping a team member</li></ul>`},
+          {label:'Pillar 2 — Training Is The Skill',html:`<p><strong>Core message:</strong> Spot, Build, Train. The part that takes real time and real judgment is <em>training</em>. It's what separates working AI employees from fancy-looking garbage. You cannot outsource training.</p><h4>Sounds like</h4><blockquote>"Adly had a full-time AI guy who built beautiful agents. When tested, the output was terrible. Her voice, her genius, her context were never baked in."</blockquote><blockquote>"40 to 60 hours. That's how long it takes to develop the AI Architect skill set. It's worth the investment."</blockquote><h4>Proof points</h4><ul><li>Berdine Roque: "My business thinks with me now"</li><li>Jennifer Coleman: Doubled BFCM revenue, no developer required</li><li>Siri Amrit Khalsa: Proposals from 6-8 hours to 30 minutes, better than before</li></ul>`},
+          {label:'Pillar 3 — Imagination Over Implementation',html:`<p><strong>Core message:</strong> The least valuable thing a human can do is repetitive work. The most valuable thing a human can do is think. AI takes Implementation off your plate so you operate at Imagination.</p><h4>Sounds like</h4><blockquote>"My normal day now is like my absolute freaking best day a year and a half ago."</blockquote><blockquote>"Team of 3 operating like 15. Close the laptop at 4:30. Build the business you could sell."</blockquote><h4>Proof points</h4><ul><li>Perrie Finsand: 20+ hours saved every week, elected VP of a board during the program</li><li>Siri Amrit Khalsa: Revenue vision from $5M ceiling to $100M pathway</li><li>Susan Falcone: Promoted to Principal AI Product Architect, $250K role</li></ul>`},
+          {label:'Pillar 4 — Build the Factory, Not the Gumball',html:`<p><strong>Core message:</strong> Build the system once so it runs forever. A prompt is a gumball. An AI employee is the factory that makes gumballs all day without you feeding a quarter in.</p><h4>Sounds like</h4><blockquote>"We've taken down five job descriptions in the last two months because we built AI employees for those roles."</blockquote><blockquote>"Build the factory once. It makes gumballs all day. You stop being the one putting in quarters."</blockquote><h4>Proof points</h4><ul><li>Jennifer Coleman: Klaviyo War Room, automated IL sales tax filing, automated inventory, first EA hire after 6 years solo</li><li>Danielle McCarter: Built a whole company from the ground up through A2A</li><li>Missy Ross: Rebuilt entire website + chatbot + analytics dashboard in a week</li></ul>`},
+          {label:'How to use this file — pillar discipline',html:`<ul><li><strong>Before drafting any piece of content, pick one pillar.</strong> Not two. Not all four. <em>One.</em></li><li><strong>Mix the proof.</strong> Don't use the same testimonial every time. Rotate Paul, Rebecca, Jennifer, Kaelyn, Siri, Berdine, Danielle, Missy, Susan, Perrie, Abigail, Sarah, Carissa.</li><li><strong>Match pillar to audience:</strong> Founder content (Steph) leans Pillar 1, 3, 4. Corporate content (Brandi) leans Pillar 2, 3. Sales pages use all four stacked.</li><li><strong>Write the pillar claim first.</strong> Then the proof point. Then the story. Then the CTA.</li></ul>`},
+        ],
+      },
+      {
+        name:'Greatest Hits',prefix:'[TUB-MRK]',
+        purpose:'The top-performing content we\'ve made — broken down into what made each one land, so the AI can replicate the pattern.',
+        contents:[
+          {label:'What lives in this file',html:`<p>Every piece of content that hit a threshold — organic views, engagement rate, replies, conversions — gets archived here with a teardown:</p><ul><li>The original post / email / ad / caption, verbatim</li><li>The hook and why it worked (the structural move, not just the topic)</li><li>Performance metrics (views, engagement, saves, conversions)</li><li>The context it shipped in (launch, off-launch, news cycle, event)</li><li>The proof point it used and which pillar it laddered to</li><li>Whether it can be re-run as-is or needs refresh</li></ul>`},
+          {label:'Sample: Callan\'s "Gumball Factory" LinkedIn post',html:`<h4>The hook</h4><blockquote>"Most people use AI like a gumball machine. Put a quarter in. Get a gumball. Start over. We build the factory instead."</blockquote><h4>Why it worked</h4><ul><li>Opened with a universal, instantly-visualizable metaphor (gumball machine)</li><li>Named the default behavior before offering the alternative</li><li>"The factory instead" is a concrete identity shift, not an abstraction</li><li>7 sentences. No emojis. No rhetorical questions. No em-dashes.</li></ul><h4>Result</h4><p>Top 1% of Callan's organic LinkedIn content in Q4 2025. ~130K impressions, 3.1% engagement, saved 1,400+ times.</p><h4>Structural pattern to replicate</h4><p>Metaphor → named default → named alternative → concrete proof → quiet close. <em>No hype. No "here's the thing."</em> Works for every pillar.</p>`},
+          {label:'Hooks that worked — a rolling list',html:`<ul><li>"If you like the gumball, you don't need a factory yet. If you want your time back, you do."</li><li>"My team is 25 people. My AI team is 150+. Those aren't the same number by accident."</li><li>"The last hire you make might be the first AI employee you train."</li><li>"Every time a founder says 'I tried AI and it didn't work,' she's almost always describing using a tool instead of building an employee."</li><li>"Imagination is the highest-value human work. Implementation is the lowest. AI is the first technology that flips which one you can hand off."</li></ul><p>Hooks that <em>didn't</em> work get archived too, with a note on why. Often: too clever, too abstract, or led with "here's the thing."</p>`},
+          {label:'Frameworks that stuck — repeatable structures',html:`<h4>The Two Things Frame</h4><p>"Here's what I know about your business. Two things are keeping you stuck. First, [X]. Second, [Y]." <em>Names the specific barriers so the reader feels seen.</em></p><h4>Contrast Tables</h4><p>Common Business vs. Uncommon Business. Column by column. Makes the identity shift concrete without preaching.</p><h4>Personal Origin Anchors</h4><p>Reference the dining room table. July 2023. The cabin in the Canadian Rockies. The magic show. Real textured details that couldn't come from an AI.</p><h4>"Not X. Y." Construction</h4><p>"Not another AI course. A business that thinks with you." "Not prompts. Employees." "Not someday. This quarter." <em>Tight, specific, memorable.</em></p>`},
+          {label:'What doesn\'t work (archived failures)',html:`<ul><li><strong>Stacked one-liners.</strong> Five single-sentence paragraphs in a row reads as AI-generated. Real writing flows and connects.</li><li><strong>Philosophical summary bows.</strong> Tidy closing sentences that wrap the piece up. If the piece needs a summary to land, the piece didn't land. Cut it.</li><li><strong>Punch-punch-punch endings.</strong> "Pick up the phone. Raise the price. Book the call." That's motivational-poster energy. Not Callan.</li><li><strong>Clever antithesis closings.</strong> "You don't own a company. You own a calendar that owns you." AI trying to be clever.</li><li><strong>Hyping insights.</strong> "This next part is going to blow your mind." No.</li></ul>`},
+        ],
+      },
+    ],
+  },
+  {
+    id:'sales',name:'Sales',accent:'#C26688',accentSoft:'rgba(194,102,136,.14)',
+    tagline:'The department brain for outbound, conversions, and deal-closing.',
+    description:'Prepares every call with the prospect\'s ICP match, matches testimonials to objections, generates proposals in brand voice, and knows when to push vs. when to walk away.',
+    specific:[
+      {
+        name:'Objection Library',prefix:'[TUB-SLS]',
+        purpose:'Every objection we\'ve ever heard — paired with the exact proof point that handles it, in brand voice.',
+        contents:[
+          {label:'How the library is organized',html:`<p>Objections are grouped by category, not alphabetically:</p><ul><li><strong>Time objections</strong> — "I don't have 13 weeks"</li><li><strong>Money objections</strong> — "It's too expensive" / "I can't justify this right now"</li><li><strong>Fit objections</strong> — "My business is different" / "This is for entrepreneurs, I'm in corporate"</li><li><strong>Skepticism objections</strong> — "I've tried AI courses before" / "AI is overhyped"</li><li><strong>Self-doubt objections</strong> — "I'm not technical enough"</li><li><strong>Delegation objections</strong> — "Can I just hire a consultant?" / "Can my team do this without me?"</li></ul><p>Every objection has 3-5 approved reframes, matched proof points, and a "what she's really saying" column that decodes the surface concern.</p>`},
+          {label:'Sample: "I don\'t have time for a 13-week program"',html:`<p><strong>What she's really saying:</strong> I'm already drowning. Adding one more thing feels impossible.</p><h4>Approved reframes (pick one based on rapport)</h4><ul><li>"You're spending 60 hours a week doing work AI should handle. This program gives you those hours back. The first 2 weeks pay for the time investment."</li><li>"The thing that gives you time back <em>is</em> the thing. Students come in drowning and leave with 20+ hours a week back by Week 6."</li><li>"Rebecca Stone built in 3 months what would've taken her 2 years. The 13 weeks isn't the cost. <em>It's the multiplier.</em>"</li></ul><h4>Matched proof</h4><ul><li>Kaelyn Sitar: 30 SOPs in 2 minutes each. That should've been 50 hours.</li><li>Rebecca Stone: 2 years of system-building in 3 months</li><li>Abigail Ramsey: built live in class, implemented the same day</li></ul><h4>When to walk away</h4><p>If she says "I literally have no bandwidth for anything right now" and she's in the middle of a genuine life crisis (loss, illness, acute burnout), <em>invite her back next cohort</em>. Don't push. That's the hold-the-line move.</p>`},
+          {label:'Sample: "I\'ve tried AI courses before and they didn\'t work"',html:`<p><strong>What she's really saying:</strong> I got burned. I learned tools but never built systems. I'm worried this is the same.</p><h4>Approved reframes</h4><ul><li>"Other programs teach you AI. We train you to build AI employees inside <em>your</em> business. You leave with a working operating system, not a certificate."</li><li>"If you took a course and it didn't stick, the course was teaching prompts, not architecture. We don't teach prompts. We teach you to build the factory."</li><li>"95% of enterprise AI pilots fail, per MIT. We're the 5%. 78% completion rate. 68.5 NPS. The math isn't subtle."</li></ul><h4>Matched proof</h4><ul><li>Siri Amrit Khalsa: came back for round two specifically because round one unlocked momentum</li><li>Berdine Roque: "My business thinks with me now"</li><li>Carissa at Cellebrite: VP promotion from applying A2A concepts</li></ul>`},
+          {label:'Sample: "It\'s too expensive"',html:`<p><strong>What she's really saying:</strong> I've spent money on programs before and nothing changed.</p><h4>Approved reframes</h4><ul><li>"$9K one time for 4-5 AI employees. A single human hire is $6K/month. Jennifer Coleman did the math — paid for itself in month one."</li><li>"Paul Deloughery is making $20K/month more in gross revenue from his builds. The program doesn't cost — <em>it finances itself</em>."</li><li>"Rebecca saved $20K on retention alone from the Money Coach. Every dollar in the program has returned against measurable outcomes we can point to."</li></ul><h4>The hold-the-line rule</h4><p>We do NOT create fake urgency, pretend prices are going up, or discount to close. If she can't afford it right now, point her to TEBB ($97) or SuperHuman Work ($997) and invite her back when she's ready. <em>"I can't do that, here's what I can do."</em></p>`},
+          {label:'When to lean in vs. walk away',html:`<h4>Lean in when</h4><ul><li>She's naming specific pain points that match the ICP</li><li>She's already doing the work manually (proposals, SOPs, content)</li><li>She's self-identifying as stuck at a ceiling</li><li>She's asking about outcomes, not features</li></ul><h4>Walk away (gently) when</h4><ul><li>She wants AI to replace her team (not the philosophy)</li><li>She wants done-for-you (we don't offer that unless it's the Build Team)</li><li>Her revenue is under $250K and she hasn't hit operational pain yet (TEBB first)</li><li>She's buying from fear, not invitation (the prospect who buys from fear quits)</li></ul>`},
+        ],
+      },
+      {
+        name:'Offer Stack & Pricing',prefix:'[TUB-SLS]',
+        purpose:'The complete offer architecture — prices, tiers, bundles, payment terms, upsell paths. The source of truth for every enrollment call.',
+        contents:[
+          {label:'The full offer matrix',html:`<table><tr><th>Offer</th><th>Price</th><th>Audience</th></tr><tr><td>AI Masterclass</td><td>Free – $97</td><td>Cold to warm awareness</td></tr><tr><td>TEBB (Bootcamp)</td><td>$97 GA / $297 VIP</td><td>Curious, needs to see what's possible</td></tr><tr><td>SuperHuman Work</td><td>$997/seat</td><td>Individual AI foundation</td></tr><tr><td>SuperHuman Plus</td><td>$1,497</td><td>SHW grads not yet A2A-ready</td></tr><tr><td>A2A (flagship)</td><td>$8,997 PIF</td><td>$500K-$10M+ founders</td></tr><tr><td>UCL (graduate)</td><td>$1,500/month</td><td>A2A graduates</td></tr><tr><td>Uncommon Founders</td><td>Invite only</td><td>$3M+ founders</td></tr><tr><td>TTO (Enterprise)</td><td>Custom</td><td>5-45+ person teams</td></tr></table>`},
+          {label:'A2A payment terms',html:`<ul><li><strong>Pay in Full:</strong> $8,997 (best value, lowest total)</li><li><strong>3-Pay:</strong> $3,199 × 3 = $9,597</li><li><strong>5-Pay:</strong> $1,957 × 5 = $9,785</li><li><strong>10-Pay:</strong> $997 × 10 = $9,970</li></ul><p><strong>Team seats:</strong> $1,500 per additional seat (same company required).</p><p>The 10-pay option exists specifically so the monthly number ($997) is less than a single human hire's monthly cost ($6K/month). <em>This is the anchor.</em></p>`},
+          {label:'Upsell ladder — the natural path',html:`<p>Each tier is designed to feed the next:</p><ol><li><strong>Masterclass → TEBB.</strong> Conversion moment. Attendees leave having seen the result, with a clear next step.</li><li><strong>TEBB → A2A.</strong> Session 3 is the primary pitch moment. Bootcamp creates proof of concept fast enough that A2A feels obvious.</li><li><strong>SuperHuman Work → A2A.</strong> SHW is the required prerequisite. Grads who catch the vision upgrade.</li><li><strong>A2A → UCL.</strong> Graduates want continuity. UCL keeps the business ahead of every model update and tool shift.</li><li><strong>UCL → Uncommon Founders.</strong> Some graduates operate at a level where standard UCL conversations are too entry-level. UF is a separate room.</li></ol>`},
+          {label:'Refund policies — the Do the Work Guarantee',html:`<p><strong>A2A only.</strong> Subjective-satisfaction standard with objective gates:</p><ul><li>Attend 6 of 8 sessions</li><li>Complete 4 of 7 builds</li><li>Not satisfied at Week 8 → full refund of all payments made</li><li>Refund window: 30 days after Week 8</li><li>Per-seat only (team seat refunds are individual)</li></ul><div class="callout"><strong>Routing:</strong> All refund requests → Jodi Thornock. Brand/reputational edge cases → Kinsey. Large-dollar or chargeback patterns → Callan informed.</div><p>Other programs (SuperHuman Work, TEBB, UCL, Masterclass) have their own refund policies documented separately. No refunds after digital delivery of SuperHuman Work unless explicit technical failure.</p>`},
+          {label:'Hold-the-line rules the sales team never breaks',html:`<ul><li>We do NOT create fake urgency or false scarcity</li><li>We do NOT discount A2A to close a deal</li><li>We do NOT guarantee specific revenue outcomes</li><li>We do NOT pretend prices are going up to pressure a decision</li><li>We do NOT say "simple" or "easy"</li><li>We do NOT claim AI replaces humans</li><li>We do NOT cite specific profit margins in any external content (standing rule)</li></ul><p>If a prospect pressures for a discount or exception, the answer is consistent: <em>"I can't do that. Here's what I can do."</em> Point to a smaller program or the next cohort. Invitation, not pressure.</p>`},
+        ],
+      },
+    ],
+  },
+  {
+    id:'cs',name:'Customer Success',accent:'#4A8C5C',accentSoft:'rgba(74,140,92,.14)',
+    tagline:'The department brain for onboarding, support, and community.',
+    description:'Answers FAQs in brand voice, knows every link a student or teammate might need, flags at-risk students from engagement signals, and handles escalations without losing the voice.',
+    specific:[
+      {
+        name:'FAQ',prefix:'[TUB-CS]',
+        purpose:'The most-asked questions — with answers already written in brand voice, ready to send. No more rewriting the same reply 40 times.',
+        contents:[
+          {label:'How the FAQ is organized',html:`<p>By program and then by topic:</p><ul><li><strong>A2A</strong> — schedule, access, builds, guarantee, refunds, team seats</li><li><strong>TEBB</strong> — schedule, access, VIP upgrade, replay windows</li><li><strong>SuperHuman Work</strong> — certification, course access, refund window</li><li><strong>UCL</strong> — Strategy Lab schedule, Loom reviews, cohort access</li><li><strong>Billing</strong> — payment plans, declined cards, chargebacks</li><li><strong>Community</strong> — Slack access, posting etiquette, channels</li></ul>`},
+          {label:'Sample: "When does my A2A cohort start?"',html:`<h4>Voice-compliant answer (ready to copy)</h4><blockquote>"Hi [name], your A2A cohort kicks off on [DATE] at [TIME CT]. The first live session is the welcome + orientation — you'll meet Callan, the teaching team, and your cohort. <br/><br/>Before Week 1, you'll get access to SuperHuman Work (included free with your enrollment). Work through the first 3 modules if you can — not required, but it makes Week 1 fly. <br/><br/>Calendar invites go out 48 hours before each session. Anything else I can help you line up? <br/><br/>— [Team member name]"</blockquote><h4>Why this works</h4><ul><li>Direct answer in the first sentence</li><li>Specific dates and times, not vague phrasing</li><li>Practical next step (work through SHW)</li><li>No "I hope this finds you well" throat-clearing</li><li>No em-dashes. Commas and line breaks only.</li></ul>`},
+          {label:'Sample: "Can I get a refund?"',html:`<h4>Context check first</h4><p>Before responding, confirm: which program, when did they purchase, what's the stated reason, any prior escalation history.</p><h4>A2A refund — eligible window and criteria</h4><blockquote>"Thanks for writing in, [name]. Yes, A2A comes with the Do the Work Guarantee. Refund eligibility requires: <br/><br/>• Attended 6 of the first 8 sessions <br/>• Completed 4 of 7 builds <br/>• Request within 30 days of Week 8 <br/><br/>If you meet those gates and the program isn't working for you, we'll issue a full refund, no hard feelings. I'll pull your attendance and build completion from your cohort and circle back today with next steps. <br/><br/>— [Team member name]"</blockquote><h4>Escalation path</h4><p>Unresolved / high-value / enterprise → Jodi Thornock. Reputational or founder-level → Kinsey, then Callan.</p>`},
+          {label:'When to escalate and to whom',html:`<table><tr><th>Situation</th><th>Route to</th></tr><tr><td>Standard FAQ, no complexity</td><td>CS team responds directly</td></tr><tr><td>Refund request</td><td>Jodi Thornock (all refunds)</td></tr><tr><td>Complaint unresolved 24 hrs</td><td>Jodi Thornock</td></tr><tr><td>Enterprise account issue</td><td>Jodi + Kinsey</td></tr><tr><td>Technical outage (TubConnect, Claude)</td><td>Eliot Prince + Scott Wright</td></tr><tr><td>Billing dispute / chargeback</td><td>Jodi → Kinsey if pattern</td></tr><tr><td>Reputational / press level</td><td>Kinsey → Callan</td></tr><tr><td>Legal / contract question</td><td>Callan (current sign-off)</td></tr></table>`},
+          {label:'Tone rules the CS team never breaks',html:`<ul><li><strong>No "I hope this finds you well."</strong> Direct answer first.</li><li><strong>No rhetorical questions.</strong> "Does that make sense?" — delete.</li><li><strong>No minimizing.</strong> Don't say "just" or "simply" in instructions.</li><li><strong>Name specific people, dates, amounts.</strong> Vagueness feels like deflection.</li><li><strong>Close with a next step, not a platitude.</strong> "Anything else I can help you line up?" beats "Let me know if you have any questions."</li><li><strong>Use the student's name in the first and last line.</strong></li><li><strong>Match the emotional temperature.</strong> Frustrated student → grounded empathy, not performative care.</li></ul>`},
+        ],
+      },
+      {
+        name:'Key Links',prefix:'[TUB-CS]',
+        purpose:'Every critical URL a student or teammate might need, collected and labeled. No more hunting for the enrollment form during a live call.',
+        contents:[
+          {label:'Student portals and logins',html:`<ul><li><strong>Thinkific main portal</strong> (SuperHuman Work, A2A replays, The Vault)</li><li><strong>CalChat login</strong> (A2A cohort co-pilot, live only during program)</li><li><strong>CalChat+ login</strong> (UCL members, 24/7)</li><li><strong>TubConnect platform</strong> (community and program hub)</li><li><strong>Slack workspaces</strong> (per-cohort and UCL)</li><li><strong>Member dashboard</strong> (subscription management)</li></ul><p>Every link includes a one-line description of what lives there, what's common to forget (password reset flow), and who to escalate to if access breaks.</p>`},
+          {label:'Scheduling and support links',html:`<ul><li><strong>Book an enrollment call</strong> (routes to the enrollment specialist team)</li><li><strong>Book a team demo</strong> (for TTO / enterprise conversations)</li><li><strong>Submit a Loom review</strong> (UCL-only, routes via Slack form)</li><li><strong>Request a 1:1 with Jodi</strong> (hybrid CS / high-touch accounts)</li><li><strong>Help Scout inbox</strong> (primary support)</li></ul>`},
+          {label:'Community and resources',html:`<ul><li><strong>Private A2A Slack (per cohort)</strong></li><li><strong>UCL Slack</strong> (graduates)</li><li><strong>Coffee & Code Zoom</strong> (informal Friday sessions, recurring)</li><li><strong>Power Plays email archive</strong></li><li><strong>The Vault</strong> — full skill library, 1-year A2A access</li><li><strong>YouTube channel</strong> — select free content</li></ul>`},
+          {label:'Payment and billing',html:`<ul><li><strong>Update payment method</strong> (Stripe customer portal)</li><li><strong>View invoices</strong></li><li><strong>Request refund</strong> (form routes to Jodi)</li><li><strong>Chargeback resolution</strong> (process doc)</li><li><strong>Team seat additions</strong> (enrollment specialist handles)</li></ul>`},
+          {label:'Why this file exists',html:`<p>Early in the program, support queues were full of "where's the link for X?" The team was pasting the same URL dozens of times per week. <em>Every minute spent hunting for a link is a minute not spent actually helping the student.</em></p><p>Now every link lives in one file with context. The CS AI employee reads it before every response. When a student asks "how do I get into the Vault?" the answer is in the file, formatted, with the exact path. <strong>Zero hunting. Zero copy-paste errors.</strong></p>`},
+        ],
+      },
+    ],
+  },
+  {
+    id:'operations',name:'Operations',accent:'#3A7CA5',accentSoft:'rgba(58,124,165,.14)',
+    tagline:'The department brain for workflows, SOPs, and systems.',
+    description:'Delegates projects in TUB format, turns brain dumps into playbooks, tracks launch checklists, audits automations, and protects IP when content gets lifted.',
+    specific:[],
+  },
+  {
+    id:'finance',name:'Finance',accent:'#C9A253',accentSoft:'rgba(201,162,83,.14)',
+    tagline:'The department brain for revenue, unit economics, and forecasting.',
+    description:'Runs P&L snapshots, calculates program ROI, categorizes expenses without repeat questions, and flags when a program\'s margin is slipping before anyone else notices.',
+    specific:[
+      {
+        name:'Revenue & Unit Economics',prefix:'[TUB-FIN]',
+        purpose:'The P&L of every program — what it costs to run, what it earns, where the margin lives. The source doc for pricing, new program decisions, and board conversations.',
+        contents:[
+          {label:'Revenue breakdown by program',html:`<p>Each program has its own P&L sheet with:</p><ul><li>Revenue by cohort (gross and net of refunds)</li><li>Cohort size and conversion rate from the funnel feeding it</li><li>Revenue per seat (PIF vs. payment plan mix)</li><li>Team seat contribution</li><li>Seasonality (Spring vs. Fall cohort performance)</li></ul><p>Rolled up by quarter and year. 2026 target: ~$15M total.</p><div class="callout"><em>Standing rule (from Nick Muscolino):</em> Do NOT cite specific profit margins in any external content. This file is internal only.</div>`},
+          {label:'Cost-to-run per program',html:`<p>Every program tracks:</p><ul><li>Direct instructor time (Callan, Carter, teaching team hours × blended rate)</li><li>Platform costs (Thinkific, Zoom, Slack, Claude API, TubConnect hosting)</li><li>Support team capacity allocated (CS, enrollment)</li><li>Creative and marketing production for the launch</li><li>Paid media spend attributed to the cohort</li><li>Affiliate commissions</li><li>Bonuses and merch included</li></ul><p>Plus a load of ~15% for back-office (finance, HR, Maggie's time, Lex's ops).</p>`},
+          {label:'Margin analysis and trends',html:`<p>Trend tracking per cohort:</p><ul><li>Completion rate (currently 78% on A2A, industry benchmark 10-20%)</li><li>NPS (68.5 on A2A Fall 2025)</li><li>Refund rate</li><li>Upsell rate (A2A → UCL conversion)</li><li>Cost-per-acquisition trend</li><li>Revenue-per-student trend</li></ul><p>Quarterly review looks at which programs are gaining or losing margin. Current trend: A2A margin improving as curriculum ops stabilize. UCL margin accretive as community retains.</p>`},
+          {label:'CAC, LTV, and payback windows',html:`<p><strong>CAC (Customer Acquisition Cost)</strong> by program, by channel:</p><ul><li>Paid ads CAC</li><li>Affiliate CAC</li><li>Podcast / referral CAC</li><li>Masterclass → TEBB → A2A funnel CAC</li></ul><p><strong>LTV (Lifetime Value)</strong> tracks the full ladder:</p><ul><li>A2A student average LTV if they upgrade to UCL</li><li>Team seat multiplier (TTO accounts)</li><li>Renewal rate on UCL</li></ul><p><strong>Payback window</strong> — how long until a student's LTV exceeds CAC. Target: &lt; 90 days for A2A.</p>`},
+          {label:'Unit economics assumptions — documented',html:`<p>Every financial claim is tied to a documented assumption. No vibes.</p><ul><li>Instructor hour blended rate</li><li>Support cost per student-week</li><li>Infrastructure cost per active seat</li><li>Marketing attribution model (first-touch vs. last-touch)</li><li>Refund rate assumed for forecasting</li></ul><p>When an assumption changes (e.g., Claude API pricing shifts, affiliate program restructures), the model gets updated and the impact flagged in the next leadership L10.</p><div class="callout"><strong>Why this exists:</strong> When the board asks "what's the actual margin on A2A?" — the answer isn't a guess. It's a number pulled from a live model, with every assumption documented underneath it.</div>`},
+        ],
+      },
+    ],
+  },
+];
+
+// ═══════════════════════════════════════
+// TOP NAV
+// ═══════════════════════════════════════
+function TopNav(){
+  return(
+    <nav className="nav-top">
+      <div className="nav-logo">The Uncommon <em>Business</em></div>
+      <div className="nav-right">
+        <a className="nav-back" href="live.html">
+          <span className="nav-back-arrow">←</span>
+          <span>Back to the demo</span>
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+// ═══════════════════════════════════════
+// HERO
+// ═══════════════════════════════════════
+function Hero(){
+  return(
+    <section className="hero">
+      <div className="hero-bg-grid"/>
+      <div className="hero-bg-gradient"/>
+      <div className="hero-inner">
+        <div className="eyebrow">
+          <span className="eyebrow-bar"/>
+          Behind the scenes
+        </div>
+        <h1 className="hero-title">
+          Inside a<br/><em>business brain.</em>
+        </h1>
+        <p className="hero-sub">
+          What a working AI brain actually contains. Every TUB brain is five department brains — <em>Marketing, Sales, Customer Success, Operations, Finance</em>. Each one stocked with the same company-wide knowledge, plus the files unique to that department, plus the custom instructions that make the whole thing behave like an employee. Click any file to peek inside — then <em>click the bullets</em> to see the real content.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// EXPLAINER
+// ═══════════════════════════════════════
+function Explainer(){
+  const items=[
+    {num:'Five',title:<>departments, <em>five</em> brains.</>,desc:'Marketing, Sales, Customer Success, Operations, Finance. Each one its own standalone project — so every AI employee starts from a clean, specialized knowledge base.'},
+    {num:'Three',title:<>layers of <em>knowledge.</em></>,desc:'Every brain has the same stack: custom instructions on top, eleven company-wide files in the middle, and a handful of department-specific files underneath.'},
+    {num:'Always',title:<>learning, from <em>meetings.</em></>,desc:'Every brain also reads a live folder of meeting transcripts — so the business\'s actual decisions, debates, and shifts become part of the memory.'},
+  ];
+  return(
+    <section className="explainer">
+      <div className="eyebrow">
+        <span className="eyebrow-bar"/>
+        How a brain is built
+      </div>
+      <div className="explainer-grid">
+        {items.map((it,i)=>(
+          <div className="explainer-card" key={i}>
+            <div className="explainer-num">{it.num}</div>
+            <div className="explainer-title">{it.title}</div>
+            <div className="explainer-desc">{it.desc}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// FILE CARD
+// ═══════════════════════════════════════
+function FileCard({file,accent,accentSoft,onClick}){
+  const iconLabel=file.prefix==='folder'?'DIR':(file.prefix?file.prefix.replace(/[\[\]]/g,''):'MD');
+  return(
+    <button
+      className="file-card"
+      style={{'--card-accent':accent,'--card-accent-soft':accentSoft}}
+      onClick={onClick}
+    >
+      <div className="file-card-head">
+        <div className="file-icon">{iconLabel}</div>
+        <div className="file-meta">
+          <div className="file-name">{file.name}</div>
+          <div className="file-tag">{file.prefix==='folder'?'Folder':(file.prefix||'Instructions')}</div>
+        </div>
+      </div>
+      <div className="file-desc">{file.purpose}</div>
+    </button>
+  );
+}
+
+// ═══════════════════════════════════════
+// FILE SECTION
+// ═══════════════════════════════════════
+function FileSection({title,count,emphasize,files,accent,accentSoft,onOpen}){
+  return(
+    <div className="file-section">
+      <div className="file-section-head">
+        <div className="file-section-title">{title} {emphasize&&<em>·&nbsp;{emphasize}</em>}</div>
+        <div className="file-section-count">{count} {count===1?'file':'files'}</div>
+      </div>
+      <div className="file-grid">
+        {files.map(f=>(
+          <FileCard key={f.name} file={f} accent={accent} accentSoft={accentSoft} onClick={()=>onOpen(f)}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// CONTENT ITEM (toggle)
+// ═══════════════════════════════════════
+function ContentItem({item,isOpen,onToggle}){
+  return(
+    <div className={`content-item ${isOpen?'open':''}`}>
+      <div className="content-header" onClick={onToggle}>
+        <span className="content-dot"/>
+        <span className="content-label">{item.label}</span>
+        <span className="chev"/>
+      </div>
+      <div className="content-detail" dangerouslySetInnerHTML={{__html:item.html}}/>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// DRAWER
+// ═══════════════════════════════════════
+function Drawer({file,accent,accentSoft,dept,onClose}){
+  const[openIdx,setOpenIdx]=useState(new Set());
+  useEffect(()=>{
+    function onKey(e){if(e.key==='Escape')onClose()}
+    window.addEventListener('keydown',onKey);
+    return()=>window.removeEventListener('keydown',onKey);
+  },[onClose]);
+  useEffect(()=>{setOpenIdx(new Set())},[file]);
+
+  const isOpen=!!file;
+  const fullFileName=file?(file.prefix==='folder'?`${file.name}/`:`${file.prefix?file.prefix+' ':''}${file.name}${file.prefix==='folder'?'':'.md'}`):'';
+  const tagLabel=file?(file.prefix==='folder'?'Folder · Transcripts':(file.prefix?(file.prefix==='[TUB]'?'Company-wide Knowledge':`${dept} Knowledge`):'Custom Instructions')):'';
+
+  function toggle(i){
+    setOpenIdx(prev=>{
+      const next=new Set(prev);
+      if(next.has(i))next.delete(i);else next.add(i);
+      return next;
+    });
+  }
+
+  return(
+    <>
+      <div className={`drawer-overlay ${isOpen?'open':''}`} onClick={onClose}/>
+      <aside className={`drawer ${isOpen?'open':''}`} style={{'--drawer-accent':accent,'--drawer-accent-soft':accentSoft}}>
+        <button className="drawer-close" onClick={onClose} aria-label="Close">×</button>
+        {file&&(
+          <div className="drawer-inner">
+            <div className="drawer-tag">
+              <span className="drawer-tag-dot"/>
+              {tagLabel}
+            </div>
+            <div className="drawer-file">{fullFileName}</div>
+            <h2 className="drawer-title">{file.name}</h2>
+            <div className="drawer-purpose">{file.purpose}</div>
+            <div className="drawer-section">
+              <div className="drawer-section-title">
+                What's inside · click any to open
+                <span className="bar"/>
+              </div>
+              <div className="drawer-contents">
+                {file.contents.map((item,i)=>(
+                  <ContentItem key={i} item={item} isOpen={openIdx.has(i)} onToggle={()=>toggle(i)}/>
+                ))}
+              </div>
+            </div>
+            <div className="drawer-note">
+              This is a preview of the file's contents. The actual file lives inside the Cowork project — edited, versioned, and read every time an AI employee runs. What you see here is pulled directly from the source markdown.
+            </div>
+          </div>
+        )}
+      </aside>
+    </>
+  );
+}
+
+// ═══════════════════════════════════════
+// EXPLORER
+// ═══════════════════════════════════════
+function Explorer(){
+  const[activeId,setActiveId]=useState('marketing');
+  const[openFile,setOpenFile]=useState(null);
+  const dept=DEPARTMENTS.find(d=>d.id===activeId);
+  const sharedCount=COMMON_FILES.length;
+  const specificCount=dept.specific.length;
+  const totalFiles=1+sharedCount+specificCount+1;
+
+  function handleOpen(file){setOpenFile(file)}
+  function handleClose(){setOpenFile(null)}
+
+  return(
+    <section className="explorer">
+      <div className="explorer-head">
+        <div>
+          <div className="eyebrow">
+            <span className="eyebrow-bar"/>
+            Explore the file system
+          </div>
+          <h2 className="explorer-title">
+            Pick a department and <em>click any file</em>. Inside each one, toggle the bullets to read the real content.
+          </h2>
+        </div>
+        <div className="explorer-meta">
+          5 department brains<br/>
+          19 unique files per company<br/>
+          Click any card
+        </div>
+      </div>
+
+      <div className="tabs">
+        {DEPARTMENTS.map(d=>(
+          <button key={d.id} className={`tab ${activeId===d.id?'active':''}`} style={{'--tab-accent':d.accent}} onClick={()=>{setActiveId(d.id);setOpenFile(null)}}>
+            <span className="tab-dot"/>
+            {d.name}
+          </button>
+        ))}
+      </div>
+
+      <div className="dept-intro" style={{'--dept-accent':dept.accent}}>
+        <div className="dept-intro-left">
+          <h2>The <em>{dept.name}</em> Brain</h2>
+          <div className="dept-desc">{dept.description}</div>
+        </div>
+        <div className="dept-intro-right">
+          <div><span className="accent">{totalFiles}</span> total files</div>
+          <div><span className="accent">{specificCount}</span> unique to this department</div>
+          <div>Plus transcript folder</div>
+        </div>
+      </div>
+
+      <FileSection title="Custom Instructions" emphasize="how it thinks" count={1} files={[INSTRUCTIONS]} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+
+      {dept.specific.length>0&&(
+        <FileSection title={`${dept.name} Knowledge`} emphasize="only in this brain" count={dept.specific.length} files={dept.specific} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+      )}
+
+      <FileSection title="Company-wide Knowledge" emphasize="shared across all brains" count={COMMON_FILES.length} files={COMMON_FILES} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+
+      <FileSection title="Meeting Transcripts" emphasize="the living memory" count={1} files={[MEETING_TRANSCRIPTS]} accent={dept.accent} accentSoft={dept.accentSoft} onOpen={handleOpen}/>
+
+      <Drawer file={openFile} accent={dept.accent} accentSoft={dept.accentSoft} dept={dept.name} onClose={handleClose}/>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// RETURN
+// ═══════════════════════════════════════
+function Return(){
+  return(
+    <section className="return">
+      <div className="return-inner">
+        <div className="return-text">
+          Now you've seen what's inside. <em>Go see it running</em> across six different industries.
+        </div>
+        <a className="return-cta" href="live.html">
+          Back to the demo
+          <span className="return-cta-arrow">→</span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// APP
+// ═══════════════════════════════════════
+function App(){
+  return(
+    <>
+      <TopNav/>
+      <Hero/>
+      <Explainer/>
+      <Explorer/>
+      <Return/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

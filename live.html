@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUB — A Demo. Across Industries.</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="data.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ RESET & BASE ═══ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{
+  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#0B0A08;color:#EDE8DC;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;font-feature-settings:'ss01','ss02','cv11';letter-spacing:-.01em;
+}
+::selection{background:#D1B25A;color:#0B0A08}
+a{color:inherit;text-decoration:none}
+button{background:none;border:none;color:inherit;font-family:inherit;cursor:pointer}
+img{display:block;max-width:100%;height:auto}
+
+:root{
+  --bg:#0B0A08;--bg-warm:#13110D;--ivory:#F5F2EC;--ivory-dim:#E8E3D8;
+  --text:#EDE8DC;--text-mute:rgba(237,232,220,.55);--text-faint:rgba(237,232,220,.28);
+  --gold:#D1B25A;--gold-bright:#E8C570;--gold-soft:rgba(209,178,90,.12);
+  --green:#4A8C5C;--green-soft:rgba(74,140,92,.12);
+  --red:#E74C3C;--hairline:rgba(237,232,220,.08);--hairline-strong:rgba(237,232,220,.15);
+}
+
+.serif{font-family:'Fraunces',Georgia,serif;font-feature-settings:'ss01','ss02','ss03'}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:400;letter-spacing:2.2px;
+  text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;
+}
+.eyebrow-bar{display:inline-block;width:28px;height:1px;background:var(--gold);margin-right:14px}
+
+/* ═══ TOP NAV ═══ */
+.nav-top{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 40px;font-size:12px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  background:linear-gradient(180deg,rgba(11,10,8,.88) 0%,rgba(11,10,8,.45) 70%,transparent 100%);
+}
+.nav-logo{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:400;letter-spacing:-.015em}
+.nav-logo em{font-style:italic;color:var(--gold);font-weight:300}
+.nav-center{
+  display:flex;align-items:center;gap:10px;padding:6px 14px 6px 12px;
+  background:rgba(209,178,90,.06);border:1px solid rgba(209,178,90,.22);border-radius:100px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;color:var(--gold);
+  text-transform:uppercase;
+}
+.nav-center-dot{position:relative;width:7px;height:7px;border-radius:50%;background:var(--gold);animation:dotPulse 2.2s ease-in-out infinite}
+.nav-center-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(209,178,90,.35);animation:dotRing 2.2s ease-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.75;transform:scale(.82)}}
+@keyframes dotRing{0%{transform:scale(.8);opacity:.6}100%{transform:scale(2.8);opacity:0}}
+.nav-right{justify-self:end;display:flex;align-items:center;gap:10px}
+.nav-coach{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 14px;
+  background:linear-gradient(180deg,rgba(209,178,90,.12),rgba(209,178,90,.06));
+  border:1px solid rgba(209,178,90,.35);
+  border-radius:100px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);font-weight:500;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;
+}
+.nav-coach::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 100% at 50% 120%,rgba(209,178,90,.3),transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.nav-coach:hover{
+  border-color:var(--gold);color:var(--gold-bright);
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(209,178,90,.2);
+}
+.nav-coach:hover::before{opacity:1}
+.nav-coach-dot{
+  position:relative;width:6px;height:6px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 8px var(--gold);animation:dotPulse 2.2s ease-in-out infinite;z-index:1;
+}
+.nav-coach-label{position:relative;z-index:1}
+.nav-coach-arrow{
+  position:relative;z-index:1;
+  font-size:11px;opacity:.7;
+  transition:transform .3s cubic-bezier(.22,1,.36,1),opacity .3s;
+}
+.nav-coach:hover .nav-coach-arrow{opacity:1;transform:translate(3px,-3px)}
+.nav-exit{
+  display:flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--text-mute);padding:6px 12px;border:1px solid var(--hairline);border-radius:100px;
+  transition:all .25s;
+}
+.nav-exit:hover{color:var(--text);border-color:var(--hairline-strong)}
+.nav-exit-key{font-size:9px;padding:2px 5px;border:1px solid var(--hairline-strong);border-radius:3px;color:var(--text-faint)}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 48px 100px;overflow:hidden}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(237,232,220,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,220,.025) 1px,transparent 1px);background-size:96px 96px;background-position:center;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,#000 20%,transparent 80%);pointer-events:none}
+.hero-bg-gradient{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(209,178,90,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 70%,rgba(74,140,92,.07) 0%,transparent 60%);pointer-events:none;animation:ambient 24s ease-in-out infinite alternate}
+@keyframes ambient{0%{transform:translate(0,0)}50%{transform:translate(-20px,10px)}100%{transform:translate(10px,-15px)}}
+.hero-bg-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");opacity:.06;mix-blend-mode:overlay;pointer-events:none}
+.hero-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(209,178,90,.8);animation:floatParticle 20s linear infinite}
+@keyframes floatParticle{0%{opacity:0;transform:translate(0,0) scale(.5)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translate(40px,-120px) scale(.8)}}
+
+.hero-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;width:100%}
+.hero-eyebrow{opacity:0;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) .2s forwards}
+.hero-eyebrow-sep{color:var(--text-faint);margin:0 14px;font-weight:300}
+.hero-title{
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(62px,10.5vw,168px);line-height:.9;
+  font-weight:300;letter-spacing:-.045em;margin-top:44px;color:var(--text);
+  font-variation-settings:'opsz' 144,'SOFT' 40;
+}
+.hero-title .line{display:block;overflow:hidden;padding-bottom:.04em}
+.hero-title .inner{display:inline-block;transform:translateY(115%);animation:lineReveal 1.3s cubic-bezier(.19,1,.22,1) forwards}
+.hero-title .line:nth-child(1) .inner{animation-delay:.35s}
+.hero-title .line:nth-child(2) .inner{animation-delay:.5s}
+.hero-title .line:nth-child(3) .inner{animation-delay:.65s}
+.hero-title em{font-style:italic;color:var(--gold);font-weight:300;font-variation-settings:'opsz' 144,'SOFT' 100}
+@keyframes lineReveal{0%{transform:translateY(115%)}100%{transform:translateY(0)}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
+
+.hero-sub{max-width:620px;margin-top:56px;font-size:17px;line-height:1.6;color:var(--text-mute);font-weight:300;letter-spacing:-.005em;opacity:0;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) 1.15s forwards}
+.hero-sub em{font-style:italic;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:18px}
+
+.hero-meta{display:flex;align-items:flex-end;gap:80px;margin-top:96px;opacity:0;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) 1.4s forwards}
+.hero-meta-item{display:flex;flex-direction:column;gap:10px;min-width:0}
+.hero-meta-val{font-family:'Fraunces',Georgia,serif;font-size:60px;font-weight:300;line-height:1;color:var(--text);letter-spacing:-.025em;font-variation-settings:'opsz' 144;font-variant-numeric:tabular-nums}
+.hero-meta-val.gold{color:var(--gold)}
+.hero-meta-val em{font-style:italic;color:var(--gold);font-weight:300}
+.hero-meta-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-faint);max-width:160px;line-height:1.5}
+.hero-meta-divider{width:1px;height:60px;background:var(--hairline);align-self:center}
+
+.scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;opacity:0;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) 1.8s forwards}
+.scroll-cue-line{width:1px;height:56px;background:var(--hairline-strong);position:relative;overflow:hidden}
+.scroll-cue-line::after{content:'';position:absolute;top:-28px;left:0;width:100%;height:28px;background:linear-gradient(180deg,transparent,var(--gold));animation:scrollTrail 2.2s ease-in-out infinite}
+@keyframes scrollTrail{0%{top:-28px;opacity:0}30%{opacity:1}70%{opacity:1}100%{top:56px;opacity:0}}
+.scroll-cue-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2.4px;text-transform:uppercase;color:var(--text-faint)}
+
+/* ═══ TILE NAV ═══ */
+.tiles-section{position:relative;padding:120px 48px 60px;overflow:hidden}
+.tiles-section::before{content:'';position:absolute;top:0;left:48px;right:48px;height:1px;background:linear-gradient(90deg,transparent,var(--hairline-strong),transparent)}
+.tiles-header{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;max-width:1440px;margin:0 auto 48px;flex-wrap:wrap}
+.tiles-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3vw,42px);font-weight:300;letter-spacing:-.02em;line-height:1.15;color:var(--text);max-width:680px;margin-top:20px}
+.tiles-title em{font-style:italic;color:var(--gold)}
+.tiles-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint);line-height:1.8;text-align:right}
+.tiles-grid{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.tile{
+  position:relative;display:flex;flex-direction:column;justify-content:space-between;
+  padding:20px 16px 18px;min-height:148px;
+  background:rgba(237,232,220,.02);border:1px solid var(--hairline);border-radius:4px;
+  transition:all .35s cubic-bezier(.22,1,.36,1);
+  overflow:hidden;
+}
+.tile::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,var(--tile-accent-soft),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none}
+.tile:hover{border-color:var(--tile-accent);background:rgba(237,232,220,.04);transform:translateY(-3px)}
+.tile:hover::before{opacity:1}
+.tile-num{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;color:var(--text-faint);margin-bottom:10px}
+.tile-name{font-family:'Fraunces',Georgia,serif;font-size:19px;line-height:1.1;font-weight:400;letter-spacing:-.015em;color:var(--text);font-variation-settings:'opsz' 144}
+.tile-name em{font-style:italic;color:var(--tile-accent);font-weight:300}
+.tile-cat{margin-top:auto;padding-top:14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-faint);transition:color .3s}
+.tile:hover .tile-cat{color:var(--tile-accent)}
+.tile.tile-host{background:linear-gradient(180deg,rgba(209,178,90,.06),rgba(74,140,92,.04));border-color:rgba(209,178,90,.22)}
+.tile.tile-host:hover{border-color:var(--gold);background:linear-gradient(180deg,rgba(209,178,90,.1),rgba(74,140,92,.06))}
+
+/* ═══ COMPANY CHAPTERS ═══ */
+.company{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 48px;overflow:hidden;scroll-margin-top:60px}
+.company::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 50%,var(--accent-soft),transparent 70%);opacity:.6;pointer-events:none;transition:opacity 1.5s}
+.company.in-view::before{opacity:1}
+.company-inner{max-width:1440px;margin:0 auto;width:100%;display:grid;gap:80px;align-items:center;position:relative;z-index:2}
+.company.img-right .company-inner{grid-template-columns:1fr 1.05fr}
+.company.img-left .company-inner{grid-template-columns:1.05fr 1fr}
+.company.img-left .company-image{grid-column:1;grid-row:1}
+.company.img-left .company-text{grid-column:2;grid-row:1}
+
+.company-text{position:relative}
+.company-num{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.company-num-val{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--text-faint)}
+.company-num-bar{flex:1;height:1px;background:var(--hairline);max-width:80px}
+.company-num-val-accent{color:var(--accent);font-weight:500}
+
+.company-category{color:var(--accent)}
+.company-category .eyebrow-bar{background:var(--accent)}
+.company-name{
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(52px,7.5vw,120px);line-height:.9;font-weight:300;letter-spacing:-.04em;
+  margin-top:32px;color:var(--text);font-variation-settings:'opsz' 144,'SOFT' 40;word-break:break-word;
+}
+.company-name em{font-style:italic;color:var(--accent);font-weight:300;font-variation-settings:'opsz' 144,'SOFT' 100}
+.company-name sup{font-size:.5em;top:-.5em;position:relative;font-weight:300}
+
+.company-desc{margin-top:24px;font-size:16px;line-height:1.55;font-weight:400;color:var(--text);max-width:560px;letter-spacing:-.005em}
+.company-desc em{font-style:italic;color:var(--accent);font-family:'Fraunces',Georgia,serif;font-weight:400}
+
+.company-quote{
+  font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:clamp(17px,1.5vw,20px);line-height:1.5;font-weight:300;
+  color:var(--text-mute);margin-top:28px;max-width:520px;letter-spacing:-.01em;
+  padding-left:20px;border-left:1px solid var(--accent);font-variation-settings:'opsz' 144,'SOFT' 100;
+}
+
+.company-founder{display:flex;flex-direction:column;gap:4px;margin-top:32px;padding-top:20px;border-top:1px solid var(--hairline)}
+.founder-name{font-family:'Fraunces',Georgia,serif;font-size:18px;color:var(--text);font-weight:400;letter-spacing:-.01em}
+.founder-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-faint)}
+
+.company-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px;padding:22px 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+
+/* ═══ BEHIND-THE-SCENES BUTTON (host only) ═══ */
+.btn-behind{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:28px 32px;margin-top:32px;
+  background:linear-gradient(135deg,rgba(209,178,90,.08),rgba(74,140,92,.04));
+  border:1px solid rgba(209,178,90,.3);
+  border-radius:6px;
+  color:var(--text);
+  transition:all .4s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;
+}
+.btn-behind::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 100% 50%,rgba(209,178,90,.2),transparent 70%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.btn-behind:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 10px 36px rgba(0,0,0,.25),0 0 0 1px rgba(209,178,90,.18);
+}
+.btn-behind:hover::before{opacity:1}
+.btn-behind-text{position:relative;z-index:1;min-width:0}
+.btn-behind-label{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.btn-behind-label-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:brainPulse 2s ease-in-out infinite}
+.btn-behind-title{
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(24px,2.4vw,32px);
+  font-weight:400;line-height:1.15;letter-spacing:-.02em;color:var(--text);
+  font-variation-settings:'opsz' 144;
+}
+.btn-behind-title em{font-style:italic;color:var(--gold);font-weight:300}
+.btn-behind-meta{
+  margin-top:10px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-faint);
+}
+.btn-behind-arrow{
+  position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(209,178,90,.1);border:1px solid rgba(209,178,90,.3);
+  font-size:18px;color:var(--gold);
+  transition:all .35s cubic-bezier(.22,1,.36,1);
+  flex-shrink:0;
+}
+.btn-behind:hover .btn-behind-arrow{background:var(--gold);color:var(--bg);border-color:var(--gold);transform:translateX(4px)}
+.company-stat{display:flex;flex-direction:column;gap:6px}
+.company-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-faint)}
+.company-stat-val{font-family:'Fraunces',Georgia,serif;font-size:18px;line-height:1.2;font-weight:400;color:var(--text);letter-spacing:-.01em}
+
+/* ═══ DEPARTMENT WORKSPACES ═══ */
+.workspaces{margin-top:32px}
+.workspaces-header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.workspaces-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint)}
+.workspaces-count{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.2px;color:var(--text-faint)}
+.workspaces-count .accent{color:var(--accent)}
+.workspaces-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(192px,1fr));gap:8px}
+.workspace-btn{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 16px 13px 13px;border-radius:8px;
+  background:rgba(237,232,220,.025);border:1px solid var(--hairline-strong);
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--text);cursor:pointer;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+  overflow:hidden;
+}
+.workspace-btn::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 100% 50%,var(--accent-soft),transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.workspace-btn:hover{
+  border-color:var(--accent);background:rgba(237,232,220,.04);transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,.2),0 0 0 1px var(--accent-soft);
+}
+.workspace-btn:hover::before{opacity:1}
+.workspace-btn-left{display:flex;align-items:center;gap:10px;min-width:0;position:relative;z-index:1}
+.workspace-btn-dot{
+  position:relative;width:8px;height:8px;border-radius:50%;flex-shrink:0;
+  background:var(--accent);box-shadow:0 0 10px var(--accent);
+  animation:brainPulse 2.4s ease-in-out infinite;
+}
+.workspace-btn-dot::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:var(--accent);opacity:.3;
+  animation:brainRing 2.4s ease-out infinite;
+}
+@keyframes brainPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.75;transform:scale(.8)}}
+@keyframes brainRing{0%{transform:scale(.6);opacity:.5}100%{transform:scale(2.2);opacity:0}}
+.workspace-btn:nth-child(2) .workspace-btn-dot,.workspace-btn:nth-child(2) .workspace-btn-dot::after{animation-delay:.3s}
+.workspace-btn:nth-child(3) .workspace-btn-dot,.workspace-btn:nth-child(3) .workspace-btn-dot::after{animation-delay:.6s}
+.workspace-btn:nth-child(4) .workspace-btn-dot,.workspace-btn:nth-child(4) .workspace-btn-dot::after{animation-delay:.9s}
+.workspace-btn:nth-child(5) .workspace-btn-dot,.workspace-btn:nth-child(5) .workspace-btn-dot::after{animation-delay:1.2s}
+.workspace-btn-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.workspace-btn-arrow{position:relative;z-index:1;font-family:'Geist',sans-serif;font-size:13px;color:var(--text-faint);transition:transform .3s cubic-bezier(.22,1,.36,1),color .3s;flex-shrink:0}
+.workspace-btn:hover .workspace-btn-arrow{color:var(--accent);transform:translateX(4px)}
+
+/* ═══ IMAGE ═══ */
+.company-image{position:relative;aspect-ratio:4/5;border-radius:2px;overflow:hidden;background:var(--bg-warm);border:1px solid var(--hairline)}
+.company-image img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform 9s cubic-bezier(.22,1,.36,1);filter:grayscale(.05) contrast(1.02)}
+.company.in-view .company-image img{transform:scale(1.12)}
+.company-image::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(11,10,8,.5));pointer-events:none}
+.company-image-tag{position:absolute;top:20px;left:20px;z-index:3;display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:100px;background:rgba(11,10,8,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text);border:1px solid var(--hairline-strong)}
+.image-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.company-image-caption{position:absolute;bottom:20px;left:20px;right:20px;z-index:3;font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:13px;line-height:1.4;color:var(--text);opacity:.88;max-width:320px}
+
+/* ═══ TUB HOST SECTION (distinct feel) ═══ */
+.company.host{
+  background:linear-gradient(180deg,rgba(74,140,92,.04) 0%,rgba(209,178,90,.02) 100%);
+  border-top:1px solid rgba(209,178,90,.15);border-bottom:1px solid rgba(209,178,90,.1);
+}
+.company.host::before{opacity:1;background:radial-gradient(ellipse 70% 50% at 30% 50%,rgba(74,140,92,.1),transparent 70%),radial-gradient(ellipse 60% 40% at 75% 60%,rgba(209,178,90,.08),transparent 70%)}
+.company.host .host-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;
+  background:rgba(209,178,90,.1);border:1px solid rgba(209,178,90,.3);border-radius:100px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;
+}
+.company.host .host-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:brainPulse 2s ease-in-out infinite}
+
+/* ═══ FISHWIFE BOTTOM ═══ */
+.fishwife-intro{position:relative;padding:120px 48px 0;max-width:1440px;margin:0 auto}
+.fishwife-intro::before{content:'';position:absolute;top:0;left:48px;right:48px;height:1px;background:linear-gradient(90deg,transparent,var(--hairline-strong),transparent)}
+.fishwife-intro-inner{display:grid;grid-template-columns:auto 1fr auto;gap:48px;align-items:end}
+.fishwife-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.fishwife-title{font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,3vw,42px);font-weight:300;letter-spacing:-.02em;line-height:1.1;color:var(--text)}
+.fishwife-title em{font-style:italic;color:var(--gold)}
+.fishwife-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint);text-align:right}
+.company.fishwife-section{padding-top:60px;min-height:auto}
+
+/* ═══ NUMBERS ═══ */
+.numbers{position:relative;background:var(--ivory);color:#18160F;padding:180px 48px;overflow:hidden}
+.numbers::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");opacity:.25;mix-blend-mode:multiply;pointer-events:none}
+.numbers-inner{max-width:1440px;margin:0 auto;position:relative}
+.numbers-eyebrow{color:#8B7024}
+.numbers-eyebrow .eyebrow-bar{background:#8B7024}
+.numbers-lede{margin-top:36px;max-width:980px;font-family:'Fraunces',Georgia,serif;font-size:clamp(34px,4vw,62px);line-height:1.05;font-weight:300;letter-spacing:-.025em;color:#18160F;font-variation-settings:'opsz' 144}
+.numbers-lede em{font-style:italic;color:#8B7024}
+.numbers-grid{margin-top:140px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.numbers-card{padding:56px 32px 48px;border-top:1px solid rgba(24,22,15,.18);position:relative}
+.numbers-card:not(:last-child)::after{content:'';position:absolute;top:0;bottom:20%;right:-12px;width:1px;background:rgba(24,22,15,.08)}
+.numbers-card-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:rgba(24,22,15,.5);margin-bottom:48px}
+.numbers-card-val{font-family:'Fraunces',Georgia,serif;font-size:clamp(80px,10vw,152px);line-height:.88;font-weight:300;letter-spacing:-.055em;color:#18160F;font-variation-settings:'opsz' 144;font-variant-numeric:tabular-nums}
+.numbers-card-val em{font-style:italic;color:#8B7024;font-weight:300}
+.numbers-card-desc{margin-top:32px;font-size:14px;line-height:1.55;color:rgba(24,22,15,.65);font-weight:400;max-width:280px}
+.numbers-card-desc em{font-family:'Fraunces',Georgia,serif;font-style:italic;font-weight:400}
+.numbers-closing{margin-top:160px;padding-top:48px;border-top:1px solid rgba(24,22,15,.15);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end}
+.numbers-closing-text{font-family:'Fraunces',Georgia,serif;font-size:clamp(24px,2.4vw,34px);line-height:1.25;font-weight:300;letter-spacing:-.015em;color:#18160F;max-width:580px}
+.numbers-closing-text em{font-style:italic;color:#8B7024}
+.numbers-closing-meta{justify-self:end;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:rgba(24,22,15,.4);text-align:right;line-height:1.8}
+
+/* ═══ RETURN ═══ */
+.return{position:relative;padding:140px 48px 100px;overflow:hidden}
+.return-inner{max-width:1440px;margin:0 auto}
+.return-heading{font-family:'Fraunces',Georgia,serif;font-size:clamp(40px,5vw,72px);line-height:1;font-weight:300;letter-spacing:-.03em;color:var(--text);margin-top:28px;max-width:880px}
+.return-heading em{font-style:italic;color:var(--gold)}
+.return-grid{margin-top:96px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.return-card{position:relative;padding:48px 40px 40px;background:var(--bg-warm);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;transition:all .4s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;min-height:320px}
+.return-card:hover{border-color:var(--gold);transform:translateY(-4px);background:linear-gradient(180deg,var(--bg-warm),rgba(209,178,90,.03))}
+.return-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 120%,rgba(209,178,90,.15),transparent 60%);opacity:0;transition:opacity .5s;pointer-events:none}
+.return-card:hover::before{opacity:1}
+.return-card-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.6px;color:var(--text-faint)}
+.return-card-title{font-family:'Fraunces',Georgia,serif;font-size:44px;line-height:1;font-weight:300;letter-spacing:-.025em;color:var(--text);margin-top:48px}
+.return-card-title em{font-style:italic;color:var(--gold)}
+.return-card-desc{font-size:14px;line-height:1.55;color:var(--text-mute);font-weight:300;margin-top:14px;max-width:340px}
+.return-card-cta{margin-top:auto;padding-top:48px;display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--text)}
+.return-card-arrow{display:inline-block;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.return-card:hover .return-card-arrow{transform:translateX(6px)}
+.return-footer{margin-top:120px;padding-top:32px;border-top:1px solid var(--hairline);display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--text-faint)}
+
+/* ═══ CURSOR ═══ */
+.cursor-dot{position:fixed;top:0;left:0;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .08s ease-out,opacity .25s,width .2s,height .2s;mix-blend-mode:difference;opacity:0;box-shadow:0 0 16px rgba(209,178,90,.5)}
+.cursor-ring{position:fixed;top:0;left:0;width:32px;height:32px;border:1px solid rgba(209,178,90,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .25s cubic-bezier(.22,1,.36,1),opacity .25s,width .3s,height .3s,border-color .3s;opacity:0}
+body.cursor-ready .cursor-dot,body.cursor-ready .cursor-ring{opacity:1}
+body.cursor-hover .cursor-ring{width:54px;height:54px;border-color:var(--gold)}
+body.cursor-hover .cursor-dot{width:4px;height:4px}
+
+/* ═══ MOBILE ═══ */
+@media(max-width:1100px){
+  .tiles-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:900px){
+  .cursor-dot,.cursor-ring{display:none}
+  body{cursor:auto}
+  .nav-top{padding:16px 20px;grid-template-columns:auto auto auto;gap:10px}
+  .nav-logo{font-size:15px}
+  .nav-center{padding:5px 10px 5px 8px;font-size:9.5px;letter-spacing:1.2px;gap:6px}
+  .nav-right{gap:6px}
+  .nav-coach{padding:5px 10px;font-size:9.5px;letter-spacing:1.2px;gap:6px}
+  .nav-coach-label{display:none}
+  .nav-exit{padding:5px 10px;font-size:10px;gap:6px}
+  .nav-exit-key{display:none}
+
+  .hero{padding:120px 22px 80px}
+  .hero-title{font-size:44px}
+  .hero-sub{font-size:15px;margin-top:36px}
+  .hero-sub em{font-size:16px}
+  .hero-meta{margin-top:56px;gap:28px;flex-wrap:wrap}
+  .hero-meta-val{font-size:36px}
+  .hero-meta-divider{display:none}
+  .scroll-cue{bottom:24px}
+
+  .tiles-section{padding:80px 22px 40px}
+  .tiles-header{margin-bottom:32px}
+  .tiles-grid{grid-template-columns:repeat(2,1fr)}
+  .tile{min-height:128px;padding:16px 14px}
+
+  .company{padding:80px 22px;min-height:auto}
+  .company-inner,.company.img-right .company-inner,.company.img-left .company-inner{grid-template-columns:1fr;gap:40px}
+  .company.img-left .company-image,.company.img-left .company-text{grid-column:1}
+  .company.img-left .company-image{grid-row:2}
+  .company.img-left .company-text{grid-row:1}
+  .company-name{font-size:48px;margin-top:20px}
+  .company-desc{font-size:15px;margin-top:20px}
+  .company-quote{font-size:16px;margin-top:24px}
+  .company-founder{margin-top:24px;padding-top:18px}
+  .company-stats{grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;padding:18px 0}
+  .company-stat-val{font-size:16px}
+  .workspaces{margin-top:28px}
+  .workspaces-grid{grid-template-columns:1fr 1fr}
+  .workspace-btn{font-size:10px;padding:11px 14px}
+
+  .fishwife-intro{padding:80px 22px 0}
+  .fishwife-intro-inner{grid-template-columns:1fr;gap:14px}
+  .fishwife-meta{text-align:left}
+
+  .numbers{padding:100px 22px}
+  .numbers-lede{font-size:28px;margin-top:24px}
+  .numbers-grid{grid-template-columns:1fr;gap:8px;margin-top:72px}
+  .numbers-card{padding:40px 0 32px}
+  .numbers-card:not(:last-child)::after{display:none}
+  .numbers-card-label{margin-bottom:24px}
+  .numbers-card-val{font-size:96px}
+  .numbers-card-desc{margin-top:20px}
+  .numbers-closing{grid-template-columns:1fr;gap:24px;margin-top:80px}
+  .numbers-closing-meta{justify-self:start;text-align:left}
+
+  .return{padding:80px 22px 60px}
+  .return-heading{font-size:34px}
+  .return-grid{grid-template-columns:1fr;gap:14px;margin-top:56px}
+  .return-card{min-height:260px;padding:32px 24px 28px}
+  .return-card-title{font-size:32px;margin-top:36px}
+  .return-footer{margin-top:64px;flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="cursor-ring"></div>
+<div class="cursor-dot"></div>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useRef,useMemo}=React;
+
+// ═══════════════════════════════════════
+// BRANDS DATA — demo examples across industries
+// ═══════════════════════════════════════
+const DEPARTMENTS=['Marketing','Sales','Customer Success','Operations','Finance'];
+
+const TUB={
+  id:'tub',host:true,
+  name:'The Uncommon Business',
+  nameNode:<>The Uncommon <em>Business.</em></>,
+  shortName:<>The Uncommon <em>Business</em></>,
+  category:'Training · Community · AI Architecture',
+  description:<>TUB is where this started. We built the AI department workforce inside our own company first — five brains, trained on our voice, our data, our frameworks. Then we built a curriculum to teach founders how to do the <em>same thing</em> for their own business.</>,
+  quote:'We perfected it inside our company first. Now we teach you how to build the same for yours.',
+  founder:'Callan Faulkner',
+  founderTitle:'Founder · CEO',
+  hero:'images/companies/tub-callan-01.jpg',
+  caption:'Callan Faulkner — the founder who built the method inside her own company, then opened it up.',
+  industry:'AI Architecture',
+  accent:'#D1B25A',
+  accentSoft:'rgba(209,178,90,.14)',
+};
+
+const BRANDS=[
+  {
+    id:'chiro',
+    name:'100% Chiropractic',
+    nameNode:<>100<sup>%</sup> <em>Chiropractic.</em></>,
+    shortName:<>100<sup>%</sup> <em>Chiropractic</em></>,
+    category:'Health · Franchise',
+    description:<>A 118-location wellness franchise across 25 states. Every clinic delivers chiropractic adjustments, massage therapy, nutrition, and Webster-certified prenatal plus pediatric care, anchored by the <em>Life Changing Adjustment</em> first-visit experience.</>,
+    quote:'Watch the five departments take on a wholistic-health voice — operator-run clinics, franchisee recruitment, a $49 new-patient offer, family-membership retention.',
+    founder:'Dr. Jason & Dr. Vanessa Helfrich',
+    founderTitle:'Co-Founders · Chairman & CFO',
+    stats:[
+      ['Founded','2004'],
+      ['Headquarters','Colorado Springs, CO'],
+      ['Footprint','118 clinics · 25 states'],
+      ['System Revenue','$65M'],
+    ],
+    hero:'images/companies/chiro-hero.jpg',
+    caption:'The Life Changing Adjustment — the signature first-visit moment across 118 clinics.',
+    industry:'Health Franchise',
+    accent:'#D47B2E',
+    accentSoft:'rgba(212,123,46,.14)',
+  },
+  {
+    id:'cerebelly',
+    name:'Cerebelly',
+    nameNode:<em>Cerebelly.</em>,
+    shortName:<em>Cerebelly</em>,
+    category:'DTC · Baby Food · Science',
+    description:<>A direct-to-consumer baby food brand formulating purees, bone broth protein pouches, and smart bars around <em>sixteen brain-supporting nutrients</em>, each mapped to the developmental window when it matters most. Sold through Whole Foods, Target, Walmart, Kroger, Publix, Meijer, and Amazon.</>,
+    quote:'Now watch the same five departments speak the language of developmental neuroscience — research-oriented moms, retail buyers, nutrient credibility, gift-giver logic.',
+    founder:'Dr. Teresa Purzner',
+    founderTitle:'Founder · Neurosurgeon · Stanford PhD',
+    stats:[
+      ['Founded','2019'],
+      ['Headquarters','East Village, NYC'],
+      ['Retail','Whole Foods · Target · Walmart'],
+      ['Seal','USDA · Non-GMO · Clean Label'],
+    ],
+    hero:'images/companies/cerebelly-hero.png',
+    caption:'Sixteen nutrients. One developing brain. Formulated with neuroscience, not marketing.',
+    industry:'DTC Baby Food',
+    accent:'#7B9B5E',
+    accentSoft:'rgba(123,155,94,.14)',
+  },
+  {
+    id:'coastal',
+    name:'Coastal Comfort',
+    nameNode:<>Coastal <em>Comfort.</em></>,
+    shortName:<>Coastal <em>Comfort</em></>,
+    category:'HVAC · Home Services',
+    description:<>A residential HVAC company on Maryland\'s Eastern Shore and the Delaware coast, specializing in <em>Carrier</em> installations and Mitsubishi ductless retrofits. Two locations, 46 employees, six counties, and a 28-unit loaner-fleet for peak-season emergencies.</>,
+    quote:'Watch the five departments show up as a women-led trades shop — install quality, Good-Better-Best-Premium pricing, a loaner-unit fleet, seven-year President\'s Award consistency.',
+    founder:'Lacey Coleman',
+    founderTitle:'President · CEO · Owner',
+    stats:[
+      ['Founded','2005'],
+      ['Headquarters','Salisbury, MD'],
+      ['Team','46 employees'],
+      ['Revenue','$9M (from $2M)'],
+    ],
+    hero:'images/companies/coastal-testimonial.jpg',
+    caption:'The end result — a family on their couch, perfectly comfortable, not thinking about their HVAC.',
+    industry:'HVAC · Home Services',
+    accent:'#3F6F9B',
+    accentSoft:'rgba(63,111,155,.14)',
+  },
+  {
+    id:'helloseven',
+    name:'Hello Seven',
+    nameNode:<>Hello <em>Seven.</em></>,
+    shortName:<>Hello <em>Seven</em></>,
+    category:'Wealth · Education · Coaching',
+    description:<>A wealth-coaching education company for women of color founders. Runs a twelve-month <em>Mastermind</em>, the 2,600-member We Should All Be Millionaires Club, and a Coach Certification program. Based on a 53-acre ranch in Asheville, NC.</>,
+    quote:'Now the same five departments speak wealth, mission, and mastermind — mastermind enrollment, club retention, coach certification, podcast production, book royalties.',
+    founder:'Rachel Rodgers',
+    founderTitle:'Founder · CEO · NYT Bestseller',
+    stats:[
+      ['Founded','2010'],
+      ['Headquarters','Asheville, NC'],
+      ['Team','25 · fully remote'],
+      ['Revenue','$10M – $20M'],
+    ],
+    hero:'images/companies/helloseven-founder.png',
+    caption:'"We Should All Be Millionaires." Rachel Rodgers meant the title literally.',
+    industry:'Wealth Coaching',
+    accent:'#C9A253',
+    accentSoft:'rgba(201,162,83,.14)',
+  },
+  {
+    id:'rhc',
+    name:'Rachel Harrison Communications',
+    nameNode:<>Rachel Harrison<br/><em>Communications.</em></>,
+    shortName:<>Rachel Harrison <em>Communications</em></>,
+    category:'PR · Hospitality · Travel',
+    description:<>A boutique creative communications agency for travel, hospitality, culinary, wine, and spirits brands. <em>Six offices</em> across three continents, 200+ named clients including Ritz-Carlton, Major Food Group, Auberge Resorts Collection, and Teremana Tequila.</>,
+    quote:'And the same five departments as a boutique hospitality PR shop — Condé Nast pitches, Michelin Key positioning, chef founder handling, six-office operational coordination.',
+    founder:'Rachel Harrison',
+    founderTitle:'Founder · CEO',
+    stats:[
+      ['Founded','2020'],
+      ['Offices','NYC · LA · London · Paris · CDMX · LV'],
+      ['Roster','200+ (Ritz-Carlton · Auberge)'],
+      ['Revenue','~$13.9M'],
+    ],
+    hero:'images/companies/rhc-agency-lifestyle.png',
+    caption:'Rachel Harrison Communications — Condé Nast covers, Michelin Keys, World\'s 50 Best spots.',
+    industry:'Hospitality PR',
+    accent:'#B08D57',
+    accentSoft:'rgba(176,141,87,.14)',
+  },
+];
+
+const FISHWIFE={
+  id:'fishwife',
+  name:'Fishwife',
+  nameNode:<em>Fishwife.</em>,
+  shortName:<em>Fishwife</em>,
+  category:'DTC · Tinned Seafood',
+  description:<>A direct-to-consumer premium tinned seafood brand sold through <em>1,800+ retail doors</em> including Whole Foods, Target, Kroger, and 600+ Costco warehouses — plus a DTC subscription. MSC-certified sourcing across six canneries in Washington, Spain, Denmark, and Scotland.</>,
+  quote:'And one more — the five departments inside a design-forward DTC food brand. Shark Tank deal-maker, cookbook author, 1,800-door retail operator.',
+  founder:'Becca Millstein',
+  founderTitle:'Founder · CEO',
+  stats:[
+    ['Founded','2020'],
+    ['Headquarters','Los Angeles'],
+    ['Distribution','1,800+ retail doors'],
+    ['Milestone','Shark Tank · $350K deal'],
+  ],
+  hero:'images/companies/fishwife-hero.png',
+  caption:'The can you leave on the counter because the design is too good to hide.',
+  industry:'DTC Tinned Seafood',
+  accent:'#E07F5C',
+  accentSoft:'rgba(224,127,92,.14)',
+};
+
+const ALL_BRANDS=[TUB,...BRANDS,FISHWIFE];
+
+// ═══════════════════════════════════════
+// HOOKS
+// ═══════════════════════════════════════
+function useInView(opts={threshold:.22}){
+  const ref=useRef(null);const[inView,setInView]=useState(false);
+  useEffect(()=>{
+    if(!ref.current)return;
+    const obs=new IntersectionObserver(([e])=>{if(e.isIntersecting)setInView(true)},opts);
+    obs.observe(ref.current);
+    return()=>obs.disconnect();
+  },[]);
+  return[ref,inView];
+}
+function useCountUp(target,inView,duration=1600){
+  const[val,setVal]=useState(0);
+  useEffect(()=>{
+    if(!inView)return;
+    let raf;const start=performance.now();
+    const num=typeof target==='number'?target:parseFloat(target);
+    function tick(t){
+      const p=Math.min((t-start)/duration,1);
+      const eased=1-Math.pow(1-p,3);
+      setVal(num*eased);
+      if(p<1)raf=requestAnimationFrame(tick);else setVal(num);
+    }
+    raf=requestAnimationFrame(tick);
+    return()=>cancelAnimationFrame(raf);
+  },[inView,target,duration]);
+  return val;
+}
+
+// ═══════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════
+function Particles({count=22}){
+  const particles=useMemo(()=>Array.from({length:count},(_,i)=>({
+    id:i,left:Math.random()*100,top:40+Math.random()*60,delay:Math.random()*20,duration:14+Math.random()*12,size:.5+Math.random()*1.2,
+  })),[count]);
+  return(
+    <div className="hero-particles">
+      {particles.map(p=>(
+        <div key={p.id} className="particle" style={{
+          left:`${p.left}%`,top:`${p.top}%`,animationDelay:`${p.delay}s`,animationDuration:`${p.duration}s`,transform:`scale(${p.size})`,
+        }}/>
+      ))}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// TOP NAV
+// ═══════════════════════════════════════
+function TopNav(){
+  return(
+    <nav className="nav-top">
+      <div className="nav-logo">The Uncommon <em>Business</em></div>
+      <div className="nav-right">
+        <a className="nav-coach" href="https://ai-revenue-coach.replit.app/" target="_blank" rel="noopener noreferrer">
+          <span className="nav-coach-dot"/>
+          <span className="nav-coach-label">AI Revenue Coach</span>
+          <span className="nav-coach-arrow">↗</span>
+        </a>
+        <a className="nav-exit" href="index.html">
+          <span className="nav-exit-key">ESC</span>
+          <span>Exit</span>
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+// ═══════════════════════════════════════
+// HERO
+// ═══════════════════════════════════════
+function MetaStat({value,label,gold,italic}){
+  return(
+    <div className="hero-meta-item">
+      <div className={`hero-meta-val ${gold?'gold':''}`}>{italic?<em>{value}</em>:value}</div>
+      <div className="hero-meta-lbl">{label}</div>
+    </div>
+  );
+}
+
+function Hero(){
+  return(
+    <section className="hero">
+      <div className="hero-bg-grid"/>
+      <div className="hero-bg-gradient"/>
+      <div className="hero-bg-noise"/>
+      <Particles count={22}/>
+      <div className="hero-inner">
+        <h1 className="hero-title">
+          <span className="line"><span className="inner">One AI team.</span></span>
+          <span className="line"><span className="inner">Six wildly different brands.</span></span>
+          <span className="line"><span className="inner"><em>Watch them work.</em></span></span>
+        </h1>
+        <p className="hero-sub">
+          A demo of the same AI department workforce — adapted for completely different brands. Each build has five departments — <em>Marketing, Sales, Customer Success, Operations, Finance</em> — each one tuned to a single company's voice, data, and frameworks. Pick a brand to see how the same method shows up in wildly different businesses.
+        </p>
+        <div className="hero-meta">
+          <MetaStat value="6" label="Industries on display" gold italic/>
+          <div className="hero-meta-divider"/>
+          <MetaStat value="5" label="Departments in every build"/>
+          <div className="hero-meta-divider"/>
+          <MetaStat value="1" label="AI workforce method" gold italic/>
+        </div>
+      </div>
+      <div className="scroll-cue">
+        <span className="scroll-cue-line"/>
+        <span className="scroll-cue-label">Pick a brand</span>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// TILE NAV
+// ═══════════════════════════════════════
+function Tile({brand,index,isHost}){
+  const num=String(index).padStart(2,'0');
+  return(
+    <a
+      className={`tile ${isHost?'tile-host':''}`}
+      href={`#${brand.id}`}
+      style={{'--tile-accent':brand.accent,'--tile-accent-soft':brand.accentSoft}}
+    >
+      <div className="tile-num">{isHost?'00 · Source':num}</div>
+      <div className="tile-name">{brand.shortName}</div>
+      <div className="tile-cat">{brand.category.split(' · ')[0]}</div>
+    </a>
+  );
+}
+
+function TileNav(){
+  return(
+    <section className="tiles-section">
+      <div className="tiles-header">
+        <div>
+          <div className="eyebrow">
+            <span className="eyebrow-bar"/>
+            Pick a brand to explore
+          </div>
+          <h2 className="tiles-title">
+            Six different industries. Each one built on the same five AI departments. Click any tile to drop straight into that demo — or scroll through them <em>in order</em>.
+          </h2>
+        </div>
+        <div className="tiles-meta">
+          6 industries<br/>
+          5 departments each<br/>
+          1 method across all
+        </div>
+      </div>
+      <div className="tiles-grid">
+        <Tile brand={TUB} index={0} isHost/>
+        {BRANDS.map((c,i)=><Tile key={c.id} brand={c} index={i+1}/>)}
+        <Tile brand={FISHWIFE} index={6}/>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// WORKSPACE BUTTON
+// ═══════════════════════════════════════
+function WorkspaceBtn({name,brand}){
+  const slug=name.toLowerCase().replace(/\s+/g,'-');
+  const href=`#${brand.id}-${slug}`;
+  return(
+    <a className="workspace-btn" href={href}>
+      <span className="workspace-btn-left">
+        <span className="workspace-btn-dot"/>
+        <span className="workspace-btn-name">{name}</span>
+      </span>
+      <span className="workspace-btn-arrow">→</span>
+    </a>
+  );
+}
+
+// ═══════════════════════════════════════
+// BRAND CHAPTER
+// ═══════════════════════════════════════
+function BrandChapter({brand,index,className=''}){
+  const[ref,inView]=useInView({threshold:.2});
+  const isLeft=index%2===1;
+  const num=String(index).padStart(2,'0');
+  const isHost=brand.host;
+  return(
+    <section
+      id={brand.id}
+      ref={ref}
+      className={`company ${isLeft?'img-left':'img-right'} ${inView?'in-view':''} ${isHost?'host':''} ${className}`}
+      style={{'--accent':brand.accent,'--accent-soft':brand.accentSoft}}
+    >
+      <div className="company-inner">
+        <div className="company-text">
+          {isHost?(
+            <div className="host-badge">
+              <span className="host-badge-dot"/>
+              <span>00 · Where it started</span>
+            </div>
+          ):(
+            <div className="company-num">
+              <span className="company-num-val"><span className="company-num-val-accent">Demo {num}</span></span>
+              <span className="company-num-bar"/>
+              <span className="company-num-val">Industry swap</span>
+            </div>
+          )}
+          <div className="eyebrow company-category">
+            <span className="eyebrow-bar"/>
+            {brand.category}
+          </div>
+          <h2 className="company-name">{brand.nameNode}</h2>
+          <p className="company-desc">{brand.description}</p>
+          <p className="company-quote">{brand.quote}</p>
+          <div className="company-founder">
+            <div className="founder-name serif">{brand.founder}</div>
+            <div className="founder-title">{brand.founderTitle}</div>
+          </div>
+          {isHost?(
+            <a className="btn-behind" href="brain.html">
+              <div className="btn-behind-text">
+                <div className="btn-behind-label">
+                  <span className="btn-behind-label-dot"/>
+                  Behind the scenes
+                </div>
+                <div className="btn-behind-title">See what <em>powers</em> a working business brain</div>
+                <div className="btn-behind-meta">5 departments · 19 unique files · the real thing</div>
+              </div>
+              <span className="btn-behind-arrow">→</span>
+            </a>
+          ):(
+            <div className="company-stats">
+              {brand.stats.map(([k,v])=>(
+                <div className="company-stat" key={k}>
+                  <div className="company-stat-lbl">{k}</div>
+                  <div className="company-stat-val">{v}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="workspaces">
+            <div className="workspaces-header">
+              <div className="workspaces-lbl">Department Workspaces · Live</div>
+              <div className="workspaces-count"><span className="accent">{DEPARTMENTS.length}</span> · active</div>
+            </div>
+            <div className="workspaces-grid">
+              {DEPARTMENTS.map(b=><WorkspaceBtn key={b} name={b} brand={brand}/>)}
+            </div>
+          </div>
+        </div>
+        <div className="company-image">
+          <div className="company-image-tag">
+            <span className="image-tag-dot"/>
+            <span>{brand.industry}</span>
+          </div>
+          <img src={brand.hero} alt={brand.name}/>
+          <div className="company-image-caption">{brand.caption}</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// FISHWIFE INTRO BAND
+// ═══════════════════════════════════════
+function FishwifeIntro(){
+  return(
+    <div className="fishwife-intro">
+      <div className="fishwife-intro-inner">
+        <div className="fishwife-label">Demo 06 · One more industry</div>
+        <h3 className="fishwife-title">
+          And one more <em>industry</em> — the tinned food story.
+        </h3>
+        <div className="fishwife-meta">
+          Bonus demo · bottom of the scroll<br/>
+          Same 5 departments, DTC-food voice
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// NUMBERS
+// ═══════════════════════════════════════
+function NumberCard({label,value,desc,italic,suffix}){
+  const[ref,inView]=useInView({threshold:.3});
+  const num=useCountUp(value,inView,1800);
+  return(
+    <div className="numbers-card" ref={ref}>
+      <div className="numbers-card-label">{label}</div>
+      <div className="numbers-card-val">
+        {italic?<em>{Math.round(num)}</em>:Math.round(num)}{suffix}
+      </div>
+      <div className="numbers-card-desc">{desc}</div>
+    </div>
+  );
+}
+
+function Numbers(){
+  return(
+    <section className="numbers">
+      <div className="numbers-inner">
+        <div className="eyebrow numbers-eyebrow">
+          <span className="eyebrow-bar"/>
+          The thesis
+        </div>
+        <h2 className="numbers-lede">
+          Not a portfolio. A proof. The same five AI departments — shaped by six completely different voices, operating across six completely different <em>industries</em>. Each build trained on one brand's reality.
+        </h2>
+        <div className="numbers-grid">
+          <NumberCard
+            label="Departments per build"
+            value={5}
+            desc={<>The same five heads of department in every brand — Marketing, Sales, Customer Success, Operations, Finance. <em>Applied identically. Tuned individually.</em></>}
+          />
+          <NumberCard
+            label="Industries on display"
+            value={6}
+            italic
+            desc={<>Wellness franchise. DTC baby food. HVAC. Wealth coaching. Boutique PR. Tinned seafood. <em>Zero overlap</em> between any two.</>}
+          />
+          <NumberCard
+            label="AI workforce method"
+            value={1}
+            desc={<>One structural discipline. Works across every industry because every business — regardless of what it sells — still has the <em>same five departments</em>.</>}
+          />
+        </div>
+        <div className="numbers-closing">
+          <div className="numbers-closing-text">
+            This isn't one AI assistant with six flavors. It's six completely separate AI workforces — each one trained on a different brand's voice, data, and <em>reality</em>.
+          </div>
+          <div className="numbers-closing-meta">
+            A demo, across industries<br/>
+            The Uncommon Business · 2026
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// RETURN
+// ═══════════════════════════════════════
+function ReturnSection(){
+  return(
+    <section className="return">
+      <div className="return-inner">
+        <div className="eyebrow">
+          <span className="eyebrow-bar"/>
+          Continue exploring
+        </div>
+        <h2 className="return-heading">
+          You've seen the demos.<br/>
+          Now see the <em>architects.</em>
+        </h2>
+        <div className="return-grid">
+          <a className="return-card" href="index.html">
+            <div className="return-card-num">01 / Map</div>
+            <div className="return-card-title">The <em>Org Map</em></div>
+            <div className="return-card-desc">
+              Every human on the TUB team. Every AI employee they manage. The whole internal operating system, drawn as one living structure.
+            </div>
+            <div className="return-card-cta">
+              <span>Enter the map</span>
+              <span className="return-card-arrow">→</span>
+            </div>
+          </a>
+          <a className="return-card" href="monday-morning.html">
+            <div className="return-card-num">02 / Shift</div>
+            <div className="return-card-title">The <em>Third Shift</em></div>
+            <div className="return-card-desc">
+              Midnight to 8 AM. While the team sleeps, twenty-four AI employees run a full shift. Watch it unfold, minute by minute.
+            </div>
+            <div className="return-card-cta">
+              <span>Watch the night</span>
+              <span className="return-card-arrow">→</span>
+            </div>
+          </a>
+        </div>
+        <div className="return-footer">
+          <div>© The Uncommon Business · 2026</div>
+          <div>A Demo · Across Industries</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════
+// CURSOR & KEYBOARD
+// ═══════════════════════════════════════
+function Cursor(){
+  useEffect(()=>{
+    const dot=document.querySelector('.cursor-dot');
+    const ring=document.querySelector('.cursor-ring');
+    if(!dot||!ring)return;
+    let rx=0,ry=0,dx=0,dy=0;
+    function onMove(e){
+      dx=e.clientX;dy=e.clientY;
+      dot.style.transform=`translate(${dx}px,${dy}px) translate(-50%,-50%)`;
+      document.body.classList.add('cursor-ready');
+    }
+    let raf;
+    function tick(){
+      rx+=(dx-rx)*.18;ry+=(dy-ry)*.18;
+      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      raf=requestAnimationFrame(tick);
+    }
+    raf=requestAnimationFrame(tick);
+    function onEnter(e){if(e.target.closest('a,button,.workspace-btn,.return-card,.numbers-card,.company-image,.tile')){document.body.classList.add('cursor-hover')}}
+    function onLeave(e){if(e.target.closest('a,button,.workspace-btn,.return-card,.numbers-card,.company-image,.tile')){document.body.classList.remove('cursor-hover')}}
+    window.addEventListener('mousemove',onMove);
+    document.addEventListener('mouseover',onEnter);
+    document.addEventListener('mouseout',onLeave);
+    return()=>{
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove',onMove);
+      document.removeEventListener('mouseover',onEnter);
+      document.removeEventListener('mouseout',onLeave);
+    };
+  },[]);
+  return null;
+}
+function Keyboard(){
+  useEffect(()=>{
+    function onKey(e){if(e.key==='Escape'){window.location.href='index.html'}}
+    window.addEventListener('keydown',onKey);
+    return()=>window.removeEventListener('keydown',onKey);
+  },[]);
+  return null;
+}
+
+// ═══════════════════════════════════════
+// APP
+// ═══════════════════════════════════════
+function App(){
+  return(
+    <>
+      <Cursor/>
+      <Keyboard/>
+      <TopNav/>
+      <Hero/>
+      <TileNav/>
+      <BrandChapter brand={TUB} index={0}/>
+      {BRANDS.map((c,i)=><BrandChapter key={c.id} brand={c} index={i+1}/>)}
+      <FishwifeIntro/>
+      <BrandChapter brand={FISHWIFE} index={6} className="fishwife-section"/>
+      <Numbers/>
+      <ReturnSection/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

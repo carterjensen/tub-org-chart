@@ -221,6 +221,25 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#F7F7F5;color:#1a1a
 .tree-children>.tree-node:nth-child(3){animation-delay:.1s}
 .tree-children>.tree-node:nth-child(4){animation-delay:.15s}
 .tree-children>.tree-node:nth-child(5){animation-delay:.2s}
+
+/* ARCHIVE DROPDOWN */
+.archive-dropdown{position:relative;display:inline-block}
+.archive-btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;color:#999;cursor:pointer;transition:all .2s;border:none;background:transparent;font-family:inherit;display:flex;align-items:center;gap:4px}
+.archive-btn:hover{color:#555}
+.archive-menu{position:absolute;top:calc(100% + 6px);left:0;background:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.06);padding:4px;min-width:148px;z-index:200}
+.archive-item{display:block;padding:7px 12px;border-radius:5px;font-size:12px;font-weight:500;color:#666;text-decoration:none;transition:all .15s}
+.archive-item:hover{background:rgba(0,0,0,.04);color:#1a1a1a}
+.archive-chevron{font-size:9px;opacity:.5;transition:transform .2s;margin-left:2px}
+.archive-open .archive-chevron{transform:rotate(180deg)}
+
+/* LIVE BADGE */
+.live-badge{display:flex;align-items:center;gap:7px;padding:5px 14px 5px 10px;border-radius:100px;background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.16);color:#C41E1E;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;text-decoration:none;animation:liveBadgeGlow 2.5s ease-in-out infinite}
+.live-dot-wrap{position:relative;width:8px;height:8px;flex-shrink:0}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#DC2626;position:relative;z-index:1;animation:liveDotBreathe 1.5s ease-in-out infinite}
+.live-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:rgba(220,38,38,.3);animation:liveDotRing 1.5s ease-out infinite}
+@keyframes liveDotBreathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.82);opacity:.7}}
+@keyframes liveDotRing{0%{transform:scale(.8);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+@keyframes liveBadgeGlow{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.06)}50%{box-shadow:0 0 12px rgba(220,38,38,.18)}}
 </style>
 </head>
 <body>
@@ -406,9 +425,34 @@ function useHorizontalBars(orgOpen,aiOpen){
   },[orgOpen,aiOpen]);
 }
 
+// ═══ ARCHIVE DROPDOWN ═══
+function ArchiveDropdown({archiveOpen,setArchiveOpen}){
+  const ref=useRef(null);
+  useEffect(()=>{
+    if(!archiveOpen)return;
+    function handle(e){if(ref.current&&!ref.current.contains(e.target))setArchiveOpen(false)}
+    document.addEventListener('mousedown',handle);
+    return()=>document.removeEventListener('mousedown',handle);
+  },[archiveOpen,setArchiveOpen]);
+  return(
+    <div className={`archive-dropdown${archiveOpen?' archive-open':''}`} ref={ref}>
+      <button className="archive-btn" onClick={()=>setArchiveOpen(!archiveOpen)}>
+        Archive <span className="archive-chevron">▾</span>
+      </button>
+      {archiveOpen&&(
+        <div className="archive-menu">
+          <a className="archive-item" href="ecosystem.html?v=grid">By Manager</a>
+          <a className="archive-item" href="ecosystem.html?v=flow">Data Flow</a>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function App(){
   const[orgOpen,setOrgOpen]=useState(new Set());
   const[aiOpen,setAIOpen]=useState(new Set());
+  const[archiveOpen,setArchiveOpen]=useState(false);
   const[transform,setTransform]=useState({x:0,y:0,scale:1});
   const[isPanning,setIsPanning]=useState(false);
   const[panStart,setPanStart]=useState({x:0,y:0});
@@ -492,13 +536,16 @@ function App(){
           <div className="top-bar-divider"/>
           <div className="nav-tabs">
             <a className="nav-tab active" href="index.html">Org Map</a>
-            <a className="nav-tab" href="ecosystem.html?v=grid">By Manager</a>
-            <a className="nav-tab" href="ecosystem.html?v=flow">Data Flow</a>
             <a className="nav-tab" href="monday-morning.html">Third Shift</a>
+            <ArchiveDropdown archiveOpen={archiveOpen} setArchiveOpen={setArchiveOpen}/>
           </div>
         </div>
         <div className="top-bar-right">
           {anyOpen?<button className="tb-btn" onClick={collapseAll}>Collapse all</button>:<button className="tb-btn" onClick={expandAllOrg}>Expand all</button>}
+          <a className="live-badge" href="live.html">
+            <span className="live-dot-wrap"><span className="live-dot"/></span>
+            Live
+          </a>
         </div>
       </div>
 
