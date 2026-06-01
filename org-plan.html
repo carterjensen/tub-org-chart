@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TUB Product & Experience Division · $100M Plan</title>
+<style>
+  @page {
+    size: Letter;
+    margin: 0.7in 0.7in 0.8in 0.7in;
+    @bottom-left {
+      content: "Product & Experience Division  ·  $100M Plan";
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 8pt;
+      color: #888;
+      letter-spacing: 0.5pt;
+    }
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 8pt;
+      color: #888;
+    }
+  }
+  @page :first {
+    margin: 0;
+    @bottom-left { content: ""; }
+    @bottom-right { content: ""; }
+  }
+
+  :root {
+    --green-dark: #1b3a2d;
+    --green-mid: #2d5a45;
+    --green-light: #6b8f5b;
+    --green-pale: #c8e6a0;
+    --green-bg: #f0f5eb;
+    --cream: #f8f7f4;
+    --border: #e5e3de;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --red: #dc2626;
+    --amber: #f59e0b;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============= SCREEN-ONLY READING LAYOUT =============
+     Applies in browser. PDF render ignores this entire block
+     and uses the @page rules above. */
+  @media screen {
+    body {
+      background: #d9d6cf;
+      padding: 32px 16px;
+      min-height: 100vh;
+    }
+    .cover {
+      margin: 0 auto 32px auto;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+      border-radius: 4px;
+    }
+    .page {
+      background: #ffffff;
+      width: 8.5in;
+      max-width: 100%;
+      min-height: 11in;
+      margin: 0 auto 32px auto;
+      padding: 0.7in;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+    }
+    /* Subtle page label floating above each page on screen */
+    .page::before {
+      content: "";
+    }
+    /* Smooth scroll for refresh-jump-to-anchor flow */
+    html { scroll-behavior: smooth; }
+  }
+
+  /* COVER PAGE */
+  .cover {
+    page-break-after: always;
+    background: var(--green-dark);
+    color: white;
+    width: 8.5in;
+    height: 11in;
+    margin: 0;
+    padding: 1.1in 0.9in;
+    position: relative;
+  }
+  .cover .tag {
+    font-size: 9pt;
+    letter-spacing: 3pt;
+    color: var(--green-pale);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.6in;
+  }
+  .cover h1 {
+    font-size: 52pt;
+    line-height: 1;
+    font-weight: 800;
+    margin: 0 0 22pt 0;
+    letter-spacing: -2pt;
+    color: #ffffff;
+  }
+  .cover .sub {
+    font-size: 20pt;
+    font-weight: 400;
+    color: var(--green-pale);
+    margin-bottom: 0.8in;
+    line-height: 1.3;
+    max-width: 5.5in;
+  }
+  .cover .rule {
+    width: 60pt;
+    height: 3pt;
+    background: var(--green-pale);
+    margin-bottom: 0.5in;
+  }
+  .cover .meta {
+    font-size: 10.5pt;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.8;
+  }
+  .cover .meta strong { color: white; font-weight: 700; }
+  .cover .footer {
+    position: absolute;
+    bottom: 0.7in;
+    left: 0.9in;
+    right: 0.9in;
+    border-top: 1px solid rgba(200,230,160,0.25);
+    padding-top: 14pt;
+    font-size: 8.5pt;
+    color: rgba(200,230,160,0.7);
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+  }
+  .cover .phases {
+    display: flex;
+    gap: 14pt;
+    margin-top: 0.4in;
+    margin-bottom: 0.5in;
+  }
+  .cover .phase {
+    flex: 1;
+    padding: 14pt 12pt;
+    border: 1px solid rgba(200,230,160,0.35);
+    border-radius: 4pt;
+  }
+  .cover .phase-num {
+    font-size: 9pt;
+    letter-spacing: 2pt;
+    color: var(--green-pale);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6pt;
+  }
+  .cover .phase-rev {
+    font-size: 22pt;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+  .cover .date {
+    font-size: 10pt;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+  }
+
+  /* PAGE STRUCTURE */
+  .page {
+    page-break-after: always;
+    page-break-inside: auto;
+  }
+  .page:last-child { page-break-after: auto; }
+  .page-tight { page-break-inside: avoid; }
+
+  .section-tag {
+    font-size: 8.5pt;
+    letter-spacing: 2.5pt;
+    color: var(--green-mid);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6pt;
+  }
+  h1 {
+    font-size: 24pt;
+    line-height: 1.05;
+    font-weight: 800;
+    color: var(--green-dark);
+    margin: 0 0 12pt 0;
+    letter-spacing: -0.5pt;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 800;
+    color: var(--green-dark);
+    margin: 16pt 0 8pt 0;
+    line-height: 1.15;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--green-dark);
+    margin: 14pt 0 5pt 0;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+  }
+  p { margin: 0 0 10pt 0; }
+  ul { margin: 6pt 0 12pt 0; padding-left: 16pt; }
+  li { margin-bottom: 4pt; }
+  strong { font-weight: 700; }
+
+  .lede {
+    font-size: 12pt;
+    line-height: 1.45;
+    color: var(--text-primary);
+    margin-bottom: 14pt;
+    max-width: 6in;
+  }
+
+  /* STATS GRID */
+  .stats {
+    display: flex;
+    gap: 10pt;
+    margin: 14pt 0 18pt 0;
+  }
+  .stat {
+    flex: 1;
+    background: var(--green-bg);
+    border-radius: 6pt;
+    padding: 14pt 12pt;
+    border-left: 3pt solid var(--green-mid);
+  }
+  .stat .label {
+    font-size: 8pt;
+    letter-spacing: 1.2pt;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4pt;
+  }
+  .stat .value {
+    font-size: 22pt;
+    font-weight: 800;
+    color: var(--green-dark);
+    line-height: 1;
+  }
+  .stat .unit {
+    font-size: 9pt;
+    color: var(--text-secondary);
+    margin-top: 4pt;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    background: var(--cream);
+    border-left: 3pt solid var(--green-mid);
+    padding: 12pt 14pt;
+    border-radius: 0 4pt 4pt 0;
+    margin: 12pt 0;
+  }
+  .callout-tag {
+    font-size: 8pt;
+    letter-spacing: 1.5pt;
+    color: var(--green-mid);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10pt 0 14pt 0;
+    font-size: 10pt;
+  }
+  th {
+    background: var(--green-dark);
+    color: white;
+    text-align: left;
+    padding: 6pt 9pt;
+    font-size: 8.5pt;
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  td {
+    padding: 6pt 9pt;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--cream); }
+  tr.total td { background: var(--green-dark) !important; color: #ffffff !important; font-weight: 700; }
+  tr.total td.num { color: #ffffff !important; }
+  td.num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--green-dark); }
+  td.muted { color: var(--text-secondary); font-size: 9.5pt; }
+
+  /* DEPT INTRO CARD ROW */
+  .dept-row {
+    display: flex;
+    gap: 12pt;
+    margin: 14pt 0;
+  }
+  .dept-card {
+    flex: 1;
+    background: var(--green-bg);
+    border-top: 4pt solid var(--green-dark);
+    padding: 12pt;
+    border-radius: 0 0 4pt 4pt;
+  }
+  .dept-card .num {
+    font-size: 8pt;
+    letter-spacing: 1.5pt;
+    color: var(--green-mid);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+  }
+  .dept-card h4 {
+    font-size: 12pt;
+    color: var(--green-dark);
+    margin: 0 0 4pt 0;
+    font-weight: 800;
+  }
+  .dept-card .leader {
+    font-size: 9pt;
+    color: var(--text-secondary);
+    margin-bottom: 6pt;
+    font-style: italic;
+  }
+  .dept-card p {
+    font-size: 9.5pt;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* PRIORITY ITEMS */
+  .priority {
+    display: flex;
+    gap: 12pt;
+    margin: 9pt 0;
+    padding-bottom: 9pt;
+    border-bottom: 1px solid var(--border);
+  }
+  .priority:last-child { border-bottom: none; }
+  .priority .num {
+    flex-shrink: 0;
+    width: 32pt;
+    height: 32pt;
+    background: var(--green-dark);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14pt;
+  }
+  .priority .body h4 {
+    margin: 4pt 0 4pt 0;
+    font-size: 11.5pt;
+    color: var(--green-dark);
+    font-weight: 800;
+  }
+  .priority .body p {
+    margin: 0;
+    font-size: 10pt;
+    line-height: 1.45;
+    color: var(--text-primary);
+  }
+
+  /* DECISION CARDS */
+  .decision {
+    background: white;
+    border: 1.5pt solid var(--green-dark);
+    border-radius: 4pt;
+    padding: 12pt 14pt;
+    margin-bottom: 10pt;
+  }
+  .decision .label {
+    font-size: 8pt;
+    letter-spacing: 1.5pt;
+    color: var(--green-mid);
+    font-weight: 700;
+    margin-bottom: 4pt;
+  }
+  .decision h4 {
+    margin: 0 0 4pt 0;
+    font-size: 11.5pt;
+    color: var(--green-dark);
+    font-weight: 800;
+  }
+  .decision p {
+    margin: 0;
+    font-size: 9.5pt;
+    color: var(--text-secondary);
+  }
+
+  /* SVG DIAGRAM CONTAINER */
+  .diagram {
+    margin: 8pt 0;
+    page-break-inside: avoid;
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram-caption {
+    font-size: 9pt;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 4pt;
+    font-style: italic;
+  }
+
+  /* DEPT DEEP DIVE LAYOUT */
+  .dept-detail {
+    background: var(--green-dark);
+    color: white;
+    padding: 12pt 14pt;
+    border-radius: 4pt;
+    margin-bottom: 12pt;
+  }
+  .dept-detail .num {
+    font-size: 9pt;
+    letter-spacing: 2pt;
+    color: var(--green-pale);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 2pt;
+  }
+  .dept-detail h1 {
+    color: white;
+    margin: 0 0 4pt 0;
+    font-size: 22pt;
+  }
+  .dept-detail .leader {
+    font-size: 10.5pt;
+    color: var(--green-pale);
+  }
+
+  .two-col {
+    display: flex;
+    gap: 18pt;
+  }
+  .two-col > div { flex: 1; }
+
+  .role-list { list-style: none; padding: 0; margin: 0; }
+  .role-list li {
+    padding: 6pt 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 10pt;
+    display: flex;
+    justify-content: space-between;
+    gap: 10pt;
+  }
+  .role-list li:last-child { border-bottom: none; }
+  .role-list .role-name { font-weight: 700; color: var(--green-dark); }
+  .role-list .role-meta { color: var(--text-secondary); font-size: 9pt; }
+
+  .pill {
+    display: inline-block;
+    padding: 1pt 6pt;
+    font-size: 7.5pt;
+    font-weight: 700;
+    letter-spacing: 0.8pt;
+    text-transform: uppercase;
+    border-radius: 8pt;
+    vertical-align: middle;
+  }
+  .pill-open { background: #fee2e2; color: #991b1b; }
+  .pill-filled { background: #dcfce7; color: #166534; }
+  .pill-converting { background: #fef3c7; color: #92400e; }
+
+  /* GROWTH ARC */
+  .arc {
+    display: flex;
+    margin: 16pt 0;
+    gap: 6pt;
+  }
+  .arc-phase {
+    flex: 1;
+    background: var(--green-bg);
+    padding: 10pt 9pt;
+    border-radius: 4pt;
+    border-top: 4pt solid var(--green-mid);
+  }
+  .arc-phase.peak { background: var(--green-dark); color: white; border-top-color: var(--green-pale); }
+  .arc-phase .ph-label {
+    font-size: 8pt;
+    letter-spacing: 1.2pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+    color: var(--green-mid);
+  }
+  .arc-phase.peak .ph-label { color: var(--green-pale); }
+  .arc-phase .ph-rev {
+    font-size: 18pt;
+    font-weight: 800;
+    color: var(--green-dark);
+    line-height: 1;
+    margin-bottom: 6pt;
+  }
+  .arc-phase.peak .ph-rev { color: white; }
+  .arc-phase .ph-detail {
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+  .arc-phase.peak .ph-detail { color: rgba(255,255,255,0.85); }
+  .arc-phase .ph-num { font-weight: 800; font-size: 9.5pt; }
+
+  /* ONE-PAGE EXEC SUMMARY BLOCKS */
+  .summary-block {
+    border-left: 3pt solid var(--green-mid);
+    padding: 2pt 0 2pt 14pt;
+    margin-bottom: 14pt;
+    page-break-inside: avoid;
+  }
+  .summary-block .ph-tag {
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 1.5pt;
+    text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 3pt;
+  }
+  .summary-block h3 {
+    margin: 0 0 5pt 0;
+    font-size: 13pt;
+    text-transform: none;
+    letter-spacing: -0.2pt;
+    color: var(--green-dark);
+    font-weight: 800;
+  }
+  .summary-block ul {
+    margin: 0;
+    padding-left: 14pt;
+  }
+  .summary-block li {
+    font-size: 10pt;
+    line-height: 1.4;
+    margin-bottom: 3pt;
+  }
+
+  /* DEPT CARD BULLET LIST */
+  .dept-card ul {
+    font-size: 9pt;
+    line-height: 1.35;
+    margin: 6pt 0 0 0;
+    padding-left: 12pt;
+  }
+  .dept-card li {
+    margin-bottom: 2pt;
+  }
+</style>
+</head>
+<body>
+<div class="auth-gate" id="auth-gate">
+  <form class="auth-card" id="auth-form" autocomplete="off">
+    <h1>Product &amp; Experience</h1>
+    <div class="auth-sub">Org Plan &middot; $20M &rarr; $100M</div>
+    <input type="password" id="auth-input" placeholder="Password" autocomplete="off" spellcheck="false">
+    <button type="submit">Unlock</button>
+    <div class="auth-error" id="auth-error"></div>
+  </form>
+</div>
+<div id="app" hidden>
+
+<!-- ============== COVER ============== -->
+<div class="cover">
+  <h1>Product &amp; Experience<br/>$100 Million Plan</h1>
+  <div class="sub">A three-phase build, scaling the post-sale engine from $20M to $100M.</div>
+  <div class="rule"></div>
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-rev">$30M</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-rev">$60M</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-rev">$100M</div>
+    </div>
+  </div>
+  <div class="date">May 2026</div>
+</div>
+
+<!-- ============== EXECUTIVE SUMMARY ============== -->
+<div class="page">
+  <div class="section-tag">Executive Summary</div>
+  <h1>The plan in one page.</h1>
+
+  <p class="lede">Right-sizing the division at $30M now and scaling through $100M inside the same 3-department model. The investment target is 15% of revenue across every phase.</p>
+
+  <div class="summary-block">
+    <div class="ph-tag">Where we are now &nbsp;·&nbsp; $20-30M</div>
+    <h3>Right-sizing the build.</h3>
+    <ul>
+      <li><strong>3 departments with non-overlapping mandates:</strong> Student Success (Abby), Curriculum &amp; IP (Eliot), Program Delivery (open).</li>
+      <li><strong>6 FT today scaling to ~21 FT</strong> plus a 30-person elastic coach pool by $30M.</li>
+      <li><strong>Investment hits ~$3.95M (~13%)</strong> during the build phase, well inside the 15% target.</li>
+    </ul>
+  </div>
+
+  <div class="summary-block">
+    <div class="ph-tag">Priorities this quarter</div>
+    <h3>5 moves to lock the foundation.</h3>
+    <ul>
+      <li><strong>Onboard Abby</strong> (DSS, starts Jun 2 at $190K).</li>
+      <li><strong>Hire Head of Program Delivery</strong> ($120-170K) and the first Program Producer · A2A ($80-110K).</li>
+      <li><strong>Force Eliot Prince's Minneapolis decision</strong> and lock the Curriculum &amp; IP lead.</li>
+      <li><strong>Hire 3 FT AI Advisors</strong> by $30M ($100-150K each), the W-2 spine that scales to 5 FT at $60M. Bridge advisors fill PT capacity.</li>
+      <li><strong>Stand up Team Transformation</strong> with 3 AEs under Student Success.</li>
+    </ul>
+  </div>
+
+  <div class="summary-block">
+    <div class="ph-tag">At $60M &nbsp;·&nbsp; Deepening</div>
+    <h3>Scale inside the same 3 departments.</h3>
+    <ul>
+      <li><strong>3 departments hold.</strong> Coach pool fully built: W-2 spine of 5-7 plus 30+ vetted 1099 practitioners.</li>
+      <li><strong>~30 FT + ~62 total HC,</strong> ~$10.21M annual investment (~17% of revenue).</li>
+      <li><strong>Head of Program Delivery earns the VP track</strong> as the operational backbone of the function.</li>
+    </ul>
+  </div>
+
+  <div class="summary-block">
+    <div class="ph-tag">At $100M &nbsp;·&nbsp; Steady State</div>
+    <h3>The AI-leveraged model compounds.</h3>
+    <ul>
+      <li><strong>32 FT + 50-60 person elastic coach pool</strong> serving 15,000+ students inside the 3-department model.</li>
+      <li><strong>VP elevation earned</strong> for Program Delivery based on performance.</li>
+      <li><strong>~$13.21M (~13% of revenue)</strong> trending below the 15% target as AI leverage compounds.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============== CURRENT REALITY ============== -->
+<div class="page">
+  <div class="section-tag">Current Reality</div>
+  <h1>Where we stand. Where it breaks.</h1>
+
+  <h3>The Numbers</h3>
+  <ul>
+    <li>$20-30M total revenue, A2A at $17.5M (4x plan)</li>
+    <li>5,000+ active students across 7 programs (3 core: A2A, Superhuman Work, Uncommon Leaders; 4 supporting)</li>
+    <li>+400% growth in the last 60 days</li>
+    <li>6 core FT plus 10 PT bridge advisors (10-15 hrs/wk each)</li>
+  </ul>
+
+  <h3>The Team Today</h3>
+  <ul>
+    <li><strong>Carter</strong>, VP Product &amp; Experience (running 3 jobs)</li>
+    <li><strong>Abby Master</strong>, Director of Student Success ($190K)</li>
+    <li><strong>Eliot Prince</strong>, Curriculum + TUB Connect (current $60K, MN at $160K pending)</li>
+    <li><strong>Irene</strong>, Lead Success Associate (overseas), manages Ali and Lett</li>
+    <li><strong>Ali, Lett</strong>, Success Associates (overseas)</li>
+    <li><strong>10 Bridge Advisors</strong>, PT at $4K/mo each, 10-15 hrs/week</li>
+  </ul>
+
+  <h3>Where We're Stuck</h3>
+  <ul>
+    <li><strong>Curriculum and methodology not codified.</strong> No single source of truth for what we teach, in what sequence, or to what standard. Every cohort partially reinvents the wheel.</li>
+    <li><strong>No production leadership.</strong> Carter and Eliot carry the weight of running every cohort. Doesn't scale.</li>
+    <li><strong>Carter holds 3 roles</strong> (VP, curriculum creator, ops manager). Not sustainable past $30M.</li>
+    <li><strong>One teaching face.</strong> Callan is the only person on camera. Breaks at scale.</li>
+    <li><strong>No data infrastructure</strong> for student outcomes, methodology effectiveness, or coach quality.</li>
+  </ul>
+
+</div>
+
+<!-- ============== 3-DEPT MODEL + ORG CHART ============== -->
+<div class="page">
+  <div class="section-tag">Departments</div>
+  <h1>Three Clear Divisions.</h1>
+
+  <p class="lede">This is the three-department structure we scale to $100M.</p>
+
+  <div class="dept-row">
+    <div class="dept-card">
+      <div class="num">01 &nbsp;·&nbsp; Student Success</div>
+      <h4>Abby Master</h4>
+      <div class="leader">Director of Student Success</div>
+      <p>Outcomes, hands-on coaching, community, Team Transformation.</p>
+      <ul>
+        <li>4 Program Managers own outcomes + community per program</li>
+        <li>5 FT AI Advisors deliver 1:1 student coaching, support TT engagements as needed</li>
+        <li>3 Team Transformation AEs own delivery success of each engagement</li>
+        <li>Success Associates: Irene leads Ali + Lett</li>
+      </ul>
+    </div>
+    <div class="dept-card">
+      <div class="num">02 &nbsp;·&nbsp; Curriculum &amp; IP</div>
+      <h4>Eliot Prince</h4>
+      <div class="leader">Manager of Curriculum and IP · MN decision pending</div>
+      <p>Defines curriculum. Methodology, IP, AI Research, teaching.</p>
+      <ul>
+        <li>3 AI Curriculum Architects own what gets taught</li>
+        <li>1 Master Instructor (second teaching face after Callan)</li>
+        <li>Methodology, IP standards, AI Research</li>
+        <li>Sets the bar AI Advisors deliver against</li>
+      </ul>
+    </div>
+    <div class="dept-card">
+      <div class="num">03 &nbsp;·&nbsp; Program Delivery</div>
+      <h4>Head Pending</h4>
+      <div class="leader">Head of Program Delivery</div>
+      <p>Builds the student experience. Per-program ops + content.</p>
+      <ul>
+        <li>3 Program Producers (A2A, Superhuman, Uncommon Leaders) own ops + content</li>
+        <li>Cohort mechanics, LMS, scheduling, events</li>
+        <li>Build deliverables: playbooks, videos, decks, Thinkific</li>
+        <li>TUB Connect platform</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <!-- ORG CHART SVG (scaled) -->
+    <svg viewBox="0 0 1140 1080" xmlns="http://www.w3.org/2000/svg" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;">
+      <defs>
+        <style>
+          .ceo-box { fill: #1b3a2d; }
+          .vp-box { fill: #2d5a45; }
+          .dept-box { fill: #ffffff; stroke: #1b3a2d; stroke-width: 2; }
+          .dept-header-bg { fill: #1b3a2d; }
+          .role-box { fill: #f0f5eb; stroke: #c8e6a0; stroke-width: 1; }
+          .role-open { fill: #fef2f2; stroke: #fecaca; stroke-width: 1; }
+          .role-converting { fill: #fffbeb; stroke: #fde68a; stroke-width: 1; }
+          .ln { stroke: #6b8f5b; stroke-width: 2; fill: none; }
+          .sub-ln { stroke: #c8c6c0; stroke-width: 1; stroke-dasharray: 3 3; }
+          .lw { fill: #ffffff; }
+          .ld { fill: #1a1a1a; }
+          .lm { fill: #555; }
+          .lp { fill: #c8e6a0; }
+          .ls { fill: #2d5a45; }
+          .badge-open { fill: #fee2e2; stroke: #dc2626; }
+          .badge-open-t { fill: #991b1b; }
+          .d-filled { fill: #6b8f5b; }
+          .d-open { fill: #dc2626; }
+          .d-converting { fill: #f59e0b; }
+        </style>
+      </defs>
+      <rect class="ceo-box" x="470" y="20" width="200" height="56" rx="6"/>
+      <text class="lp" x="570" y="40" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1.5">CEO &#183; FOUNDER</text>
+      <text class="lw" x="570" y="60" text-anchor="middle" font-size="15" font-weight="800">Callan Faulkner</text>
+      <line class="ln" x1="570" y1="76" x2="570" y2="106"/>
+      <rect class="vp-box" x="450" y="106" width="240" height="60" rx="6"/>
+      <text class="lp" x="570" y="126" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1.5">VP &#183; PRODUCT &amp; EXPERIENCE</text>
+      <text class="lw" x="570" y="148" text-anchor="middle" font-size="16" font-weight="800">Carter Jensen</text>
+      <line class="ln" x1="570" y1="166" x2="570" y2="190"/>
+      <line class="ln" x1="200" y1="190" x2="940" y2="190"/>
+      <line class="ln" x1="200" y1="190" x2="200" y2="210"/>
+      <line class="ln" x1="570" y1="190" x2="570" y2="210"/>
+      <line class="ln" x1="940" y1="190" x2="940" y2="210"/>
+
+      <!-- DEPT 1 SS -->
+      <rect class="dept-box" x="25" y="210" width="350" height="840" rx="6"/>
+      <rect class="dept-header-bg" x="25" y="210" width="350" height="76" rx="6"/>
+      <rect class="dept-header-bg" x="25" y="272" width="350" height="14"/>
+      <text class="lp" x="41" y="234" font-size="9" font-weight="700" letter-spacing="1.5">01 &#183; STUDENT SUCCESS</text>
+      <text class="lw" x="41" y="258" font-size="17" font-weight="800">Abby Master</text>
+      <text class="lp" x="41" y="276" font-size="10.5">DSS &#183; $190K &#183; Jun 2</text>
+      <text class="lm" x="41" y="310" font-size="11" font-style="italic">Outcomes, hands-on coaching, community, Team Transformation.</text>
+
+      <text class="ls" x="41" y="338" font-size="9" font-weight="700" letter-spacing="1.2">PROGRAM MANAGERS &#183; OUTCOMES + COMMUNITY</text>
+      <line class="sub-ln" x1="41" y1="344" x2="359" y2="344"/>
+      <rect class="role-open" x="41" y="352" width="318" height="32" rx="4"/>
+      <circle class="d-open" cx="55" cy="368" r="4"/>
+      <text class="ld" x="67" y="365" font-size="11.5" font-weight="700">Program Manager &#183; A2A</text>
+      <text class="lm" x="67" y="378" font-size="10">By $30M &#183; $100-130K</text>
+      <rect class="role-open" x="41" y="390" width="318" height="32" rx="4"/>
+      <circle class="d-open" cx="55" cy="406" r="4"/>
+      <text class="ld" x="67" y="403" font-size="11.5" font-weight="700">Program Manager &#183; Superhuman Work</text>
+      <text class="lm" x="67" y="416" font-size="10">By $30M &#183; $100-130K</text>
+      <rect class="role-open" x="41" y="428" width="318" height="32" rx="4"/>
+      <circle class="d-open" cx="55" cy="444" r="4"/>
+      <text class="ld" x="67" y="441" font-size="11.5" font-weight="700">Program Manager &#183; Uncommon Leaders</text>
+      <text class="lm" x="67" y="454" font-size="10">By $30M &#183; $100-130K</text>
+      <rect class="role-open" x="41" y="466" width="318" height="32" rx="4"/>
+      <circle class="d-open" cx="55" cy="482" r="4"/>
+      <text class="ld" x="67" y="479" font-size="11.5" font-weight="700">Program Manager &#183; Team Transformation</text>
+      <text class="lm" x="67" y="492" font-size="10">By $30M &#183; $100-130K</text>
+
+      <text class="ls" x="41" y="524" font-size="9" font-weight="700" letter-spacing="1.2">AI ADVISORS &#183; FLOAT ACROSS PROGRAMS</text>
+      <line class="sub-ln" x1="41" y1="530" x2="359" y2="530"/>
+      <rect class="role-open" x="41" y="538" width="318" height="48" rx="4"/>
+      <circle class="d-open" cx="55" cy="562" r="4"/>
+      <text class="ld" x="67" y="557" font-size="11.5" font-weight="700">5 FT AI Advisors</text>
+      <text class="lm" x="67" y="571" font-size="10">3 by $30M, 2 more later &#183; $100-150K</text>
+      <text class="lm" x="67" y="583" font-size="9.5" font-style="italic">+ 10 PT bridge advisors (transitional)</text>
+
+      <text class="ls" x="41" y="610" font-size="9" font-weight="700" letter-spacing="1.2">TEAM TRANSFORMATION &#183; ACCOUNTS</text>
+      <line class="sub-ln" x1="41" y1="616" x2="359" y2="616"/>
+      <rect class="role-open" x="41" y="624" width="318" height="48" rx="4"/>
+      <circle class="d-open" cx="55" cy="648" r="4"/>
+      <text class="ld" x="67" y="643" font-size="11.5" font-weight="700">3 Account Executives (Post-Sale)</text>
+      <text class="lm" x="67" y="657" font-size="10">Paired with each engagement</text>
+      <text class="lm" x="67" y="669" font-size="10">By $30M &#183; $100-130K + comm</text>
+
+      <text class="ls" x="41" y="700" font-size="9" font-weight="700" letter-spacing="1.2">SUCCESS ASSOCIATES</text>
+      <line class="sub-ln" x1="41" y1="706" x2="359" y2="706"/>
+      <rect class="role-box" x="41" y="714" width="318" height="36" rx="4"/>
+      <circle class="d-filled" cx="55" cy="732" r="4"/>
+      <text class="ld" x="67" y="728" font-size="11.5" font-weight="700">Irene &#183; Lead Success Associate</text>
+      <text class="lm" x="67" y="743" font-size="10">Manages Ali + Lett</text>
+      <rect class="role-box" x="41" y="756" width="154" height="36" rx="4"/>
+      <circle class="d-filled" cx="55" cy="774" r="4"/>
+      <text class="ld" x="67" y="770" font-size="11" font-weight="700">Ali</text>
+      <text class="lm" x="67" y="784" font-size="10">Success Associate</text>
+      <rect class="role-box" x="205" y="756" width="154" height="36" rx="4"/>
+      <circle class="d-filled" cx="219" cy="774" r="4"/>
+      <text class="ld" x="231" y="770" font-size="11" font-weight="700">Lett</text>
+      <text class="lm" x="231" y="784" font-size="10">Success Associate</text>
+
+      <text class="lm" x="41" y="824" font-size="10" font-weight="700" letter-spacing="1">SCOPE</text>
+      <line stroke="#e5e3de" stroke-width="1" x1="41" y1="832" x2="359" y2="832"/>
+      <text class="ld" x="41" y="852" font-size="11">&#8226; Retention, NPS, ascension</text>
+      <text class="ld" x="41" y="872" font-size="11">&#8226; Per-program outcomes + community (4 Program Managers)</text>
+      <text class="ld" x="41" y="892" font-size="11">&#8226; 1:1 coaching (5 FT AI Advisors)</text>
+      <text class="ld" x="41" y="912" font-size="11">&#8226; Team Transformation post-sale (3 AEs)</text>
+      <text class="ld" x="41" y="932" font-size="11">&#8226; Onboarding &amp; advocacy</text>
+
+      <!-- DEPT 2 C&IP -->
+      <rect class="dept-box" x="395" y="210" width="350" height="840" rx="6"/>
+      <rect class="dept-header-bg" x="395" y="210" width="350" height="76" rx="6"/>
+      <rect class="dept-header-bg" x="395" y="272" width="350" height="14"/>
+      <text class="lp" x="411" y="234" font-size="9" font-weight="700" letter-spacing="1.5">02 &#183; CURRICULUM &amp; IP</text>
+      <text class="lw" x="411" y="258" font-size="17" font-weight="800">Eliot Prince</text>
+      <text class="lp" x="411" y="276" font-size="10.5">Manager &#183; MN at $160K pending</text>
+      <text class="lm" x="411" y="310" font-size="11" font-style="italic">Defines curriculum. Methodology, IP, AI Research, teaching.</text>
+
+      <text class="ls" x="411" y="338" font-size="9" font-weight="700" letter-spacing="1.2">AI CURRICULUM ARCHITECTS</text>
+      <line class="sub-ln" x1="411" y1="344" x2="729" y2="344"/>
+      <rect class="role-open" x="411" y="352" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="425" cy="372" r="4"/>
+      <text class="ld" x="437" y="367" font-size="11.5" font-weight="700">AI Curriculum Architect &#183; #1</text>
+      <text class="lm" x="437" y="383" font-size="10.5">By $30M &#183; $120-150K</text>
+      <rect class="role-open" x="411" y="398" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="425" cy="418" r="4"/>
+      <text class="ld" x="437" y="413" font-size="11.5" font-weight="700">AI Curriculum Architect &#183; #2</text>
+      <text class="lm" x="437" y="429" font-size="10.5">By $30M &#183; $120-150K</text>
+      <rect class="role-open" x="411" y="444" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="425" cy="464" r="4"/>
+      <text class="ld" x="437" y="459" font-size="11.5" font-weight="700">AI Curriculum Architect &#183; #3</text>
+      <text class="lm" x="437" y="475" font-size="10.5">By $30M &#183; $120-150K</text>
+
+      <text class="ls" x="411" y="510" font-size="9" font-weight="700" letter-spacing="1.2">TEACHING FACE</text>
+      <line class="sub-ln" x1="411" y1="516" x2="729" y2="516"/>
+      <rect class="role-open" x="411" y="524" width="318" height="44" rx="4"/>
+      <circle class="d-open" cx="425" cy="546" r="4"/>
+      <text class="ld" x="437" y="541" font-size="11.5" font-weight="700">Master Instructor</text>
+      <text class="lm" x="437" y="557" font-size="10.5">By $30M &#183; $125-170K · second voice after Callan</text>
+
+      <text class="lm" x="411" y="598" font-size="10" font-weight="700" letter-spacing="1">SCOPE</text>
+      <line stroke="#e5e3de" stroke-width="1" x1="411" y1="606" x2="729" y2="606"/>
+      <text class="ld" x="411" y="626" font-size="11">&#8226; Decides what gets taught</text>
+      <text class="ld" x="411" y="646" font-size="11">&#8226; Methodology &amp; IP standards</text>
+      <text class="ld" x="411" y="666" font-size="11">&#8226; Curriculum direction per domain</text>
+      <text class="ld" x="411" y="686" font-size="11">&#8226; AI Research: trends &amp; validation</text>
+      <text class="ld" x="411" y="706" font-size="11">&#8226; Live teaching face (Master Instructor)</text>
+
+      <text class="lm" x="411" y="748" font-size="10" font-weight="700" letter-spacing="1">DOES NOT DO</text>
+      <line stroke="#e5e3de" stroke-width="1" x1="411" y1="756" x2="729" y2="756"/>
+      <text class="ld" x="411" y="776" font-size="11">&#8226; 1:1 student work (AI Advisors do)</text>
+      <text class="ld" x="411" y="796" font-size="11">&#8226; Build deliverables (Program Producers do)</text>
+      <text class="ld" x="411" y="816" font-size="11">&#8226; Cohort ops (Program Producers do)</text>
+
+      <!-- DEPT 3 PD -->
+      <rect class="dept-box" x="765" y="210" width="350" height="840" rx="6"/>
+      <rect class="dept-header-bg" x="765" y="210" width="350" height="76" rx="6"/>
+      <rect class="dept-header-bg" x="765" y="272" width="350" height="14"/>
+      <text class="lp" x="781" y="234" font-size="9" font-weight="700" letter-spacing="1.5">03 &#183; PROGRAM DELIVERY</text>
+      <text class="lw" x="781" y="258" font-size="17" font-weight="800">Head Pending</text>
+      <text class="lp" x="781" y="276" font-size="10.5">By $30M &#183; $120-170K</text>
+      <rect class="badge-open" x="1049" y="246" width="50" height="20" rx="3"/>
+      <text class="badge-open-t" x="1074" y="260" text-anchor="middle" font-size="8.5" font-weight="700" letter-spacing="0.8">OPEN</text>
+      <text class="lm" x="781" y="310" font-size="11" font-style="italic">Builds and delivers. Curriculum, platform, ops.</text>
+
+      <text class="ls" x="781" y="338" font-size="9" font-weight="700" letter-spacing="1.2">PROGRAM OPS &#183; OWN LOGISTICS</text>
+      <line class="sub-ln" x1="781" y1="344" x2="1099" y2="344"/>
+      <rect class="role-open" x="781" y="352" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="795" cy="372" r="4"/>
+      <text class="ld" x="807" y="368" font-size="11.5" font-weight="700">Program Producer &#183; A2A</text>
+      <text class="lm" x="807" y="384" font-size="10.5">OPEN NOW &#183; $80-110K</text>
+      <rect class="role-open" x="781" y="398" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="795" cy="418" r="4"/>
+      <text class="ld" x="807" y="414" font-size="11.5" font-weight="700">Program Producer &#183; Superhuman Work</text>
+      <text class="lm" x="807" y="430" font-size="10.5">By $30M &#183; $80-110K</text>
+      <rect class="role-open" x="781" y="444" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="795" cy="464" r="4"/>
+      <text class="ld" x="807" y="460" font-size="11.5" font-weight="700">Program Producer &#183; Uncommon Leaders</text>
+      <text class="lm" x="807" y="476" font-size="10.5">By $30M &#183; $80-110K</text>
+      <text class="ls" x="781" y="556" font-size="9" font-weight="700" letter-spacing="1.2">PLATFORM</text>
+      <line class="sub-ln" x1="781" y1="562" x2="1099" y2="562"/>
+      <rect class="role-open" x="781" y="570" width="318" height="40" rx="4"/>
+      <circle class="d-open" cx="795" cy="590" r="4"/>
+      <text class="ld" x="807" y="586" font-size="11.5" font-weight="700">TUB Connect &#183; Product Lead</text>
+      <text class="lm" x="807" y="602" font-size="10.5">By $30M &#183; $90-120K</text>
+
+      <text class="lm" x="781" y="644" font-size="10" font-weight="700" letter-spacing="1">SCOPE</text>
+      <line stroke="#e5e3de" stroke-width="1" x1="781" y1="652" x2="1099" y2="652"/>
+      <text class="ld" x="781" y="672" font-size="11">&#8226; Per-program ops + content (3 Producers)</text>
+      <text class="ld" x="781" y="692" font-size="11">&#8226; Cohort logistics, LMS, Thinkific</text>
+      <text class="ld" x="781" y="712" font-size="11">&#8226; Build deliverables: playbooks, videos, decks</text>
+      <text class="ld" x="781" y="732" font-size="11">&#8226; YouTube content + distribution</text>
+      <text class="ld" x="781" y="752" font-size="11">&#8226; Published frameworks &amp; IP</text>
+      <text class="ld" x="781" y="772" font-size="11">&#8226; TUB Connect platform</text>
+    </svg>
+    <div class="diagram-caption">Today's org structure. Green = filled, amber = converting, red = open.</div>
+  </div>
+</div>
+
+<!-- ============== DEPT 1: STUDENT SUCCESS ============== -->
+<div class="page">
+  <div class="dept-detail">
+    <div class="num">Department 01</div>
+    <h1>Student Success</h1>
+    <div class="leader">Abby Master · Director of Student Success · $190K · Starts Jun 2</div>
+  </div>
+
+  <h3>Charter</h3>
+  <p>Own student outcomes from onboarding through ascension. Run the 4-person Program Manager team (one per program; each role owns outcomes + community for that offer) and the 5-person FT AI Advisor team (3 by $30M) that floats across programs delivering 1:1 student coaching.</p>
+  <p>Own Team Transformation engagements end-to-end on the post-sale side. 3 Account Executives own delivery success of each engagement, paired one-to-one (pending Team Transformation Offer Stack finalization). AI Advisors support as needed. Team Transformation sales + onboarding live outside P&amp;E, under Kinsey.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Team Today</h3>
+      <ul class="role-list">
+        <li><span><span class="role-name">Abby Master</span><br/><span class="role-meta">DSS, $190K, starts Jun 2</span></span><span class="pill pill-filled">Filled</span></li>
+        <li><span><span class="role-name">Irene</span><br/><span class="role-meta">Lead Success Associate, overseas, manages Ali + Lett</span></span><span class="pill pill-filled">Filled</span></li>
+        <li><span><span class="role-name">Ali</span><br/><span class="role-meta">Success Associate, overseas</span></span><span class="pill pill-filled">Filled</span></li>
+        <li><span><span class="role-name">Lett</span><br/><span class="role-meta">Success Associate, overseas</span></span><span class="pill pill-filled">Filled</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Hires By $30M</h3>
+      <ul class="role-list">
+        <li><span><span class="role-name">5 FT AI Advisors</span><br/><span class="role-meta">$100-150K each · 3 by $30M, 2 more later · hands-on 1:1 work</span></span><span class="pill pill-open">Open</span></li>
+        <li><span><span class="role-name">4 Program Managers</span><br/><span class="role-meta">$100-130K each · one per program, owns outcomes + community for that offer</span></span><span class="pill pill-open">Open</span></li>
+        <li><span><span class="role-name">3 Team Transformation AEs</span><br/><span class="role-meta">$100-130K + commission · paired with each engagement · pending Team Transformation Offer Stack finalization</span></span><span class="pill pill-open">Pending</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>The 5 FT AI Advisors · Hands-On 1:1 Delivery</h3>
+  <p>5 FT AI Advisors at $100-150K each (~$625K at scale). 3 hired by $30M, 2 more by $60M. These are domain-expert operators who work 1:1 with cohort students. They support Team Transformation engagements as needed, but the 3 Account Executives own the delivery success of each Team Transformation engagement. AI Advisors float across programs based on domain specialty and cohort demand, delivering what the AI Curriculum Architects design. The current 10 PT bridge advisors (10-15 hrs/wk each) stay as a transitional roster: the strongest performers convert to FT, the rest continue PT or roll to a 1099 backup pool.</p>
+  <table>
+    <thead>
+      <tr><th>What AI Advisors own</th><th>What AI Advisors do NOT own</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1:1 student coaching across cohorts</td><td>Curriculum direction (Architects do)</td></tr>
+      <tr><td>Support TT engagements as needed</td><td>TT delivery success (AEs own this)</td></tr>
+      <tr><td>Real-time problem solving + acceleration</td><td>Live teaching (Master Instructor does)</td></tr>
+      <tr><td>Domain expertise in their specialty area</td><td>Methodology bar (Architects do)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The 4 Program Managers · One per Program</h3>
+  <p>Each Program Manager owns transformation rate, NPS, completion, retention AND community for one specific offer. The community manager role is built in. $100-130K each. They report to Abby.</p>
+  <table>
+    <thead>
+      <tr><th>Program</th><th>What the Program Manager owns</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>A2A</strong></td><td>Flagship cohort. Bootcamp, Masterclass, Uncommon Founders coverage rolls under this Program Manager.</td></tr>
+      <tr><td><strong>Superhuman Work</strong></td><td>Individual productivity program.</td></tr>
+      <tr><td><strong>Uncommon Leaders</strong></td><td>Group coaching program.</td></tr>
+      <tr><td><strong>Team Transformation</strong></td><td>Team Transformation engagement outcomes: transformation rate, retention, expansion. (Sales + onboarding handled by Kinsey's team.)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>KPIs</h3>
+  <ul>
+    <li><strong>90-day retention rate</strong> across all programs</li>
+    <li><strong>Program NPS</strong> measured at program end (owned by each PM)</li>
+    <li><strong>Per-program transformation rate</strong> (PM-owned)</li>
+    <li><strong>AI Advisor utilization and student satisfaction</strong></li>
+    <li><strong>Team Transformation pipeline value and closed-won revenue</strong></li>
+    <li><strong>Community engagement</strong> (weekly active members, post-to-response ratio)</li>
+  </ul>
+</div>
+
+<!-- ============== DEPT 2: CURRICULUM & INNOVATION ============== -->
+<div class="page">
+  <div class="dept-detail">
+    <div class="num">Department 02</div>
+    <h1>Curriculum &amp; IP</h1>
+    <div class="leader">Eliot Prince · Manager of Curriculum and IP · MN at $160K pending</div>
+  </div>
+
+  <h3>Charter</h3>
+  <p>Define curriculum. Set the methodology bar. Build and own the IP and frameworks library that runs across every program. Track AI trends and validate strategies before they hit students. Run the Master Instructor who is the second teaching face after Callan.</p>
+
+  <h3>The 3 AI Curriculum Architects</h3>
+  <p>3 FT hires at $120-150K each. ~$400K annual commit. Each Architect owns curriculum direction for a domain (ex: business operations, marketing, AI tooling, leadership) and is the strategic voice for what students learn in that area. Some Architects can be student-facing and teach live alongside the Master Instructor, the way Eliot already does today.</p>
+  <table>
+    <thead>
+      <tr><th>What Architects own</th><th>What Architects do NOT own</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Curriculum direction (what gets taught)</td><td>1:1 student coaching (AI Advisors do)</td></tr>
+      <tr><td>Methodology + IP standards</td><td>Building deliverables (Program Producers do)</td></tr>
+      <tr><td>AI Research and trend validation</td><td>Cohort ops (Program Producers do)</td></tr>
+      <tr><td>Approval of what gets licensed externally</td><td>Student outcomes per program (PMs do)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The Master Instructor</h3>
+  <p>1 FT hire at $125-170K. The second live teaching face after Callan. On-camera, in-cohort, runs the live sessions that Architects design. Reports to Eliot. Without this seat, Callan is the only person who can stand in front of students at scale.</p>
+
+  <h3>KPIs</h3>
+  <ul>
+    <li><strong>Curriculum direction quality</strong> measured by program-level NPS feedback</li>
+    <li><strong>Methodology bar consistency</strong> across all 7 programs</li>
+    <li><strong>IP filings and licensable assets</strong> created per quarter</li>
+    <li><strong>AI Research velocity</strong> (validated strategies shipped to curriculum)</li>
+    <li><strong>Domain coverage</strong> across critical business functions</li>
+  </ul>
+</div>
+
+<!-- ============== DEPT 3: PROGRAM DELIVERY ============== -->
+<div class="page">
+  <div class="dept-detail">
+    <div class="num">Department 03</div>
+    <h1>Program Delivery</h1>
+    <div class="leader">Head Pending · By $30M · $120-170K</div>
+  </div>
+
+  <h3>Charter</h3>
+  <p>Every student touchpoint is overseen by this team. From the moment a student joins a cohort to every video they watch, every playbook they download, every live session they attend, every Thinkific module they complete, Program Delivery owns the experience.</p>
+  <p>This team also runs the content flywheel. Every framework, playbook, video, and piece of IP that the Curriculum &amp; IP team creates gets produced, packaged, and shared with the world through Program Delivery (YouTube, social, published frameworks, owned channels). Curriculum defines what gets taught. Program Delivery makes sure it reaches students inside cohorts and the broader audience outside them.</p>
+  <p>Structurally: 3 Program Producers (one per core program — A2A, Superhuman, Uncommon Leaders) each own BOTH cohort mechanics and content production for their offer, plus the platform (TUB Connect). Team Transformation engagements are handled by the 3 AEs with curriculum support, no dedicated Producer needed.</p>
+
+  <h3>Team Build</h3>
+  <ul class="role-list">
+    <li><span><span class="role-name">Head of Program Delivery</span><br/><span class="role-meta">$120-170K, by $30M</span></span><span class="pill pill-open">Open</span></li>
+    <li><span><span class="role-name">Program Producer · A2A</span><br/><span class="role-meta">$80-110K, OPEN NOW (frees 15-20 hrs/week off Carter)</span></span><span class="pill pill-open">Open Now</span></li>
+    <li><span><span class="role-name">Program Producer · Superhuman Work</span><br/><span class="role-meta">$80-110K, by $30M</span></span><span class="pill pill-open">Open</span></li>
+    <li><span><span class="role-name">Program Producer · Uncommon Leaders</span><br/><span class="role-meta">$80-110K, by $30M</span></span><span class="pill pill-open">Open</span></li>
+    <li><span><span class="role-name">TUB Connect · Product Lead</span><br/><span class="role-meta">$90-120K, by $30M (platform owner)</span></span><span class="pill pill-open">Open</span></li>
+  </ul>
+
+  <h3>The Program Producer Role</h3>
+  <p>Each Program Producer owns BOTH the cohort mechanics (scheduling, LMS setup, welcome flows, enrollment) AND the content production (lessons, videos, decks, playbooks, Thinkific content) for one specific program. They take Architect direction and turn it into the running cohort experience. One per core program (A2A, Superhuman, Uncommon Leaders), $80-110K each.</p>
+
+  <h3>KPIs</h3>
+  <ul>
+    <li>On-time cohort launch rate across all programs</li>
+    <li>Program completion rate (% who finish what they joined)</li>
+    <li>Per-program operational health score</li>
+    <li>Curriculum on-time delivery rate</li>
+    <li>TUB Connect engagement (weekly active, session length)</li>
+    <li>Coach utilization (% of available coach hours used)</li>
+  </ul>
+
+</div>
+
+<!-- ============== PER-PROGRAM STAFFING ============== -->
+<div class="page">
+  <div class="section-tag">Program Support Overview</div>
+  <h1>How each program is staffed.</h1>
+
+  <p class="lede">Every program is run by a team of two: a Program Manager (outcomes + community) and a Program Producer (cohort ops + content). The 5 AI Advisors float across programs as needed, and shared resources from Eliot's curriculum team plus TUB Connect serve every program.</p>
+
+  <h3>The Two-Person Program Team</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Program</th>
+        <th>Program Manager (Abby)</th>
+        <th>Program Producer (PD)</th>
+        <th>TT AE (Abby)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A2A</strong><br/><span class="muted" style="font-size:9pt;">+ Bootcamp, Masterclass, Uncommon Founders</span></td>
+        <td>Program Manager &middot; A2A</td>
+        <td>Producer &middot; A2A</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr>
+        <td><strong>Superhuman Work</strong></td>
+        <td>Program Manager &middot; Superhuman</td>
+        <td>Producer &middot; Superhuman</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr>
+        <td><strong>Uncommon Leaders</strong></td>
+        <td>Program Manager &middot; UCL</td>
+        <td>Producer &middot; UCL</td>
+        <td>&mdash;</td>
+      </tr>
+      <tr>
+        <td><strong>Team Transformation</strong></td>
+        <td>Program Manager &middot; TT</td>
+        <td><span class="muted">AEs cover</span></td>
+        <td>3 (1 per engagement)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Shared Resources (float across all programs)</h3>
+  <ul>
+    <li><strong>5 AI Advisors</strong> (Abby's team) &mdash; 3 FT by $30M, 5 FT by $60M, plus 10 PT bridge advisors transitioning. Float across programs based on cohort demand and domain specialty. Primary work: 1:1 coaching with cohort students. Also support Team Transformation engagements as needed (AEs own TT delivery success).</li>
+    <li><strong>3 AI Curriculum Architects</strong> (Eliot's team) &mdash; domain-aligned (ex: business ops, marketing, leadership). Feed curriculum direction into every program based on subject area.</li>
+    <li><strong>1 Master Instructor</strong> (Eliot's team) &mdash; the second teaching face after Callan. Teaches live across all programs.</li>
+    <li><strong>TUB Connect Product Lead</strong> (PD) &mdash; owns the platform that serves every program.</li>
+  </ul>
+
+  <h3>Role Reference</h3>
+  <table>
+    <thead>
+      <tr><th>Role</th><th>What they actually do</th><th>Reports to</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>AI Curriculum Architect</strong> (3)</td><td>Designs curriculum, methodology, IP. Decides what gets taught. Owns AI Research.</td><td>Eliot</td></tr>
+      <tr><td><strong>Master Instructor</strong> (1)</td><td>Live teaching face. On-camera. Second voice after Callan. Teaches what Architects design.</td><td>Eliot</td></tr>
+      <tr><td><strong>AI Advisor</strong> (5 FT)</td><td>Hands-on 1:1 with cohort students. Floats across programs by domain specialty. Supports TT engagements as needed (AEs own TT delivery). 3 FT by $30M, 5 FT by $60M. Plus 10 PT bridge advisors as transitional roster.</td><td>Abby</td></tr>
+      <tr><td><strong>Success Associate</strong> (3, scaling)</td><td>Cross-program student support, ops, and member care. Irene leads as Lead Success Associate, manages Ali + Lett.</td><td>Abby</td></tr>
+      <tr><td><strong>Program Manager</strong> (4)</td><td>Program Manager / Community Manager. Owns transformation rate, NPS, retention, completion AND community for one specific offer. Combined role, higher comp.</td><td>Abby</td></tr>
+      <tr><td><strong>Account Executive</strong> (3)</td><td>Owns Team Transformation post-sale account AND delivery success. Paired one-to-one with each engagement. Retention + expansion. AI Advisors support as needed.</td><td>Abby</td></tr>
+      <tr><td><strong>Program Producer</strong> (3)</td><td>Per-program cohort mechanics AND content production for A2A, Superhuman, and Uncommon Leaders. Scheduling, LMS, welcome flows, plus building lessons, videos, decks, playbooks, Thinkific content. Team Transformation engagements run through AEs instead.</td><td>Head of PD</td></tr>
+      <tr><td><strong>TUB Connect Product Lead</strong> (1)</td><td>Owns the platform. Roadmap, build, integrations.</td><td>Head of PD</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============== GROWTH ARC ============== -->
+<div class="page">
+  <div class="section-tag">Growth Arc</div>
+  <h1>How this scales to $100M.</h1>
+
+  <p class="lede">Headcount and cost follow revenue triggers. The 3-department model is the structure we scale through $100M. Same three swim lanes, deeper teams inside each one.</p>
+
+  <div class="arc">
+    <div class="arc-phase">
+      <div class="ph-label">Today &nbsp;·&nbsp; $20M</div>
+      <div class="ph-rev">3 Depts</div>
+      <div class="ph-detail">
+        <span class="ph-num">6</span> Core FT &nbsp;·&nbsp; <span class="ph-num">16</span> Total HC<br/>
+        <span class="ph-num">$1.42M</span> &nbsp;·&nbsp; ~7% rev
+      </div>
+    </div>
+    <div class="arc-phase">
+      <div class="ph-label">$30M</div>
+      <div class="ph-rev">3 Depts</div>
+      <div class="ph-detail">
+        <span class="ph-num">~21</span> Core FT &nbsp;·&nbsp; <span class="ph-num">~54</span> Total HC<br/>
+        <span class="ph-num">$3.95M</span> &nbsp;·&nbsp; ~13% rev
+      </div>
+    </div>
+    <div class="arc-phase">
+      <div class="ph-label">$60M &nbsp;·&nbsp; Scale Phase</div>
+      <div class="ph-rev">3 Depts</div>
+      <div class="ph-detail">
+        <span class="ph-num">~30</span> Core FT &nbsp;·&nbsp; <span class="ph-num">~62</span> Total HC<br/>
+        <span class="ph-num">$10.21M</span> &nbsp;·&nbsp; ~17% rev
+      </div>
+    </div>
+    <div class="arc-phase peak">
+      <div class="ph-label">$100M &nbsp;·&nbsp; Steady State</div>
+      <div class="ph-rev">3 Depts</div>
+      <div class="ph-detail">
+        <span class="ph-num">~32</span> Core FT &nbsp;·&nbsp; <span class="ph-num">~72</span> Total HC<br/>
+        <span class="ph-num">$13.21M</span> &nbsp;·&nbsp; ~13% rev
+      </div>
+    </div>
+  </div>
+
+  <h3>What changes at $60M</h3>
+  <ul>
+    <li>Coach pool fully built: W-2 spine of 5-7 plus 30+ vetted 1099 practitioners</li>
+    <li>Head of Program Delivery earns the VP track based on performance</li>
+    <li>Team Transformation scales with 3+ AEs running active book under Abby</li>
+    <li>All 4 Program Manager + Program Producer pods running per program</li>
+  </ul>
+
+  <h3>What changes at $100M</h3>
+  <ul>
+    <li>VP elevation earned for Program Delivery</li>
+    <li>1099 practitioner roster reaches 30-60 active operators</li>
+    <li>TUB Connect handles the AI coaching layer for 15,000+ students</li>
+    <li>Cost trends down to 13% of revenue as AI leverage compounds</li>
+  </ul>
+
+</div>
+
+<!-- ============== HIRING SEQUENCE ============== -->
+<div class="page">
+  <div class="section-tag">Hiring Priority</div>
+  <h1>11 hires, in priority order.</h1>
+
+  <p class="lede">This is the priority order. Leadership roles come first. Each hire has a revenue trigger and a comp range.</p>
+
+  <table>
+    <thead>
+      <tr><th style="width:6%">#</th><th style="width:30%">Role</th><th style="width:18%">Department</th><th style="width:18%">Comp</th><th style="width:14%">Trigger</th><th style="width:14%">Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="num">1</td><td><strong>Director of Student Success</strong> (Abby)</td><td>Student Success</td><td class="num">$190K</td><td>Done</td><td><span class="pill pill-filled">Filled</span></td></tr>
+      <tr><td class="num">2</td><td><strong>Manager of Curriculum &amp; IP</strong> (Eliot)</td><td>Curriculum &amp; IP</td><td class="num">$160K</td><td>Now</td><td><span class="pill pill-converting">Pending MN</span></td></tr>
+      <tr><td class="num">3</td><td><strong>Head of Program Delivery</strong></td><td>Program Delivery</td><td class="num">$120-170K</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">4</td><td><strong>TUB Connect Product Lead</strong></td><td>Program Delivery</td><td class="num">$90-120K</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">5</td><td><strong>Master Instructor</strong></td><td>Curriculum &amp; IP</td><td class="num">$125-170K</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">6</td><td><strong>3 AI Curriculum Architects</strong></td><td>Curriculum &amp; IP</td><td class="num">$120-150K each</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">7</td><td><strong>4 Program Managers</strong> (one per program; outcomes + community built in)</td><td>Student Success</td><td class="num">$100-130K each</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">8</td><td><strong>3 FT AI Advisors</strong> (from bridge conversion; scaling to 5 FT total)</td><td>Student Success</td><td class="num">$100-150K each</td><td>Now → $30M</td><td><span class="pill pill-converting">From Bridge</span></td></tr>
+      <tr><td class="num">9</td><td><strong>Program Producer · A2A</strong></td><td>Program Delivery</td><td class="num">$80-110K</td><td>Now</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">10</td><td><strong>2 more Program Producers</strong> (Superhuman, Uncommon Leaders)</td><td>Program Delivery</td><td class="num">$80-110K each</td><td>By $30M</td><td><span class="pill pill-open">Open</span></td></tr>
+      <tr><td class="num">11</td><td><strong>3 Team Transformation AEs</strong></td><td>Student Success</td><td class="num">$100-130K + comm</td><td>By $30M</td><td><span class="pill pill-open">Pending</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-tag">The First $1.6M Build</div>
+    <p style="margin:0;">The senior coaching and curriculum spine is the highest-leverage build in the plan: 3 FT AI Advisors by $30M at $100-150K each (~$375K), scaling to 5 FT by $60M (~$625K) under Abby for 1:1 student coaching across programs (with TT support as needed). Plus 3 AI Curriculum Architects at $120-150K each (~$400K) under Eliot for methodology and IP. The 10 current PT bridge advisors (10-15 hrs/wk each) stay as a transitional roster, with the strongest converting to FT.</p>
+  </div>
+</div>
+
+<!-- ============== COST MODEL ============== -->
+<div class="page">
+  <div class="section-tag">Cost Estimates</div>
+  <h1>$30M build cost estimates.</h1>
+
+  <p class="lede">Estimated cost for the division at $30M revenue. Trends down to 13% of revenue by $100M as AI leverage compounds and the W-2 spine stays small.</p>
+
+  <h3>The $30M Cost Breakdown</h3>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Detail</th><th>Estimated Annual Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Leadership</strong></td><td>Carter, Abby ($190K), Eliot ($160K) + executive comp</td><td class="num">$600K</td></tr>
+      <tr><td><strong>Curriculum &amp; IP FT</strong></td><td>3 AI Curriculum Architects at avg $135K ($405K) + 1 Master Instructor at avg $145K</td><td class="num">$550K</td></tr>
+      <tr><td><strong>Student Success FT</strong></td><td>Irene/Ali/Lett (~$95K) + 3 FT AI Advisors at avg $125K ($375K) + 4 Program Managers at avg $115K ($460K) + 3 AEs base at avg $115K ($345K)</td><td class="num">$1.275M</td></tr>
+      <tr><td><strong>Program Delivery FT</strong></td><td>Head of PD ($145K) + 3 Program Producers at avg $95K ($285K) + TUB Connect Lead ($105K)</td><td class="num">$535K</td></tr>
+      <tr><td><strong>Team Transformation Commissions</strong></td><td>3 AEs at ramping production</td><td class="num">$450K</td></tr>
+      <tr><td><strong>PT Bridge + 1099 Coach Roster*</strong></td><td>Variable layer that turns on / off as needed</td><td class="num">$200K*</td></tr>
+      <tr><td><strong>Tools, software, overhead</strong></td><td>LMS, AI infrastructure, community platform, ops tooling</td><td class="num">$325K</td></tr>
+      <tr class="total"><td><strong>Total</strong></td><td>~13% of $30M revenue</td><td class="num">~$3.95M</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 9pt; color: var(--text-muted); font-style: italic; margin-top: -8pt;">* PT bridge and 1099 roster scales with demand. The line flexes from ~$200K baseline up to ~$700K during high-cohort periods. Variable cost, not fixed.</p>
+
+  <h3>Why we trend down to 13% by $100M</h3>
+  <ul>
+    <li><strong>AI layer leverage compounds.</strong> ~70% of routine student interactions resolved by AI at $100M, up from ~40% today.</li>
+    <li><strong>AI Advisor team stays lean.</strong> 3 FT at $30M, scaling to 5 FT by $60M and ~7 FT at $100M. AI tooling makes each advisor effective across more students.</li>
+    <li><strong>1099 roster stays small.</strong> The 5 FT W-2 spine covers the core, 1099 is overflow only.</li>
+    <li><strong>TUB Connect consolidates spend.</strong> Replaces 3-4 SaaS line items by $100M.</li>
+  </ul>
+
+</div>
+
+<!-- ============== LOCK IN THE FOUNDATION ============== -->
+<div class="page">
+  <div class="section-tag">Next 90 Days</div>
+  <h1>Lock in the foundation.</h1>
+
+  <div class="priority">
+    <div class="num">1</div>
+    <div class="body">
+      <h4>Onboard Abby</h4>
+      <p>Starts Jun 2. First 30 days: shadow on every program, meet the team, get briefed on the 7 programs. Day 30: own her scope (retention, NPS, community, onboarding, Team Transformation). Set the line that curriculum belongs to Eliot and production belongs to the Head of Program Delivery.</p>
+    </div>
+  </div>
+
+  <div class="priority">
+    <div class="num">2</div>
+    <div class="body">
+      <h4>Lock in Eliot</h4>
+      <p>Approve Minneapolis relocation at $160K, or green-light external Manager of Curriculum &amp; IP search. This decision unlocks the entire Curriculum &amp; IP department build.</p>
+    </div>
+  </div>
+
+  <div class="priority">
+    <div class="num">3</div>
+    <div class="body">
+      <h4>Hire the Head of Program Delivery</h4>
+      <p>$120-170K. The seat that owns every cohort, every event, the content flywheel, and TUB Connect. Producers and platform report up to this role. This hire goes before the Program Producers.</p>
+    </div>
+  </div>
+
+  <div class="priority">
+    <div class="num">4</div>
+    <div class="body">
+      <h4>Hire 1-2 AI Curriculum Architects</h4>
+      <p>Eliot's team needs people. Hire 1-2 of the 3 Architects in this window at $120-150K each. Each Architect owns a domain (business operations, marketing, AI tooling, leadership) and is the strategic voice for what students learn. Methodology and IP work starts the moment Eliot is locked.</p>
+    </div>
+  </div>
+
+  <div class="priority">
+    <div class="num">5</div>
+    <div class="body">
+      <h4>Elevate the bridge advisors</h4>
+      <p>Convert the strongest of the 10 PT bridge advisors to FT AI Advisors at $100-150K each. Run a structured evaluation against the AI Advisor profile (domain operator who can run 1:1 sessions with cohort students). Target 3 FT by $30M, scaling to 5 FT by $60M. The rest stay PT or roll to a 1099 backup pool.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+<style>
+  .auth-gate{position:fixed;inset:0;background:#1b3a2d;display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+  .auth-card{background:#f8f7f4;border-radius:16px;padding:36px 32px 28px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;}
+  .auth-card h1{font-size:20px;font-weight:800;color:#1b3a2d;margin:0;letter-spacing:-.3px;}
+  .auth-card .auth-sub{font-size:12px;color:#888;margin:4px 0 24px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+  .auth-card input{width:100%;padding:12px 14px;font-size:14px;border:2px solid #e5e3de;border-radius:8px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none;box-sizing:border-box;}
+  .auth-card input:focus{border-color:#2d5a45;}
+  .auth-card button{width:100%;margin-top:12px;padding:12px 14px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:#1b3a2d;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;}
+  .auth-card button:hover{background:#2d5a45;}
+  .auth-error{margin-top:12px;font-size:12px;color:#dc2626;min-height:16px;font-weight:600;}
+</style>
+<script>
+(function(){
+  var EXPECTED_HASH='cf2a63375a57a64d79cc85ecb25f6da63e8700487d99eb7ee41cecad7882ebb2';
+  var STORAGE_KEY='tub-org-plan-unlocked';
+  async function sha256(t){var b=new TextEncoder().encode(t);var h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+  function unlock(){var g=document.getElementById('auth-gate');if(g)g.style.display='none';var a=document.getElementById('app');if(a)a.hidden=false;}
+  function gate(){var f=document.getElementById('auth-form'),i=document.getElementById('auth-input'),e=document.getElementById('auth-error');f.addEventListener('submit',async function(ev){ev.preventDefault();if(!i.value)return;var h=await sha256(i.value);if(h===EXPECTED_HASH){sessionStorage.setItem(STORAGE_KEY,'1');unlock();}else{e.textContent='Incorrect password.';i.value='';i.focus();}});setTimeout(function(){i.focus();},50);}
+  if(sessionStorage.getItem(STORAGE_KEY)==='1'){unlock();}else{gate();}
+})();
+</script>
+</body>
+</html>
