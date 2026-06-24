@@ -53,6 +53,29 @@ function dump(f,  line){ while((getline line < f) > 0) print line; close(f) }
 { print }
 ' "$SRC" > "$REPO/org-plan.html"
 
+# ============================================================
+# SALARY REDACTION — STANDING RULE: no salary figures live on GitHub.
+# Individual salaries / comp ranges must never reach the public repo.
+# They stay local only (vault: ORG-PLAN.md, org_plan.html, the comp xlsx).
+# Redacts K-denominated and comma-thousands dollar figures (all individual
+# comp + per-category comp). Leaves revenue milestones ($20M/$30M/$60M/$100M)
+# and percentages untouched. Aggregate $-in-millions totals are left as-is.
+# ============================================================
+perl -i -pe '
+  s/\$\d{1,3}(-\d{1,3})?K\b/\$•••/g;   # $190K, $80-110K, $4K, $120-170K
+  s/\$\d{1,3},\d{3}\b/\$•••/g;          # comma-thousands
+' "$REPO/org-plan.html"
+
+# ---- FAIL-CLOSED VERIFY: refuse to push if any salary figure survives ----
+LEAKS="$(grep -nEo '\$[0-9]{1,3}(-[0-9]{1,3})?K\b|\$[0-9]{1,3},[0-9]{3}\b|[Ss]alar(y|ies)' "$REPO/org-plan.html" || true)"
+if [ -n "$LEAKS" ]; then
+  echo "ABORTED: salary figures found in the file about to be pushed:"
+  echo "$LEAKS"
+  echo "Nothing was committed or pushed. Fix the redaction patterns and retry."
+  exit 1
+fi
+echo "Salary check passed: no salary figures in the pushed file."
+
 cd "$REPO"
 if git diff --quiet org-plan.html 2>/dev/null && git ls-files --error-unmatch org-plan.html >/dev/null 2>&1; then
   echo "org-plan.html already in sync. Nothing to push."
